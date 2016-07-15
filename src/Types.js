@@ -19,26 +19,38 @@ function makeDefaults(fn) {
 }
 
 const chainables = {
-  isRequired: makeIsRequired,
-  defaults: makeDefaults
+  isRequired(value) {
+    if (typeof value === 'undefined') {
+      return false;
+    }
+
+    return true;
+  },
+  isTooLong(value) {
+    if (typeof value === 'string' && value.length > 5) {
+      return false;
+    }
+
+    return true;
+  }
 };
 
 function chain(fn, omitChainables = []) {
-  const omit = _.isArray(omitChainables)
-    ? omitChainables
-    : [omitChainables];
-
   _.each(chainables, (chainFunc, chainName) => {
-    if (omit.indexOf(chainName)) {
+    if (omitChainables.indexOf(chainName) > -1) {
       return;
     }
 
-    Object.defineProperty(fn, name, {
+    Object.defineProperty(fn, chainName, {
       get: function () {
+        const getterFunc = function (value) {
+          return chainFunc(value);
+        };
 
+        return chain(getterFunc, omitChainables.concat([chainName]));
       }
     });
-  };
+  });
 
   return fn;
 }
@@ -46,7 +58,7 @@ function chain(fn, omitChainables = []) {
 /**
  * string
  */
-export function string(value) {
+export const string = function (value) {
   return typeof value === 'string';
 }
 

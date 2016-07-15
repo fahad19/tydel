@@ -21,8 +21,12 @@ describe('Types :: string', function () {
     expect(type(() => {})).to.eql(false);
   });
 
-  it('checks for required values', function () {
+  it.only('checks for required values', function () {
     const type = Types.string.isRequired;
+    console.log({ type });
+    console.log(Types.string('something'));
+    console.log(Types.string.isRequired());
+    console.log(Types.string.isTooLong('asdasdasdasdasd'));
 
     expect(type()).to.eql(false);
   });

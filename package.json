@@ -19,5 +19,8 @@
     "chai": "^3.5.0",
     "eslint": "^3.0.1",
     "mocha": "^2.5.3"
+  },
+  "dependencies": {
+    "lodash": "^4.13.1"
   }
 }

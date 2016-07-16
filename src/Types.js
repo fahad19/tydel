@@ -1,27 +1,80 @@
-function makeIsRequired(fn) {
-  return function (value) {
-    if (typeof value === 'undefined') {
-      return false;
+import _ from 'lodash';
+
+import TypeError from './errors/Type';
+
+/**
+ * Chain
+ */
+const chainables = {
+  isRequired: {
+    func: function isRequired(value) {
+      if (typeof value === 'undefined') {
+        throw new TypeError('value is not defined');
+      }
+
+      return value;
+    }
+  },
+
+  defaults: {
+    isFactory: true,
+    func: function defaults(value, defaultValue) {
+      if (value) {
+        return value;
+      }
+
+      return defaultValue;
+    }
+  }
+};
+
+function chain(fn, omitChainables = []) {
+  _.each(chainables, (chainObj, chainName) => {
+    const chainFunc = chainObj.func;
+    const chainIsFactory = chainObj.isFactory === true;
+
+    if (omitChainables.indexOf(chainName) > -1) {
+      return;
     }
 
-    return fn;
-  };
-}
+    Object.defineProperty(fn, chainName, {
+      get: function () {
+        if (chainIsFactory) {
+          return function (...args) {
+            return chain(function (value) {
+              let nextValue = chainFunc(value, ...args);
 
-function makeDefaults(fn) {
-  return function (defaultValue) {
-    return function (value = defaultValue) {
-      return fn(value);
-    };
-  };
+              return fn(nextValue);
+            });
+          };
+        }
+
+        return chain(function (value) {
+          let nextValue = value;
+
+          nextValue = chainFunc(nextValue);
+          nextValue = fn(nextValue);
+
+          return nextValue;
+        }, omitChainables.concat([chainName]));
+      }
+    });
+  });
+
+  return fn;
 }
 
 /**
- * string
+ * Types
  */
-export function string(value) {
-  return typeof value === 'string';
-}
+const Types = {};
 
-string.isRequired = makeIsRequired(string);
-string.defaults = makeDefaults(string);
+Types.string = chain(function (value) {
+  if (typeof value !== 'string') {
+    throw new TypeError('value is not a string');
+  }
+
+  return value;
+});
+
+export default Types;

@@ -77,4 +77,36 @@ Types.string = chain(function (value) {
   return value;
 });
 
+Types.bool = chain(function (value) {
+  if (typeof value !== 'boolean') {
+    throw new TypeError('value is not a boolean');
+  }
+
+  return value;
+});
+
+Types.number = chain(function (value) {
+  if (typeof value !== 'number') {
+    throw new TypeError('value is not a number');
+  }
+
+  return value;
+});
+
+Types.array = chain(function (value) {
+  if (!_.isArray(value)) {
+    throw new TypeError('value is not an array');
+  }
+
+  return value;
+});
+
+Types.object = chain(function (value) {
+  if (!_.isPlainObject(value)) {
+    throw new TypeError('value is not an object');
+  }
+
+  return value;
+});
+
 export default Types;

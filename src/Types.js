@@ -101,6 +101,9 @@ Types.array = chain(function (value) {
   return value;
 });
 
+/**
+ * Object
+ */
 Types.object = chain(function (value) {
   if (!_.isPlainObject(value)) {
     throw new TypeError('value is not an object');
@@ -108,5 +111,29 @@ Types.object = chain(function (value) {
 
   return value;
 });
+
+function validateAndReturnObject(value, schema) {
+  return _.mapValues(schema, (type, k) => {
+    try {
+      return type(value[k]);
+    } catch (e) {
+      throw new TypeError('schema failed for key `' + k + '`, ' + e.message);
+    }
+  });
+}
+
+Types.object.of = function (schema) {
+  if (!_.isPlainObject(schema)) {
+    throw new TypeError('`object.of` must receive a plain object');
+  }
+
+  return chain(function (value) {
+    if (!_.isPlainObject(value)) {
+      throw new TypeError('value is not an object');
+    }
+
+    return validateAndReturnObject(value, schema);
+  });
+};
 
 export default Types;

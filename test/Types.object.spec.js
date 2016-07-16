@@ -34,4 +34,68 @@ describe('Types :: object', function () {
     expect(type({hello: 'world'})).to.eql({hello: 'world'});
     expect(() => type(123)).to.throw(/value is not an object/);
   });
+
+  it('checks for nested types', function () {
+    const type = Types.object.of({
+      street: Types.string,
+      city: Types.string.isRequired,
+      postalCode: Types.number.isRequired,
+      country: Types.string.defaults('Netherlands')
+    });
+
+    expect(type({
+      street: 'Amsterdam',
+      city: 'Amsterdam',
+      postalCode: 123
+    })).to.eql({
+      street: 'Amsterdam',
+      city: 'Amsterdam',
+      postalCode: 123,
+      country: 'Netherlands'
+    });
+
+    expect(() => type({
+      street: 'Amsterdam',
+      city: 'Amsterdam',
+      postalCode: '123'
+    })).to.throw(/schema failed for key `postalCode`, value is not a number/);
+  });
+
+  it('checks for deep-nested types', function () {
+    const type = Types.object.of({
+      name: Types.string.isRequired,
+      address: Types.object.of({
+        street: Types.string,
+        city: Types.string.isRequired,
+        postalCode: Types.number.isRequired,
+        country: Types.string.defaults('Netherlands')
+      }).isRequired
+    });
+
+    expect(type({
+      name: 'Fahad',
+      address: {
+        street: 'Amsterdam',
+        city: 'Amsterdam',
+        postalCode: 123
+      }
+    })).to.eql({
+      name: 'Fahad',
+      address: {
+        street: 'Amsterdam',
+        city: 'Amsterdam',
+        postalCode: 123,
+        country: 'Netherlands'
+      }
+    });
+
+    expect(() => type({
+      name: 'Fahad',
+      address: {
+        street: 'Amsterdam',
+        city: 'Amsterdam',
+        postalCode: '123'
+      }
+    })).to.throw(/schema failed for key `postalCode`, value is not a number/);
+  });
 });

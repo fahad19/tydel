@@ -47,7 +47,7 @@ describe('createModel', function () {
     expect(changeName).to.throw(/Cannot set property name/);
   });
 
-  it.only('creates Model class with nested types', function () {
+  it('creates Model class with nested types', function () {
     const Model = createModel({
       name: Types.string.isRequired,
       address: Types.object.of({
@@ -73,10 +73,16 @@ describe('createModel', function () {
       city: 'Amsterdam'
     });
 
-    // function changeStreet() {
-    //   model.address.street = 'something else';
-    // }
+    function changeStreet() {
+      model.address.street = 'something else';
+    }
 
-    // expect(changeStreet).to.throw(/Cannot set property name/);
+    expect(changeStreet).to.throw(/Cannot set property/);
+
+    function changeAddress() {
+      model.address = {};
+    }
+
+    expect(changeAddress).to.throw(/Cannot set property/);
   });
 });

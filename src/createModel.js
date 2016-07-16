@@ -5,34 +5,21 @@ import Types from './Types';
 export default function createModel(schema = {}, actions = {}) {
   let attributes = {};
 
-  function defineAttributes(context, attrs, getterPrefix = '') {
+  function defineAttributes(context, attrs, pathPrefix = '') {
     _.each(attrs, (v, k) => {
-      if (_.isPlainObject(v)) {
-        // Object.defineProperty(context, k, {
-        //   get() {
-        //     return attributes[k];
-        //   }
-        // });
-        context[k] = v;
-
-        const nextGetterPrefix = getterPrefix
-          ? getterPrefix + '.' + k
-          : k;
-
-        defineAttributes(context[k], v, nextGetterPrefix);
-
-        return;
-      }
-
       Object.defineProperty(context, k, {
         get() {
-          const getterPath = getterPrefix
-            ? getterPrefix + '.' + k
+          const getPath = pathPrefix
+            ? pathPrefix + '.' + k
             : k;
 
-          console.log({ getterPath });
+          const result = _.clone(_.get(attributes, getPath));
 
-          return _.get(attributes, getterPath);
+          if (_.isPlainObject(result)) {
+            defineAttributes(result, result, getPath);
+          }
+
+          return result;
         }
       });
     });

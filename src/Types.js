@@ -6,42 +6,57 @@ import TypeError from './errors/Type';
  * Chain
  */
 const chainables = {
-  isRequired(value) {
-    if (typeof value === 'undefined') {
-      throw new TypeError('value is not defined');
-    }
+  isRequired: {
+    func: function isRequired(value) {
+      if (typeof value === 'undefined') {
+        throw new TypeError('value is not defined');
+      }
 
-    return value;
-  },
-
-  defaults(defaultValue) {
-    return (value = defaultValue) => {
       return value;
-    };
+    }
   },
 
-  isTooLong(value) {
-    if (typeof value === 'string' && value.length > 5) {
-      throw new TypeError('value is too long');
-    }
+  defaults: {
+    isFactory: true,
+    func: function defaults(value, defaultValue) {
+      if (value) {
+        return value;
+      }
 
-    return value;
+      return defaultValue;
+    }
   }
 };
 
 function chain(fn, omitChainables = []) {
-  _.each(chainables, (chainFunc, chainName) => {
+  _.each(chainables, (chainObj, chainName) => {
+    const chainFunc = chainObj.func;
+    const chainIsFactory = chainObj.isFactory === true;
+
     if (omitChainables.indexOf(chainName) > -1) {
       return;
     }
 
     Object.defineProperty(fn, chainName, {
       get: function () {
-        const getterFunc = function (value) {
-          return chainFunc(value);
-        };
+        if (chainIsFactory) {
+          return function (...args) {
+            return chain(function (value) {
+              let nextValue = chainFunc(value, ...args);
 
-        return chain(getterFunc, omitChainables.concat([chainName]));
+              return fn(nextValue);
+            });
+          };
+        }
+
+        return chain(function (value) {
+          let nextValue = value;
+
+          nextValue = chainFunc(nextValue);
+          nextValue = fn(nextValue);
+
+          return nextValue;
+        }, omitChainables.concat([chainName]));
       }
     });
   });

@@ -1,37 +1,31 @@
 import _ from 'lodash';
 
-function makeIsRequired(fn) {
-  return function (value) {
-    if (typeof value === 'undefined') {
-      return false;
-    }
+import TypeError from './errors/Type';
 
-    return fn;
-  };
-}
-
-function makeDefaults(fn) {
-  return function (defaultValue) {
-    return function (value = defaultValue) {
-      return fn(value);
-    };
-  };
-}
-
+/**
+ * Chain
+ */
 const chainables = {
   isRequired(value) {
     if (typeof value === 'undefined') {
-      return false;
+      throw new TypeError('value is not defined');
     }
 
-    return true;
+    return value;
   },
+
+  defaults(defaultValue) {
+    return (value = defaultValue) => {
+      return value;
+    };
+  },
+
   isTooLong(value) {
     if (typeof value === 'string' && value.length > 5) {
-      return false;
+      throw new TypeError('value is too long');
     }
 
-    return true;
+    return value;
   }
 };
 
@@ -56,13 +50,16 @@ function chain(fn, omitChainables = []) {
 }
 
 /**
- * string
+ * Types
  */
-export const string = function (value) {
-  return typeof value === 'string';
-}
+const Types = {};
 
-chain(string);
+Types.string = chain(function (value) {
+  if (typeof value !== 'string') {
+    throw new TypeError('value is not a string');
+  }
 
-// string.isRequired = makeIsRequired(string);
-// string.defaults = makeDefaults(string);
+  return value;
+});
+
+export default Types;

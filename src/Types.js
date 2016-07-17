@@ -113,4 +113,11 @@ Types.model.of = function (Model) {
   });
 };
 
+/**
+ * Collection
+ */
+Types.collection = () => {};
+
+Types.collection.of = () => {};
+
 export default Types;

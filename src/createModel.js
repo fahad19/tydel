@@ -14,6 +14,10 @@ export default function createModel(schema = {}, actions = {}) {
             ? pathPrefix + '.' + k
             : k;
 
+          if (isModel(v)) {
+            return v;
+          }
+
           const result = _.clone(_.get(attributes, getPath));
 
           if (_.isPlainObject(result)) {

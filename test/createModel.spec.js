@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import Types from '../src/Types';
 import createModel from '../src/createModel';
+import isModel from '../src/isModel';
 
 describe('createModel', function () {
   it('creates Model class', function () {
@@ -203,6 +204,7 @@ describe('createModel', function () {
 
     expect(person).to.be.instanceof(Person);
     expect(person.address).to.be.instanceof(Address);
+    expect(isModel(person.address)).to.eql(true);
 
     expect(person.name).to.eql('Fahad');
     expect(person.address.street).to.eql('Straat');

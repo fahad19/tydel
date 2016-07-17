@@ -249,6 +249,7 @@ describe('createModel', function () {
     }
 
     expect(changeName).to.throw(/value is not a string/);
+    expect(person.name).to.eql('Fahad [updated]');
   });
 
   it('checks with multiple model instances', function () {

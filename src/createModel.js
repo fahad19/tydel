@@ -13,6 +13,7 @@ export default function createModel(schema = {}, actions = {}) {
     const commonKeysList = commonKeys
       .map(item => '`' + item + '`')
       .join(', ');
+
     throw new ActionError('conflicting action and schema: ' + commonKeysList);
   }
 

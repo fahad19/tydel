@@ -85,4 +85,30 @@ describe('createModel', function () {
 
     expect(changeAddress).to.throw(/Cannot set property/);
   });
+
+  it('creates Model class with actions', function () {
+    const Model = createModel({
+      name: Types.string.isRequired
+    }, {
+      getName() {
+        return this.name;
+      },
+      setName(name) {
+        this.name = name;
+      }
+    });
+
+    const model = new Model({
+      name: 'Fahad'
+    });
+
+    expect(model).to.be.instanceof(Model);
+    expect(model.name).to.eql('Fahad');
+    expect(model.setName).to.be.a('function');
+
+    expect(model.getName()).to.eql('Fahad');
+
+    model.setName('Heylaal');
+    expect(model.name).to.eql('Heylaal');
+  });
 });

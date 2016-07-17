@@ -25,11 +25,24 @@ export default function createModel(schema = {}, actions = {}) {
     });
   }
 
+  function defineActions(context, actions) {
+    _.each(actions, (action, actionName) => {
+      Object.defineProperty(context, actionName, {
+        get() {
+          return function (...args) {
+            return action.bind(attributes)(...args);
+          };
+        }
+      });
+    });
+  }
+
   function Model(givenAttributes = {}) {
     const applySchema = Types.object.of(schema);
     attributes = applySchema(givenAttributes);
 
     defineAttributes(this, attributes);
+    defineActions(this, actions);
   }
 
   return Model;

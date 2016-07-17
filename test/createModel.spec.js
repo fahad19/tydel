@@ -250,4 +250,18 @@ describe('createModel', function () {
 
     expect(changeName).to.throw(/value is not a string/);
   });
+
+  it('checks with multiple model instances', function () {
+    const Person = createModel({
+      name: Types.string.isRequired
+    });
+
+    const harry = new Person({ name: 'Harry' });
+    const hermione = new Person({ name: 'Hermione' });
+    const ron = new Person({ name: 'Ron' });
+
+    expect(harry.name).to.eql('Harry');
+    expect(hermione.name).to.eql('Hermione');
+    expect(ron.name).to.eql('Ron');
+  });
 });

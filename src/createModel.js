@@ -52,11 +52,12 @@ export default function createModel(schema = {}, actions = {}) {
         Object.defineProperty(context, actionName, {
           get() {
             return function (...args) {
-              const output = action.bind(attributes)(...args);
+              // @TODO: needs to be made efficient later
+              const clonedAttributes = _.clone(attributes);
+              action.bind(clonedAttributes)(...args);
+              applySchema(clonedAttributes);
 
-              applySchema(attributes);
-
-              return output;
+              return action.bind(attributes)(...args);
             };
           }
         });

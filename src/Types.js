@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import TypeError from './errors/Type';
 import chain from './chainType';
+import isModel from './isModel';
 
 /**
  * Types
@@ -79,11 +80,37 @@ Types.object.of = function (schema) {
  * Model
  */
 Types.model = chain(function (value) {
+  if (isModel(value)) {
+    return value;
+  }
 
+  if (_.isPlainObject(value)) {
+    return new Model(value);
+  }
+
+  throw new TypeError('value is neither a model instance nor object');
 });
 
 Types.model.of = function (Model) {
+  if (typeof Model !== 'function') {
+    throw new TypeError('Model is not a function');
+  }
 
+  return chain(function (value) {
+    if (isModel(value)) {
+      if (value instanceof Model) {
+        return value;
+      }
+
+      throw new TypeError('value is not instance of expected Model');
+    }
+
+    if (_.isPlainObject(value)) {
+      return new Model(value);
+    }
+
+    throw new TypeError('value is not an object');
+  });
 };
 
 export default Types;

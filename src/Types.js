@@ -136,4 +136,15 @@ Types.object.of = function (schema) {
   });
 };
 
+/**
+ * Model
+ */
+Types.model = chain(function (value) {
+
+});
+
+Types.model.of = function (Model) {
+
+};
+
 export default Types;

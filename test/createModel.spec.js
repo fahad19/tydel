@@ -167,4 +167,45 @@ describe('createModel', function () {
     model.setFullName('Foo', 'Bar');
     expect(model.getFullName()).to.eql('Foo Bar');
   });
+
+  it('embeds other models', function () {
+    const Address = createModel({
+      street: Types.string,
+      country: Types.string
+    }, {
+      getStreet() {
+        return this.street;
+      },
+      setStreet(street) {
+        this.street = street;
+      }
+    });
+
+    const Person = createModel({
+      name: Types.string.isRequired,
+      address: Types.model.of(Address)
+    }, {
+      getName() {
+        return this.name;
+      },
+      getStreet() {
+        return this.address.getStreet();
+      }
+    });
+
+    const person = new Person({
+      name: 'Fahad',
+      address: {
+        street: 'Straat',
+        country: 'Netherlands'
+      }
+    });
+
+    expect(person).to.be.instanceof(Person);
+    expect(person.address).to.be.instanceof(Address);
+
+    expect(person.name).to.eql('Fahad');
+    expect(person.address.street).to.eql('Straat');
+    expect(person.address.country).to.eql('Netherlands');
+  });
 });

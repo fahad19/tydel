@@ -169,6 +169,21 @@ describe('createModel', function () {
     expect(model.getFullName()).to.eql('Foo Bar');
   });
 
+  it('throws error when action name conflicts with schema', function () {
+    function generateModelClass() {
+      createModel({
+        name: Types.string,
+        bio: Types.string
+      }, {
+        name() {
+          return true;
+        }
+      });
+    }
+
+    expect(generateModelClass).to.throw(/conflicting action and schema: `name`/);
+  });
+
   it('embeds other models', function () {
     const Address = createModel({
       street: Types.string,

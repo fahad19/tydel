@@ -2,8 +2,20 @@ import _ from 'lodash';
 
 import Types from './Types';
 import isModel from './isModel';
+import ActionError from './errors/Action';
 
 export default function createModel(schema = {}, actions = {}) {
+  const schemaKeys = _.keys(schema);
+  const actionKeys = _.keys(actions);
+  const commonKeys = _.intersection(schemaKeys, actionKeys);
+
+  if (commonKeys.length > 0) {
+    const commonKeysList = commonKeys
+      .map(item => '`' + item + '`')
+      .join(', ');
+    throw new ActionError('conflicting action and schema: ' + commonKeysList);
+  }
+
   let attributes = {};
 
   function defineAttributes(context, attrs, pathPrefix = '') {

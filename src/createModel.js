@@ -27,6 +27,8 @@ export default function createModel(schema = {}, actions = {}) {
 
   function defineActions(context, actions) {
     _.each(actions, (action, actionName) => {
+      attributes[actionName] = action;
+
       Object.defineProperty(context, actionName, {
         get() {
           return function (...args) {

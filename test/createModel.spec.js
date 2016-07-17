@@ -111,4 +111,60 @@ describe('createModel', function () {
     model.setName('Heylaal');
     expect(model.name).to.eql('Heylaal');
   });
+
+  it('allows actions to call other actions', function () {
+    const Model = createModel({
+      firstName: Types.string.isRequired,
+      lastName: Types.string.isRequired
+    }, {
+      // first
+      getFirstName() {
+        return this.firstName;
+      },
+      setFirstName(firstName) {
+        this.firstName = firstName;
+      },
+
+      // last
+      getLastName() {
+        return this.lastName;
+      },
+      setLastName(lastName) {
+        this.lastName = lastName;
+      },
+
+      // full
+      getFullName() {
+        return this.getFirstName() + ' ' + this.getLastName();
+      },
+      setFullName(firstName, lastName) {
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+      }
+    });
+
+    const model = new Model({
+      firstName: 'Fahad',
+      lastName: 'Heylaal'
+    });
+
+    expect(model).to.be.instanceof(Model);
+    expect(model.firstName).to.eql('Fahad');
+    expect(model.lastName).to.eql('Heylaal');
+
+    expect(model.getFirstName).to.be.a('function');
+    expect(model.getFirstName()).to.eql('Fahad');
+
+    expect(model.getLastName).to.be.a('function');
+    expect(model.getLastName()).to.eql('Heylaal');
+
+    expect(model.getFullName()).to.eql('Fahad Heylaal');
+
+    model.setFirstName('John');
+    model.setLastName('Smith');
+    expect(model.getFullName()).to.eql('John Smith');
+
+    model.setFullName('Foo', 'Bar');
+    expect(model.getFullName()).to.eql('Foo Bar');
+  });
 });

@@ -16,6 +16,7 @@ export default function createModel(schema = {}, actions = {}) {
     throw new ActionError('conflicting action and schema: ' + commonKeysList);
   }
 
+  let applySchema = () => {};
   let attributes = {};
 
   function defineAttributes(context, attrs, pathPrefix = '') {
@@ -49,7 +50,11 @@ export default function createModel(schema = {}, actions = {}) {
       Object.defineProperty(context, actionName, {
         get() {
           return function (...args) {
-            return action.bind(attributes)(...args);
+            const output = action.bind(attributes)(...args);
+
+            applySchema(attributes);
+
+            return output;
           };
         }
       });
@@ -57,7 +62,7 @@ export default function createModel(schema = {}, actions = {}) {
   }
 
   function Model(givenAttributes = {}) {
-    const applySchema = Types.object.of(schema);
+    applySchema = Types.object.of(schema);
     attributes = applySchema(givenAttributes);
 
     defineAttributes(this, attributes);

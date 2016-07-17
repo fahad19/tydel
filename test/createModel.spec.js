@@ -225,4 +225,29 @@ describe('createModel', function () {
     expect(person.address.street).to.eql('Straat');
     expect(person.address.country).to.eql('Netherlands');
   });
+
+  it('checks for types on re-assignments', function () {
+    const Person = createModel({
+      name: Types.string.isRequired
+    }, {
+      setName(name) {
+        this.name = name;
+      }
+    });
+
+    const person = new Person({
+      name: 'Fahad'
+    });
+
+    expect(person.name).to.eql('Fahad');
+
+    person.setName('Fahad [updated]');
+    expect(person.name).to.eql('Fahad [updated]');
+
+    function changeName() {
+      person.setName(123);
+    }
+
+    expect(changeName).to.throw(/value is not a string/);
+  });
 });

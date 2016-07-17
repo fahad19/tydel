@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import TypeError from './errors/Type';
-import chain from './utils/chainType';
+import chain from './chainType';
 
 /**
  * Types

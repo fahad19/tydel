@@ -4,11 +4,12 @@ import ActionError from './errors/Action';
 import CollectionError from './errors/Collection';
 import isModel from './isModel';
 
+// @TODO: add more to the list
 const reservedActions = [
   'toJS'
 ];
 
-export default function createCollection(Model, actions) {
+export default function createCollection(Model, actions = {}) {
   const actionKeys = _.keys(actions);
   const commonKeys = _.intersection(reservedActions, actionKeys);
 
@@ -20,9 +21,63 @@ export default function createCollection(Model, actions) {
     throw new ActionError('conflicting action with reserved names: ' + commonKeysList);
   }
 
-  const models = [];
-
   function Collection(givenModels = []) {
+    const models = [];
+
+    // @TODO: make actions
+
+    // reserved build-in methods
+    this.at = function (n) {
+      return models[n];
+    };
+
+    this.push = function (model) {
+      if (!isModel(model)) {
+        throw new CollectionError('not a valid Model instance is being pushed');
+      }
+
+      if (!(model instanceof Model)) {
+        throw new CollectionError('Model instance is not of the one Collection is expecting');
+      }
+
+      return models.push(model);
+    };
+
+    this.forEach = function (fn) {
+      return models.forEach(fn.bind(this));
+    };
+
+    this.map = function (fn) {
+      return models.map(fn.bind(this));
+    };
+
+    this.reduce = function (fn) {
+      return models.reduce(fn.bind(this));
+    };
+
+    this.pop = function () {
+      return models.pop();
+    };
+
+    this.shift = function () {
+      return models.shift();
+    };
+
+    this.unshift = function (model) {
+
+    };
+
+    this.remove = function (model) {
+
+    };
+
+    this.toJS = function () {
+      return models.map((model) => {
+        return model.toJS();
+      });
+    };
+
+    // initialize
     givenModels.forEach((v) => {
       if (isModel(v)) {
         this.push(v);
@@ -34,56 +89,6 @@ export default function createCollection(Model, actions) {
       this.push(model);
     });
   }
-
-  Collection.prototype.at = function (n) {
-    return models[n];
-  };
-
-  Collection.prototype.push = function (model) {
-    if (!isModel(model)) {
-      throw new CollectionError('not a valid Model instance is being pushed');
-    }
-
-    if (!(model instanceof Model)) {
-      throw new CollectionError('Model instance is not of the one Collection is expecting');
-    }
-
-    return models.push(model);
-  };
-
-  Collection.prototype.forEach = function (fn) {
-    return models.forEach(fn.bind(this));
-  };
-
-  Collection.prototype.map = function (fn) {
-    return models.map(fn.bind(this));
-  };
-
-  Collection.prototype.reduce = function (fn) {
-    return models.reduce(fn.bind(this));
-  };
-
-  Collection.prototype.pop = function () {
-    return models.pop();
-  };
-
-  Collection.prototype.shift = function () {
-    return models.shift();
-  };
-
-  Collection.prototype.unshift = function (model) {
-
-  };
-
-  Collection.prototype.remove = function (model) {
-
-  };
-
-  Collection.prototype.toJS = function () {
-    return models.map((model) => {
-      return model.toJS();
-    });
-  };
 
   return Collection;
 }

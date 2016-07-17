@@ -26,8 +26,8 @@ describe('createCollection', function () {
 
     const people = new People([
       { name: 'Harry' },
-      // new Person({ name: 'Hermione' }),
-      { name: 'Hermione' },
+      new Person({ name: 'Hermione' }),
+      // { name: 'Hermione' },
       { name: 'Ron' }
     ]);
 

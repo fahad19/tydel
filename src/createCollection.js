@@ -23,16 +23,16 @@ export default function createCollection(Model, actions) {
   const models = [];
 
   function Collection(givenModels = []) {
-    _.each(givenModels, (v, k) => {
+    givenModels.forEach((v) => {
       if (isModel(v)) {
-        models.push(v);
+        this.push(v);
 
         return;
       }
 
       const model = new Model(v);
-      models.push(model);
-    })
+      this.push(model);
+    });
   }
 
   Collection.prototype.at = function (n) {
@@ -44,7 +44,11 @@ export default function createCollection(Model, actions) {
       throw new CollectionError('not a valid Model instance is being pushed');
     }
 
-    return models.push(model) - 1;
+    if (!(model instanceof Model)) {
+      throw new CollectionError('Model instance is not of the one Collection is expecting');
+    }
+
+    return models.push(model);
   };
 
   Collection.prototype.forEach = function (fn) {
@@ -76,6 +80,10 @@ export default function createCollection(Model, actions) {
   };
 
   Collection.prototype.toJS = function () {
-
+    return models.map((model) => {
+      return model.toJS();
+    });
   };
+
+  return Collection;
 }

@@ -171,19 +171,24 @@ describe('createModel', function () {
     expect(model.getFullName()).to.eql('Foo Bar');
   });
 
-  it('throws error when action name conflicts with schema', function () {
-    function generateModelClass() {
-      createModel({
-        name: Types.string,
-        bio: Types.string
-      }, {
-        name() {
-          return true;
-        }
+  it('throws error when action name conflicts', function () {
+    const Person = createModel({
+      name: Types.string,
+      bio: Types.string
+    }, {
+      name() {
+        return true;
+      }
+    });
+
+    function getPerson() {
+      new Person({  // eslint-disable-line
+        name: 'Fahad',
+        bio: 'blah...'
       });
     }
 
-    expect(generateModelClass).to.throw(/conflicting action and schema: `name`/);
+    expect(getPerson).to.throw(/conflicting action: name/);
   });
 
   it('embeds other models', function () {

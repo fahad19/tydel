@@ -5,18 +5,6 @@ import isModel from './isModel';
 import ActionError from './errors/Action';
 
 export default function createModel(schema = {}, actions = {}) {
-  const schemaKeys = _.keys(schema);
-  const actionKeys = _.keys(actions);
-  const commonKeys = _.intersection(schemaKeys, actionKeys);
-
-  if (commonKeys.length > 0) {
-    const commonKeysList = commonKeys
-      .map(item => '`' + item + '`')
-      .join(', ');
-
-    throw new ActionError('conflicting action and schema: ' + commonKeysList);
-  }
-
   function Model(givenAttributes = {}) {
     let applySchema = () => {};
     let attributes = {};
@@ -47,6 +35,10 @@ export default function createModel(schema = {}, actions = {}) {
 
     function defineActions(context, actions) {
       _.each(actions, (action, actionName) => {
+        if (typeof attributes[actionName] !== 'undefined') {
+          throw new ActionError('conflicting action: ' + actionName);
+        }
+
         attributes[actionName] = action;
 
         Object.defineProperty(context, actionName, {

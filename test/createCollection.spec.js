@@ -73,4 +73,41 @@ describe('createCollection', function () {
     expect(people2.at(1).name).to.eql('B');
     expect(people2.at(2).name).to.eql('C');
   });
+
+  it('creates collection with methods', function () {
+    const Person = createModel({
+      name: Types.string.isRequired
+    });
+    const People = createCollection(Person, {
+      findAt(n) {
+        return this.at(n);
+      }
+    });
+
+    const people = new People([
+      { name: 'Fahad' },
+      { name: 'Blah' },
+      { name: 'Yo' }
+    ]);
+
+    expect(people.findAt).to.be.a('function');
+    expect(people.findAt(1).name).to.eql('Blah');
+  });
+
+  it('throws error on conflicting method', function () {
+    const Person = createModel({
+      name: Types.string.isRequired
+    });
+    const People = createCollection(Person, {
+      at(n) {
+        return this.at(n);
+      }
+    });
+
+    function getPeople() {
+      new People([]); // eslint-disable-line
+    }
+
+    expect(getPeople).to.throw(/conflicting method name: at/);
+  });
 });

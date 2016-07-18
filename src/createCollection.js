@@ -4,29 +4,10 @@ import ActionError from './errors/Action';
 import CollectionError from './errors/Collection';
 import isModel from './isModel';
 
-// @TODO: add more to the list
-const reservedActions = [
-  'toJS'
-];
-
-export default function createCollection(Model, actions = {}) {
-  const actionKeys = _.keys(actions);
-  const commonKeys = _.intersection(reservedActions, actionKeys);
-
-  if (commonKeys.length > 0) {
-    const commonKeysList = commonKeys
-      .map(item => '`' + item + '`')
-      .join(', ');
-
-    throw new ActionError('conflicting action with reserved names: ' + commonKeysList);
-  }
-
+export default function createCollection(Model, methods = {}) {
   function Collection(givenModels = []) {
     const models = [];
 
-    // @TODO: make actions
-
-    // reserved build-in methods
     this.at = function (n) {
       return models[n];
     };
@@ -76,6 +57,15 @@ export default function createCollection(Model, actions = {}) {
         return model.toJS();
       });
     };
+
+    // methods
+    _.each(methods, (methodFunc, methodName) => {
+      if (typeof this[methodName] !== 'undefined') {
+        throw new ActionError('conflicting method name: ' + methodName);
+      }
+
+      this[methodName] = methodFunc.bind(this);
+    });
 
     // initialize
     givenModels.forEach((v) => {

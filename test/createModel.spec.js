@@ -3,7 +3,9 @@ import { expect } from 'chai';
 
 import Types from '../src/Types';
 import createModel from '../src/createModel';
+import createCollection from '../src/createCollection';
 import isModel from '../src/isModel';
+import isCollection from '../src/isCollection';
 
 describe('createModel', function () {
   it('creates Model class', function () {
@@ -264,5 +266,49 @@ describe('createModel', function () {
     expect(harry.name).to.eql('Harry');
     expect(hermione.name).to.eql('Hermione');
     expect(ron.name).to.eql('Ron');
+  });
+
+  it('embeds collections', function () {
+    const Post = createModel({
+      title: Types.string.isRequired
+    }, {
+      setTitle(newTitle) {
+        this.title = newTitle;
+      }
+    });
+
+    const Posts = createCollection(Post);
+
+    const Author = createModel({
+      name: Types.string.isRequired,
+      posts: Types.collection.of(Posts)
+    });
+
+    const author = new Author({
+      name: 'Fahad',
+      posts: [
+        { title: 'Hello World' },
+        { title: 'About' },
+        { title: 'Contact' }
+      ]
+    });
+
+    expect(author.name).to.eql('Fahad');
+    expect(isCollection(author.posts)).to.eql(true);
+
+    expect(isModel(author.posts.at(0)));
+    expect(author.posts.at(0).title).to.eql('Hello World');
+
+    expect(isModel(author.posts.at(1)));
+    expect(author.posts.at(1).title).to.eql('About');
+
+    expect(isModel(author.posts.at(2)));
+    expect(author.posts.at(2).title).to.eql('Contact');
+
+    const about = author.posts.at(1);
+    about.setTitle('About Us');
+
+    expect(about.title).to.eql('About Us');
+    expect(author.posts.at(1).title).to.eql('About Us');
   });
 });

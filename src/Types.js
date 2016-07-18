@@ -3,6 +3,7 @@ import _ from 'lodash';
 import TypeError from './errors/Type';
 import chain from './chainType';
 import isModel from './isModel';
+import isCollection from './isCollection';
 
 /**
  * Types
@@ -84,11 +85,7 @@ Types.model = chain(function (value) {
     return value;
   }
 
-  if (_.isPlainObject(value)) {
-    return new Model(value);
-  }
-
-  throw new TypeError('value is neither a model instance nor object');
+  throw new TypeError('value is not a Model instance');
 });
 
 Types.model.of = function (Model) {
@@ -110,6 +107,39 @@ Types.model.of = function (Model) {
     }
 
     throw new TypeError('value is not an object');
+  });
+};
+
+/**
+ * Collection
+ */
+Types.collection = chain(function (value) {
+  if (isCollection(value)) {
+    return value;
+  }
+
+  throw new TypeError('value is not a Collection instance');
+});
+
+Types.collection.of = function (Collection) {
+  if (typeof Collection !== 'function') {
+    throw new TypeError('Collection is not a function');
+  }
+
+  return chain(function (value) {
+    if (isCollection(value)) {
+      if (value instanceof Collection) {
+        return value;
+      }
+
+      throw new TypeError('value is not instance of expected Collection');
+    }
+
+    if (_.isArray(value)) {
+      return new Collection(value);
+    }
+
+    throw new TypeError('value is not an array');
   });
 };
 

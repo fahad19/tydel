@@ -46,4 +46,31 @@ describe('createCollection', function () {
     expect(isModel(people.at(2))).to.eql(true);
     expect(people.at(2).name).to.eql('Ron');
   });
+
+  it('checks with multiple collection instances', function () {
+    const Person = createModel({
+      name: Types.string.isRequired
+    });
+    const People = createCollection(Person);
+
+    const people1 = new People([
+      { name: 'Harry' },
+      { name: 'Hermione' },
+      { name: 'Ron' }
+    ]);
+
+    const people2 = new People([
+      { name: 'A' },
+      { name: 'B' },
+      { name: 'C' }
+    ]);
+
+    expect(people1.at(0).name).to.eql('Harry');
+    expect(people1.at(1).name).to.eql('Hermione');
+    expect(people1.at(2).name).to.eql('Ron');
+
+    expect(people2.at(0).name).to.eql('A');
+    expect(people2.at(1).name).to.eql('B');
+    expect(people2.at(2).name).to.eql('C');
+  });
 });

@@ -42,6 +42,18 @@ Types.array = chain(function (value) {
   return value;
 });
 
+Types.func = chain(function (value) {
+  if (typeof value !== 'function') {
+    throw new TypeError('value is not a function');
+  }
+
+  return value;
+});
+
+Types.any = chain(function (value) {
+  return value;
+});
+
 /**
  * Object
  */

@@ -3,81 +3,86 @@ import _ from 'lodash';
 import ActionError from './errors/Action';
 import CollectionError from './errors/Collection';
 import isModel from './isModel';
+import BaseCollection from './base/Collection';
 
 export default function createCollection(Model, methods = {}) {
-  function Collection(givenModels = []) {
-    const models = [];
+  class Collection extends BaseCollection {
+    constructor(givenModels = []) {
+      super(givenModels);
 
-    this.at = function (n) {
-      return models[n];
-    };
+      const models = [];
 
-    this.push = function (model) {
-      if (!isModel(model)) {
-        throw new CollectionError('not a valid Model instance is being pushed');
-      }
+      this.at = function (n) {
+        return models[n];
+      };
 
-      if (!(model instanceof Model)) {
-        throw new CollectionError('Model instance is not of the one Collection is expecting');
-      }
+      this.push = function (model) {
+        if (!isModel(model)) {
+          throw new CollectionError('not a valid Model instance is being pushed');
+        }
 
-      return models.push(model);
-    };
+        if (!(model instanceof Model)) {
+          throw new CollectionError('Model instance is not of the one Collection is expecting');
+        }
 
-    this.forEach = function (fn) {
-      return models.forEach(fn.bind(this));
-    };
+        return models.push(model);
+      };
 
-    this.map = function (fn) {
-      return models.map(fn.bind(this));
-    };
+      this.forEach = function (fn) {
+        return models.forEach(fn.bind(this));
+      };
 
-    this.reduce = function (fn) {
-      return models.reduce(fn.bind(this));
-    };
+      this.map = function (fn) {
+        return models.map(fn.bind(this));
+      };
 
-    this.pop = function () {
-      return models.pop();
-    };
+      this.reduce = function (fn) {
+        return models.reduce(fn.bind(this));
+      };
 
-    this.shift = function () {
-      return models.shift();
-    };
+      this.pop = function () {
+        return models.pop();
+      };
 
-    this.unshift = function (model) {
+      this.shift = function () {
+        return models.shift();
+      };
 
-    };
+      this.unshift = function (model) {
 
-    this.remove = function (model) {
+      };
 
-    };
+      this.remove = function (model) {
 
-    this.toJS = function () {
-      return models.map((model) => {
-        return model.toJS();
+      };
+
+      this.toJS = function () {
+        return models.map((model) => {
+          return model.toJS();
+        });
+      };
+
+      // methods
+      _.each(methods, (methodFunc, methodName) => {
+        if (typeof this[methodName] !== 'undefined') {
+          throw new ActionError('conflicting method name: ' + methodName);
+        }
+
+        this[methodName] = methodFunc.bind(this);
       });
-    };
 
-    // methods
-    _.each(methods, (methodFunc, methodName) => {
-      if (typeof this[methodName] !== 'undefined') {
-        throw new ActionError('conflicting method name: ' + methodName);
-      }
+      // initialize
+      givenModels.forEach((v) => {
+        if (isModel(v)) {
+          this.push(v);
 
-      this[methodName] = methodFunc.bind(this);
-    });
+          return;
+        }
 
-    // initialize
-    givenModels.forEach((v) => {
-      if (isModel(v)) {
-        this.push(v);
-
-        return;
-      }
-
-      const model = new Model(v);
-      this.push(model);
-    });
+        const model = new Model(v);
+        this.push(model);
+      });
+    }
   }
 
   return Collection;

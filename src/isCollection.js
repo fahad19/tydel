@@ -1,6 +1,8 @@
-export default function isModel(model) {
+import BaseCollection from './base/Collection';
+
+export default function isCollection(collection) {
   try {
-    return model.constructor.name === 'Collection';
+    return collection instanceof BaseCollection;
   } catch (e) {
     return false;
   }

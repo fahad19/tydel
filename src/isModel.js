@@ -1,6 +1,8 @@
+import BaseModel from './base/Model';
+
 export default function isModel(model) {
   try {
-    return model.constructor.name === 'Model';
+    return model instanceof BaseModel;
   } catch (e) {
     return false;
   }

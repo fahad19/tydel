@@ -4,6 +4,13 @@ import { expect } from 'chai';
 import Types from '../../src/Types';
 
 describe('Types :: enum', function () {
+  it('accepts undefined unless required', function () {
+    const type = Types.enum([1, 2, 3]);
+
+    expect(type()).to.eql(undefined);
+    expect(() => type.isRequired()).to.throw('value is not defined');
+  });
+
   it('accepts enum values', function () {
     const type = Types.enum([1, 2, 3]);
 

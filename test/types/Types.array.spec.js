@@ -4,6 +4,13 @@ import { expect } from 'chai';
 import Types from '../../src/Types';
 
 describe('Types :: array', function () {
+  it('accepts undefined unless required', function () {
+    const type = Types.array;
+
+    expect(type()).to.eql(undefined);
+    expect(() => type.isRequired()).to.throw('value is not defined');
+  });
+
   it('accepts array values', function () {
     const type = Types.array;
 

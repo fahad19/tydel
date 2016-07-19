@@ -4,6 +4,13 @@ import { expect } from 'chai';
 import Types from '../../src/Types';
 
 describe('Types :: number', function () {
+  it('accepts undefined unless required', function () {
+    const type = Types.number;
+
+    expect(type()).to.eql(undefined);
+    expect(() => type.isRequired()).to.throw('value is not defined');
+  });
+
   it('accepts number values', function () {
     const type = Types.number;
 

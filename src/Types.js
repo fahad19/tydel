@@ -11,6 +11,10 @@ import isCollection from './isCollection';
 const Types = {};
 
 Types.string = chain(function (value) {
+  if (typeof value === 'undefined') {
+    return value;
+  }
+
   if (typeof value !== 'string') {
     throw new TypeError('value is not a string');
   }
@@ -19,6 +23,10 @@ Types.string = chain(function (value) {
 });
 
 Types.bool = chain(function (value) {
+  if (typeof value === 'undefined') {
+    return value;
+  }
+
   if (typeof value !== 'boolean') {
     throw new TypeError('value is not a boolean');
   }
@@ -27,6 +35,10 @@ Types.bool = chain(function (value) {
 });
 
 Types.number = chain(function (value) {
+  if (typeof value === 'undefined') {
+    return value;
+  }
+
   if (typeof value !== 'number') {
     throw new TypeError('value is not a number');
   }
@@ -35,6 +47,10 @@ Types.number = chain(function (value) {
 });
 
 Types.array = chain(function (value) {
+  if (typeof value === 'undefined') {
+    return value;
+  }
+
   if (!_.isArray(value)) {
     throw new TypeError('value is not an array');
   }
@@ -43,6 +59,10 @@ Types.array = chain(function (value) {
 });
 
 Types.func = chain(function (value) {
+  if (typeof value === 'undefined') {
+    return value;
+  }
+
   if (typeof value !== 'function') {
     throw new TypeError('value is not a function');
   }
@@ -56,6 +76,10 @@ Types.enum = function (enums = []) {
   }
 
   return chain(function (value) {
+    if (typeof value === 'undefined') {
+      return value;
+    }
+
     const isValid = enums.some(function (enumValue) {
       return value === enumValue;
     });
@@ -74,6 +98,10 @@ Types.enum.of = function (enumTypes = []) {
   }
 
   return chain(function (value) {
+    if (typeof value === 'undefined') {
+      return value;
+    }
+
     const isValid = enumTypes.some(function (enumType) {
       try {
         enumType(value);
@@ -100,6 +128,10 @@ Types.any = chain(function (value) {
  * Object
  */
 Types.object = chain(function (value) {
+  if (typeof value === 'undefined') {
+    return value;
+  }
+
   if (!_.isPlainObject(value)) {
     throw new TypeError('value is not an object');
   }
@@ -123,6 +155,10 @@ Types.object.of = function (schema) {
   }
 
   return chain(function (value) {
+    if (typeof value === 'undefined') {
+      return value;
+    }
+
     if (!_.isPlainObject(value)) {
       throw new TypeError('value is not an object');
     }
@@ -135,6 +171,10 @@ Types.object.of = function (schema) {
  * Model
  */
 Types.model = chain(function (value) {
+  if (typeof value === 'undefined') {
+    return value;
+  }
+
   if (isModel(value)) {
     return value;
   }
@@ -148,6 +188,10 @@ Types.model.of = function (Model) {
   }
 
   return chain(function (value) {
+    if (typeof value === 'undefined') {
+      return value;
+    }
+
     if (isModel(value)) {
       if (value instanceof Model) {
         return value;
@@ -168,6 +212,10 @@ Types.model.of = function (Model) {
  * Collection
  */
 Types.collection = chain(function (value) {
+  if (typeof value === 'undefined') {
+    return value;
+  }
+
   if (isCollection(value)) {
     return value;
   }
@@ -181,6 +229,10 @@ Types.collection.of = function (Collection) {
   }
 
   return chain(function (value) {
+    if (typeof value === 'undefined') {
+      return value;
+    }
+
     if (isCollection(value)) {
       if (value instanceof Collection) {
         return value;

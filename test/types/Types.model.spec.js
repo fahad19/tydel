@@ -5,6 +5,13 @@ import Types from '../../src/Types';
 import createModel from '../../src/createModel';
 
 describe('Types :: model', function () {
+  it('accepts undefined unless required', function () {
+    const type = Types.model;
+
+    expect(type()).to.eql(undefined);
+    expect(() => type.isRequired()).to.throw('value is not defined');
+  });
+
   it('accepts model instances', function () {
     const type = Types.model;
     const Person = createModel({

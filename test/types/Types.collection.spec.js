@@ -6,6 +6,13 @@ import createModel from '../../src/createModel';
 import createCollection from '../../src/createCollection';
 
 describe('Types :: collection', function () {
+  it('accepts undefined unless required', function () {
+    const type = Types.collection;
+
+    expect(type()).to.eql(undefined);
+    expect(() => type.isRequired()).to.throw('value is not defined');
+  });
+
   it('accepts collection instances', function () {
     const type = Types.collection;
 

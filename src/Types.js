@@ -50,6 +50,48 @@ Types.func = chain(function (value) {
   return value;
 });
 
+Types.enum = function (enums = []) {
+  if (!_.isArray(enums)) {
+    enums = [enums];
+  }
+
+  return chain(function (value) {
+    const isValid = enums.some(function (enumValue) {
+      return value === enumValue;
+    });
+
+    if (isValid) {
+      return value;
+    }
+
+    throw new TypeError('value is none of the provided enums');
+  });
+};
+
+Types.enum.of = function (enumTypes = []) {
+  if (!_.isArray(enumTypes)) {
+    enumTypes = [enumTypes];
+  }
+
+  return chain(function (value) {
+    const isValid = enumTypes.some(function (enumType) {
+      try {
+        enumType(value);
+
+        return true;
+      } catch (e) {
+        return false;
+      }
+    });
+
+    if (isValid) {
+      return value;
+    }
+
+    throw new TypeError('value is none of the provided enum types');
+  });
+};
+
 Types.any = chain(function (value) {
   return value;
 });

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/**/*.js test/**/*.js",
-    "test": "mocha"
+    "test": "mocha './test/**/*.spec.js'"
   },
   "author": "Fahad Ibnay Heylaal",
   "license": "MIT",

@@ -1,7 +1,7 @@
 /* global describe, it */
 import { expect } from 'chai';
 
-import Types from '../src/Types';
+import Types from '../../src/Types';
 
 describe('Types :: any', function () {
   it('accepts any values', function () {

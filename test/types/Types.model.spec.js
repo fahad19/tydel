@@ -1,8 +1,8 @@
 /* global describe, it */
 import { expect } from 'chai';
 
-import Types from '../src/Types';
-import createModel from '../src/createModel';
+import Types from '../../src/Types';
+import createModel from '../../src/createModel';
 
 describe('Types :: model', function () {
   it('accepts model instances', function () {

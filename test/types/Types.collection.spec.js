@@ -1,9 +1,9 @@
 /* global describe, it */
 import { expect } from 'chai';
 
-import Types from '../src/Types';
-import createModel from '../src/createModel';
-import createCollection from '../src/createCollection';
+import Types from '../../src/Types';
+import createModel from '../../src/createModel';
+import createCollection from '../../src/createCollection';
 
 describe('Types :: collection', function () {
   it('accepts collection instances', function () {

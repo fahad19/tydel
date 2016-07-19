@@ -1,9 +1,9 @@
 /* global describe, it */
 import { expect } from 'chai';
 
-import Types from '../src/Types';
-import createModel from '../src/createModel';
-import isModel from '../src/isModel';
+import Types from '../../src/Types';
+import createModel from '../../src/createModel';
+import isModel from '../../src/isModel';
 
 describe('Model :: toJS()', function () {
   it('converts simple Model\'s attributes to plain object', function () {

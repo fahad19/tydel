@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import Types from './Types';
 import isModel from './isModel';
+import isCollection from './isCollection';
 import ActionError from './errors/Action';
 import BaseModel from './base/Model';
 
@@ -37,9 +38,12 @@ export default function createModel(schema = {}, actions = {}) {
         });
       }
 
-      function defineActions(context, actions) {
+      const defineActions = (context, actions) => {
         _.each(actions, (action, actionName) => {
-          if (typeof attributes[actionName] !== 'undefined') {
+          if (
+            typeof attributes[actionName] !== 'undefined' ||
+            typeof this[actionName] !== 'undefined'
+          ) {
             throw new ActionError('conflicting action: ' + actionName);
           }
 
@@ -60,16 +64,13 @@ export default function createModel(schema = {}, actions = {}) {
         });
       }
 
-      applySchema = Types.object.of(schema);
-      attributes = applySchema(givenAttributes);
-
-      defineAttributes(this, attributes);
-      defineActions(this, actions);
-
       this.toJS = function () {
         function convertToJS(attrs) {
           return _.mapValues(attrs, (v, k) => {
-            if (isModel(v)) {
+            if (
+              isModel(v) ||
+              isCollection(v)
+            ) {
               return v.toJS();
             }
 
@@ -83,6 +84,12 @@ export default function createModel(schema = {}, actions = {}) {
 
         return convertToJS(attributes);
       };
+
+      applySchema = Types.object.of(schema);
+      attributes = applySchema(givenAttributes);
+
+      defineAttributes(this, attributes);
+      defineActions(this, actions);
     }
   }
 

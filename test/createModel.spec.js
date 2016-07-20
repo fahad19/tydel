@@ -191,6 +191,27 @@ describe('createModel', function () {
     expect(getPerson).to.throw(/conflicting action: name/);
   });
 
+  it('throws error when action name conflicts with built-in methods', function () {
+    const Person = createModel({
+      name: Types.string,
+      bio: Types.string
+    }, {
+      toJS() {
+        return true;
+      }
+    });
+
+    function getPerson() {
+      new Person({  // eslint-disable-line
+        name: 'Fahad',
+        bio: 'blah...'
+      });
+    }
+
+    expect(getPerson).to.throw(/conflicting action: toJS/);
+  });
+
+
   it('embeds other models', function () {
     const Address = createModel({
       street: Types.string,

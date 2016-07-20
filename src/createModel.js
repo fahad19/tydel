@@ -3,10 +3,10 @@ import _ from 'lodash';
 import Types from './Types';
 import isModel from './isModel';
 import isCollection from './isCollection';
-import ActionError from './errors/Action';
+import MethodError from './errors/Method';
 import BaseModel from './base/Model';
 
-export default function createModel(schema = {}, actions = {}) {
+export default function createModel(schema = {}, methods = {}) {
   class Model extends BaseModel {
     constructor(givenAttributes = {}) {
       super(givenAttributes);
@@ -59,16 +59,16 @@ export default function createModel(schema = {}, actions = {}) {
         });
       });
 
-      // define actions
-      _.each(actions, (func, actionName) => {
+      // define methods
+      _.each(methods, (func, methodName) => {
         if (
-          typeof attributes[actionName] !== 'undefined' ||
-          typeof this[actionName] !== 'undefined'
+          typeof attributes[methodName] !== 'undefined' ||
+          typeof this[methodName] !== 'undefined'
         ) {
-          throw new ActionError('conflicting action: ' + actionName);
+          throw new MethodError('conflicting method name: ' + methodName);
         }
 
-        this[actionName] = func.bind(this);
+        this[methodName] = func.bind(this);
       });
     }
   }

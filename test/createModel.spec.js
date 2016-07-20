@@ -105,7 +105,7 @@ describe('createModel', function () {
     });
   });
 
-  it('creates Model class with actions', function () {
+  it('creates Model class with methods', function () {
     const Model = createModel({
       name: Types.string.isRequired
     }, {
@@ -131,7 +131,7 @@ describe('createModel', function () {
     expect(model.name).to.eql('Heylaal');
   });
 
-  it('allows actions to call other actions', function () {
+  it('allows methods to call other methods', function () {
     const Model = createModel({
       firstName: Types.string.isRequired,
       lastName: Types.string.isRequired
@@ -187,7 +187,7 @@ describe('createModel', function () {
     expect(model.getFullName()).to.eql('Foo Bar');
   });
 
-  it('throws error when action name conflicts', function () {
+  it('throws error when method name conflicts', function () {
     const Person = createModel({
       name: Types.string,
       bio: Types.string
@@ -204,10 +204,10 @@ describe('createModel', function () {
       });
     }
 
-    expect(getPerson).to.throw(/conflicting action: name/);
+    expect(getPerson).to.throw(/conflicting method name: name/);
   });
 
-  it('throws error when action name conflicts with built-in methods', function () {
+  it('throws error when method name conflicts with built-in methods', function () {
     const Person = createModel({
       name: Types.string,
       bio: Types.string
@@ -224,7 +224,7 @@ describe('createModel', function () {
       });
     }
 
-    expect(getPerson).to.throw(/conflicting action: toJS/);
+    expect(getPerson).to.throw(/conflicting method name: toJS/);
   });
 
 

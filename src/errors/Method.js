@@ -1,9 +1,9 @@
 import BaseError from './Base';
 
-export default class ActionError extends BaseError {
+export default class MethodError extends BaseError {
   constructor(...args) {
     super(...args);
 
-    this.name = 'ActionError';
+    this.name = 'MethodError';
   }
 }

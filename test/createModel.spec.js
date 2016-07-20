@@ -47,7 +47,20 @@ describe('createModel', function () {
       model.name = 'Some other name';
     }
 
-    expect(changeName).to.throw(/Cannot set property name/);
+    expect(model.name).to.eql('Fahad');
+  });
+
+  it('makes only attributes enumerable', function () {
+    const Model = createModel({
+      name: Types.string.isRequired,
+      language: Types.string.defaults('English')
+    });
+
+    const model = new Model({
+      name: 'Fahad'
+    });
+
+    expect(Object.keys(model)).to.eql(['name', 'language']);
   });
 
   it('creates Model class with nested types', function () {
@@ -80,13 +93,16 @@ describe('createModel', function () {
       model.address.street = 'something else';
     }
 
-    expect(changeStreet).to.throw(/Cannot set property/);
+    expect(model.address.street).to.eql('Straat');
 
     function changeAddress() {
       model.address = {};
     }
 
-    expect(changeAddress).to.throw(/Cannot set property/);
+    expect(model.address).to.eql({
+      street: 'Straat',
+      city: 'Amsterdam'
+    });
   });
 
   it('creates Model class with actions', function () {

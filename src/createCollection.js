@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import ActionError from './errors/Action';
+import MethodError from './errors/Method';
 import CollectionError from './errors/Collection';
 import isModel from './isModel';
 import BaseCollection from './base/Collection';
@@ -65,7 +65,7 @@ export default function createCollection(Model, methods = {}) {
       // methods
       _.each(methods, (methodFunc, methodName) => {
         if (typeof this[methodName] !== 'undefined') {
-          throw new ActionError('conflicting method name: ' + methodName);
+          throw new MethodError('conflicting method name: ' + methodName);
         }
 
         this[methodName] = methodFunc.bind(this);

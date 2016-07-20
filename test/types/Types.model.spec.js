@@ -8,7 +8,7 @@ describe('Types :: model', function () {
   it('accepts undefined unless required', function () {
     const type = Types.model;
 
-    expect(type()).to.eql(undefined);
+    expect(type()).to.be.an('undefined');
     expect(() => type.isRequired()).to.throw('value is not defined');
   });
 

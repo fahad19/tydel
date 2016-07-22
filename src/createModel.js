@@ -5,18 +5,21 @@ import isModel from './isModel';
 import isCollection from './isCollection';
 import MethodError from './errors/Method';
 import BaseModel from './base/Model';
+import applyEventsMixin from './mixins/events';
 
 export default function createModel(schema = {}, methods = {}) {
   class Model extends BaseModel {
     constructor(givenAttributes = {}) {
       super(givenAttributes);
-
       const self = this;
 
       let attributes = {};
 
       // others listening to this
       let listeners = {};
+
+      // apply mixins
+      applyEventsMixin(this, listeners);
 
       // built-in methods
       Object.defineProperty(this, 'toJS', {
@@ -39,58 +42,6 @@ export default function createModel(schema = {}, methods = {}) {
           }
 
           return convertToJS(attributes);
-        }
-      });
-
-      Object.defineProperty(this, 'on', {
-        value: function (event, fn) {
-          if (typeof listeners[event] === 'undefined') {
-            listeners[event] = [];
-          }
-
-          listeners[event].push(fn);
-
-          return function cancelListener() {
-            return self.off(event, fn);
-          };
-        }
-      });
-
-      Object.defineProperty(this, 'trigger', {
-        value: function (event, ...args) {
-          if (typeof listeners[event] === 'undefined') {
-            return;
-          }
-
-          return listeners[event].forEach(function (listener) {
-            listener(...args);
-          });
-        }
-      });
-
-      Object.defineProperty(this, 'off', {
-        value: function (event = null, fn = null) {
-          if (!event) {
-            listeners = {};
-
-            return;
-          }
-
-          if (!fn) {
-            listeners[event] = [];
-
-            return;
-          }
-
-          if (typeof listeners[event] === 'undefined') {
-            return;
-          }
-
-          listeners[event].forEach(function (listener, index) {
-            if (listener === fn) {
-              listeners[event].splice(index, 1);
-            }
-          });
         }
       });
 

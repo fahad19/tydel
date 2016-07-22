@@ -11,7 +11,11 @@ export default function createModel(schema = {}, methods = {}) {
     constructor(givenAttributes = {}) {
       super(givenAttributes);
 
+      const self = this;
+
       let attributes = {};
+
+      // others listening to this
       let listeners = {};
 
       // built-in methods
@@ -40,26 +44,62 @@ export default function createModel(schema = {}, methods = {}) {
 
       Object.defineProperty(this, 'on', {
         value: function (event, fn) {
-          // sets listener
+          if (typeof listeners[event] === 'undefined') {
+            listeners[event] = [];
+          }
+
+          listeners[event].push(fn);
+
+          return function cancelListener() {
+            return self.off(event, fn);
+          };
         }
       });
 
       Object.defineProperty(this, 'trigger', {
         value: function (event, ...args) {
-          // triggers event
+          if (typeof listeners[event] === 'undefined') {
+            return;
+          }
+
+          return listeners[event].forEach(function (listener) {
+            listener(...args);
+          });
         }
       });
 
       Object.defineProperty(this, 'off', {
-        value: function (event, fn = null) {
-          // unlistens
+        value: function (event = null, fn = null) {
+          if (!event) {
+            listeners = {};
+
+            return;
+          }
+
+          if (!fn) {
+            listeners[event] = [];
+
+            return;
+          }
+
+          if (typeof listeners[event] === 'undefined') {
+            return;
+          }
+
+          listeners[event].forEach(function (listener, index) {
+            if (listener === fn) {
+              listeners[event].splice(index, 1);
+            }
+          });
         }
       });
 
       Object.defineProperty(this, 'destroy', {
         value: function () {
-          // kills all listeners
-          // destroys self
+          this.trigger('destroy');
+          this.off();
+
+          // @TODO: destroys self
         }
       });
 
@@ -77,11 +117,25 @@ export default function createModel(schema = {}, methods = {}) {
           set(newValue) {
             if (schema[attributeName](newValue)) {
               attributes[attributeName] = newValue;
+
+              self.trigger('change');
             }
           },
 
           enumerable: true
         });
+
+        // watch children
+        if (isModel(value)) {
+          const watcher = value.on('change', function () {
+            self.trigger('change');
+          });
+
+          value.on('destroy', function () {
+            self.trigger('change');
+            watcher();
+          });
+        }
       });
 
       // define methods

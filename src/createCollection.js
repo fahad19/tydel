@@ -56,6 +56,10 @@ export default function createCollection(Model, methods = {}) {
 
       };
 
+      this.destroy = function () {
+
+      };
+
       this.toJS = function () {
         return models.map((model) => {
           return model.toJS();

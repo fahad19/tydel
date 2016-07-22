@@ -110,4 +110,67 @@ describe('createCollection', function () {
 
     expect(getPeople).to.throw(/conflicting method name: at/);
   });
+
+  it('listens for self changes', function () {
+    const Person = createModel({
+      name: Types.string.isRequired
+    });
+
+    const People = createCollection(Person);
+
+    const people = new People([
+      { name: 'Harry' }
+    ]);
+
+    let changeCounter = 0;
+
+    const cancelListener = people.on('change', function () {
+      changeCounter++;
+    });
+
+    people.push(new Person({ name: 'Ron' }));
+    people.push(new Person({ name: 'Hermione' }));
+
+    expect(changeCounter).to.eql(2);
+
+    cancelListener();
+
+    people.push(new Person({ name: 'Luna' }));
+    expect(changeCounter).to.eql(2);
+  });
+
+  it('listens for child-model changes', function () {
+    const Person = createModel({
+      name: Types.string.isRequired
+    }, {
+      setName(name) {
+        this.name = name;
+      }
+    });
+
+    const People = createCollection(Person);
+
+    const people = new People([
+      { name: 'Harry' },
+      { name: 'Ron' },
+      { name: 'Hermione' }
+    ]);
+
+    let changeCounter = 0;
+
+    const cancelListener = people.on('change', function () {
+      changeCounter++;
+    });
+
+    const hermione = people.at(2);
+    hermione.setName('Hermione Granger');
+    hermione.setName('Hermione Granger-Weasley');
+
+    expect(changeCounter).to.eql(2);
+
+    cancelListener();
+
+    people.push(new Person({ name: 'Luna' }));
+    expect(changeCounter).to.eql(2);
+  });
 });

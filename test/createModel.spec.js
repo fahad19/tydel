@@ -353,4 +353,79 @@ describe('createModel', function () {
     expect(about.title).to.eql('About Us');
     expect(author.posts.at(1).title).to.eql('About Us');
   });
+
+  it('listens for self assignments', function () {
+    const Person = createModel({
+      name: Types.string.isRequired
+    }, {
+      setName(name) {
+        this.name = name;
+      }
+    });
+
+    const person = new Person({
+      name: 'Fahad'
+    });
+
+    let changeCounter = 0;
+
+    const cancelListener = person.on('change', function () {
+      changeCounter++;
+    });
+
+    person.setName('Fahad changed');
+    person.setName('Fahad changed again');
+
+    expect(person.name).to.eql('Fahad changed again');
+    expect(changeCounter).to.eql(2);
+
+    cancelListener();
+
+    person.setName('Should not emit any further change');
+    expect(changeCounter).to.eql(2);
+  });
+
+  it('listens for child-model assignments', function () {
+    const Address = createModel({
+      street: Types.string.isRequired,
+      city: Types.string.isRequired
+    }, {
+      setStreet(street) {
+        this.street = street;
+      }
+    });
+
+    const Person = createModel({
+      name: Types.string.isRequired,
+      address: Types.model.of(Address)
+    }, {
+      setName(name) {
+        this.name = name;
+      }
+    });
+
+    const person = new Person({
+      name: 'Fahad',
+      address: {
+        street: 'Straat',
+        city: 'Amsterdam'
+      }
+    });
+
+    let changeCounter = 0;
+
+    const cancelListener = person.on('change', function () {
+      changeCounter++;
+    });
+
+    person.address.setStreet('New Street');
+    person.address.setStreet('New Street Again');
+    expect(person.address.street).to.eql('New Street Again');
+    expect(changeCounter).to.eql(2);
+
+    cancelListener();
+
+    person.setName('Should not emit any further change');
+    expect(changeCounter).to.eql(2);
+  });
 });

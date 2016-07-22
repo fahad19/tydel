@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/**/*.js test/**/*.js",
-    "test": "mocha './test/**/*.spec.js'",
-    "cover": "nyc --require babel-register mocha './test/**/*.spec.js'"
+    "test": "mocha",
+    "cover": "nyc --require babel-register mocha"
   },
   "author": "Fahad Ibnay Heylaal",
   "license": "MIT",

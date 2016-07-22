@@ -5,40 +5,56 @@ import isModel from './isModel';
 import isCollection from './isCollection';
 import MethodError from './errors/Method';
 import BaseModel from './base/Model';
+import applyEventsMixin from './mixins/events';
 
 export default function createModel(schema = {}, methods = {}) {
   class Model extends BaseModel {
     constructor(givenAttributes = {}) {
       super(givenAttributes);
+      const self = this;
 
       let attributes = {};
 
+      // others listening to this
+      let listeners = {};
+
+      // apply mixins
+      applyEventsMixin(this, listeners);
+
       // built-in methods
       Object.defineProperty(this, 'toJS', {
-        get() {
-          return function () {
-            function convertToJS(attrs) {
-              return _.mapValues(attrs, (v, k) => {
-                if (
-                  isModel(v) ||
-                  isCollection(v)
-                ) {
-                  return v.toJS();
-                }
+        value: function () {
+          function convertToJS(attrs) {
+            return _.mapValues(attrs, (v, k) => {
+              if (
+                isModel(v) ||
+                isCollection(v)
+              ) {
+                return v.toJS();
+              }
 
-                if (_.isPlainObject(v)) {
-                  return convertToJS(v);
-                }
+              if (_.isPlainObject(v)) {
+                return convertToJS(v);
+              }
 
-                return v;
-              });
-            }
+              return v;
+            });
+          }
 
-            return convertToJS(attributes);
-          };
+          return convertToJS(attributes);
         }
       });
 
+      Object.defineProperty(this, 'destroy', {
+        value: function () {
+          this.trigger('destroy');
+          this.off();
+
+          // @TODO: destroys self
+        }
+      });
+
+      // parse by schema
       const applySchema = Types.object.of(schema);
       attributes = applySchema(givenAttributes);
 
@@ -52,11 +68,25 @@ export default function createModel(schema = {}, methods = {}) {
           set(newValue) {
             if (schema[attributeName](newValue)) {
               attributes[attributeName] = newValue;
+
+              self.trigger('change');
             }
           },
 
           enumerable: true
         });
+
+        // watch children
+        if (isModel(value)) {
+          const watcher = value.on('change', function () {
+            self.trigger('change');
+          });
+
+          value.on('destroy', function () {
+            self.trigger('change');
+            watcher();
+          });
+        }
       });
 
       // define methods

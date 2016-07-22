@@ -1,4 +1,4 @@
-export default function events(context, listeners) {
+export default function events(context, listeners = {}) {
   Object.defineProperty(context, 'on', {
     value: function (event, fn) {
       if (typeof listeners[event] === 'undefined') {
@@ -28,7 +28,7 @@ export default function events(context, listeners) {
   Object.defineProperty(context, 'off', {
     value: function (event = null, fn = null) {
       if (!event) {
-        listeners = {};
+        listeners = {}; // eslint-disable-line
 
         return;
       }

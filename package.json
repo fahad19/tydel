@@ -1,7 +1,7 @@
 {
   "name": "tydel",
   "version": "0.0.1",
-  "description": "",
+  "description": "Typed Models and Collections",
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/**/*.js test/**/*.js",
@@ -16,6 +16,18 @@
     "docs:build": "docpress build",
     "docs:publish": "npm run docs:clean && npm run docs:build && cd _docpress && git init && git commit --allow-empty -m 'update docs' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update docs' && git push git@github.com:fahad19/tydel gh-pages --force"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fahad19/tydel.git"
+  },
+  "keywords": [
+    "data",
+    "structure",
+    "typed",
+    "model",
+    "collection"
+  ],
+  "homepage": "https://fahad19.github.io/tydel",
   "author": {
     "name": "Fahad Ibnay Heylaal",
     "url": "https://github.com/fahad19"

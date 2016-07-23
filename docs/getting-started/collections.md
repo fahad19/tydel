@@ -1,8 +1,8 @@
 # Collections
 
-Collections are arrays of Models, and to be more precise, they contain Models of a specific single class.
+Collections are **arrays** of Models, and to be more precise, they contain Models of a specific single class.
 
-For example a Todos collection consisting of only Todo models.
+For example a `Todos` collection consisting of only `Todo` models.
 
 ## Create a class
 

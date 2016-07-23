@@ -1,6 +1,6 @@
 # Models
 
-Models are objects that represent data. A model can hold data in the form of regular strings, booleans, and even embed other Models and Collections.
+Models are objects that **represent** data. A model can hold data in the form of regular strings, booleans, and even [embed](../guides/embed.md) other Models and Collections.
 
 ## Create a class
 

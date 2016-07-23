@@ -1,8 +1,8 @@
 # Types
 
-One of the main features of tydel is that it is strictly based on typed values.
+One of the main features of tydel is that it is strictly based on **typed values**.
 
-A list of type expressions are already shipped with the package and you can import them as follows:
+A list of type **expressions** are already shipped with the package and you can import them as follows:
 
 ```js
 import { Types } from 'tydel';

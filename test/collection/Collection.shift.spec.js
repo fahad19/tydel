@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import Types from '../../src/Types';
 import createModel from '../../src/createModel';
 import createCollection from '../../src/createCollection';
-import isModel from '../../src/isModel';
 
 describe('Collection :: shift()', function () {
   it('removes first model from collection and returns it', function () {

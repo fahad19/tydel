@@ -7,12 +7,19 @@
     "lint": "eslint src/**/*.js test/**/*.js",
     "test": "mocha",
     "cover": "nyc --require babel-register mocha",
+    "transpile": "babel src --out-dir lib",
+    "dist:lib": "webpack --config ./dist/webpack.config.js",
+    "dist:min": "uglifyjs dist/tydel.js --output dist/tydel.min.js",
+    "dist": "npm run dist:lib && npm run dist:min",
     "docs:clean": "rimraf _docpress",
     "docs:serve": "docpress serve",
     "docs:build": "docpress build",
     "docs:publish": "npm run docs:clean && npm run docs:build && cd _docpress && git init && git commit --allow-empty -m 'update docs' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update docs' && git push git@github.com:fahad19/tydel gh-pages --force"
   },
-  "author": "Fahad Ibnay Heylaal",
+  "author": {
+    "name": "Fahad Ibnay Heylaal",
+    "url": "https://github.com/fahad19"
+  },
   "license": "MIT",
   "devDependencies": {
     "babel": "^6.5.2",
@@ -26,7 +33,9 @@
     "eslint": "^3.0.1",
     "mocha": "^2.5.3",
     "nyc": "^7.0.0",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "uglify-js": "^2.7.0",
+    "webpack": "^1.13.1"
   },
   "dependencies": {
     "lodash": "^4.13.1"

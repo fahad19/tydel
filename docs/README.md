@@ -10,7 +10,7 @@
   * [Collections](./getting-started/collections.md)
 * Guides
   * [Watcher](./guides/watcher.md)
-  * Embedding
+  * [Embedding](./guides/embed.md)
 * Integrations
   * [React](./integrations/react.md)
 * API Reference

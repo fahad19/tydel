@@ -1,6 +1,6 @@
 # Quickstart
 
-See getting started guides to have more in-depth understanding of the concepts.
+See [getting started guides](../getting-started/types.md) to have more in-depth understanding of the concepts.
 
 This quickstart guide is only for getting you up and running with code examples very quickly.
 

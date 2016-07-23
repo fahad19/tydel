@@ -8,7 +8,7 @@
   * [Types](./getting-started/types.md)
   * [Models](./getting-started/models.md)
   * [Collections](./getting-started/collections.md)
-* Guides
+* Advanced usage
   * [Watcher](./guides/watcher.md)
   * [Embedding](./guides/embed.md)
 * Integrations

@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint src/**/*.js test/**/*.js",
     "test": "mocha",
-    "cover": "nyc --require babel-register mocha"
+    "cover": "nyc --require babel-register mocha",
+    "docs:serve": "docpress serve"
   },
   "author": "Fahad Ibnay Heylaal",
   "license": "MIT",
@@ -18,6 +19,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.9.0",
     "chai": "^3.5.0",
+    "docpress": "^0.6.12",
     "eslint": "^3.0.1",
     "mocha": "^2.5.3",
     "nyc": "^7.0.0"

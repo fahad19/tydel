@@ -1,0 +1,16 @@
+{
+  "github": "fahad19/tydel",
+  "css": [
+    "docs/assets/styles.css"
+  ],
+  "markdown": {
+    "typographer": true,
+    "plugins": {
+      "decorate": {}
+    }
+  },
+  "googleAnalytics": {
+    "id": "",
+    "domain": "fahad19.github.io"
+  }
+}

@@ -48,14 +48,18 @@ export default function createCollection(Model, methods = {}) {
           watcher();
         });
 
+        model.on('remove', function () {
+          watcher();
+        })
+
         return result;
       };
 
+      // native array methods
       [
         'every',
         'filter',
         'find',
-        'findIndex',
         'forEach',
         'includes',
         'indexOf',
@@ -68,26 +72,58 @@ export default function createCollection(Model, methods = {}) {
         };
       });
 
+      // lodash methods
+      [
+        'find',
+        'findIndex',
+      ].forEach((lodashMethod) => {
+        this[lodashMethod] = function (...args) {
+          return _[lodashMethod](models, ...args);
+        };
+      });
+
       this.pop = function () {
         const model = models.pop();
 
         this.trigger('change');
 
+        model.trigger('remove');
+
         return model;
       };
 
-      // this.shift = function () {
-      //   return models.shift();
-      // };
+      this.shift = function () {
+        const model = models.shift();
 
-      // this.unshift = function (model) {
+        this.trigger('change');
 
-      // };
+        model.trigger('remove');
 
-      this.findIndex = function (model) {
-        return _.findIndex(models, function (m) {
-          return m === model;
+        return model;
+      };
+
+      this.unshift = function (model) {
+        if (!isModel(model)) {
+          throw new CollectionError('not a valid Model instance is being pushed');
+        }
+
+        if (!(model instanceof Model)) {
+          throw new CollectionError('Model instance is not of the one Collection is expecting');
+        }
+
+        const result = models.unshift(model);
+
+        this.trigger('change');
+
+        const watcher = model.on('change', () => {
+          this.trigger('change');
         });
+
+        model.on('destroy', function () {
+          watcher();
+        });
+
+        return result;
       };
 
       this.remove = function (model) {

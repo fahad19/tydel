@@ -18,6 +18,12 @@ export default function createCollection(Model, methods = {}) {
 
       applyEventsMixin(this, listeners);
 
+      Object.defineProperty(this, 'length', {
+        get() {
+          return models.length;
+        }
+      });
+
       this.at = function (n) {
         return models[n];
       };
@@ -53,13 +59,21 @@ export default function createCollection(Model, methods = {}) {
         return models.map(fn.bind(this));
       };
 
-      this.reduce = function (fn) {
-        return models.reduce(fn.bind(this));
+      this.reduce = function (fn, ...args) {
+        return models.reduce(fn.bind(this), ...args);
       };
 
-      // this.pop = function () {
-      //   return models.pop();
-      // };
+      this.filter = function (fn) {
+        return models.filter(fn.bind(this));
+      };
+
+      this.pop = function () {
+        const model = models.pop();
+
+        this.trigger('change');
+
+        return model;
+      };
 
       // this.shift = function () {
       //   return models.shift();
@@ -69,12 +83,35 @@ export default function createCollection(Model, methods = {}) {
 
       // };
 
-      // this.remove = function (model) {
+      this.findIndex = function (model) {
+        return _.findIndex(models, function (m) {
+          return m === model;
+        });
+      };
 
-      // };
+      this.remove = function (model) {
+        const index = this.findIndex(model);
+
+        this.removeFrom(index);
+      };
+
+      this.removeFrom = function (index) {
+        const model = models[index];
+
+        models.splice(index, 1);
+
+        model.destroy();
+
+        this.trigger('change');
+      };
 
       this.destroy = function () {
+        models.forEach(function (model) {
+          model.destroy();
+        });
 
+        this.trigger('destroy');
+        this.off();
       };
 
       this.toJS = function () {

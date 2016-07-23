@@ -51,21 +51,22 @@ export default function createCollection(Model, methods = {}) {
         return result;
       };
 
-      this.forEach = function (fn) {
-        return models.forEach(fn.bind(this));
-      };
-
-      this.map = function (fn) {
-        return models.map(fn.bind(this));
-      };
-
-      this.reduce = function (fn, ...args) {
-        return models.reduce(fn.bind(this), ...args);
-      };
-
-      this.filter = function (fn) {
-        return models.filter(fn.bind(this));
-      };
+      [
+        'every',
+        'filter',
+        'find',
+        'findIndex',
+        'forEach',
+        'includes',
+        'indexOf',
+        'map',
+        'reduce',
+        'some',
+      ].forEach((readOnlyMethod) => {
+        this[readOnlyMethod] = function (fn, ...args) {
+          return models[readOnlyMethod](fn.bind(this), ...args);
+        };
+      });
 
       this.pop = function () {
         const model = models.pop();

@@ -1,5 +1,4 @@
 node_modules
 .nyc_output
 _docpress
-_book
 lib

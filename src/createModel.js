@@ -50,7 +50,11 @@ export default function createModel(schema = {}, methods = {}) {
           this.trigger('destroy');
           this.off();
 
-          // @TODO: destroys self
+          _.each(attributes, function (v, k) {
+            if (isModel(v) || isCollection(v)) {
+              v.destroy();
+            }
+          });
         }
       });
 

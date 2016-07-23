@@ -18,6 +18,12 @@ export default function createCollection(Model, methods = {}) {
 
       applyEventsMixin(this, listeners);
 
+      Object.defineProperty(this, 'length', {
+        get() {
+          return models.length;
+        }
+      });
+
       this.at = function (n) {
         return models[n];
       };
@@ -42,39 +48,115 @@ export default function createCollection(Model, methods = {}) {
           watcher();
         });
 
+        model.on('remove', function () {
+          watcher();
+        })
+
         return result;
       };
 
-      this.forEach = function (fn) {
-        return models.forEach(fn.bind(this));
+      // native array methods
+      [
+        'every',
+        'filter',
+        'find',
+        'forEach',
+        'includes',
+        'indexOf',
+        'map',
+        'reduce',
+        'some',
+      ].forEach((readOnlyMethod) => {
+        this[readOnlyMethod] = function (fn, ...args) {
+          return models[readOnlyMethod](fn.bind(this), ...args);
+        };
+      });
+
+      // lodash methods
+      [
+        'difference',
+        'find',
+        'findIndex',
+        'first',
+        'head',
+        'last',
+        'nth',
+        'tail',
+        'take',
+        'takeRight',
+      ].forEach((lodashMethod) => {
+        this[lodashMethod] = function (...args) {
+          return _[lodashMethod](models, ...args);
+        };
+      });
+
+      this.pop = function () {
+        const model = models.pop();
+
+        this.trigger('change');
+
+        model.trigger('remove');
+
+        return model;
       };
 
-      this.map = function (fn) {
-        return models.map(fn.bind(this));
+      this.shift = function () {
+        const model = models.shift();
+
+        this.trigger('change');
+
+        model.trigger('remove');
+
+        return model;
       };
 
-      this.reduce = function (fn) {
-        return models.reduce(fn.bind(this));
+      this.unshift = function (model) {
+        if (!isModel(model)) {
+          throw new CollectionError('not a valid Model instance is being pushed');
+        }
+
+        if (!(model instanceof Model)) {
+          throw new CollectionError('Model instance is not of the one Collection is expecting');
+        }
+
+        const result = models.unshift(model);
+
+        this.trigger('change');
+
+        const watcher = model.on('change', () => {
+          this.trigger('change');
+        });
+
+        model.on('destroy', function () {
+          watcher();
+        });
+
+        return result;
       };
 
-      // this.pop = function () {
-      //   return models.pop();
-      // };
+      this.remove = function (model) {
+        const index = this.findIndex(model);
 
-      // this.shift = function () {
-      //   return models.shift();
-      // };
+        this.removeFrom(index);
+      };
 
-      // this.unshift = function (model) {
+      this.removeFrom = function (index) {
+        const model = models[index];
 
-      // };
+        models.splice(index, 1);
 
-      // this.remove = function (model) {
+        model.destroy();
 
-      // };
+        this.trigger('change');
+      };
 
       this.destroy = function () {
+        models.forEach(function (model) {
+          model.destroy();
+        });
 
+        this.trigger('destroy');
+        this.off();
       };
 
       this.toJS = function () {

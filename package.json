@@ -6,7 +6,11 @@
   "scripts": {
     "lint": "eslint src/**/*.js test/**/*.js",
     "test": "mocha",
-    "cover": "nyc --require babel-register mocha"
+    "cover": "nyc --require babel-register mocha",
+    "docs:clean": "rimraf _docpress",
+    "docs:serve": "docpress serve",
+    "docs:build": "docpress build",
+    "docs:publish": "npm run docs:clean && npm run docs:build && cd _docpress && git init && git commit --allow-empty -m 'update docs' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update docs' && git push git@github.com:fahad19/tydel gh-pages --force"
   },
   "author": "Fahad Ibnay Heylaal",
   "license": "MIT",
@@ -18,9 +22,11 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.9.0",
     "chai": "^3.5.0",
+    "docpress": "^0.6.12",
     "eslint": "^3.0.1",
     "mocha": "^2.5.3",
-    "nyc": "^7.0.0"
+    "nyc": "^7.0.0",
+    "rimraf": "^2.5.4"
   },
   "dependencies": {
     "lodash": "^4.13.1"

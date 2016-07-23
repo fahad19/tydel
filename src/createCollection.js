@@ -75,13 +75,10 @@ export default function createCollection(Model, methods = {}) {
       // lodash methods
       [
         'difference',
-        'find',
         'findIndex',
         'first',
-        'head',
         'last',
         'nth',
-        'tail',
         'take',
         'takeRight',
       ].forEach((lodashMethod) => {

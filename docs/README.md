@@ -14,18 +14,19 @@
 * Integrations
   * [React](./integrations/react.md)
 * API Reference
+  * Types
   * [Types](./api/Types.md)
   * [ChainableTypes](./api/ChainableTypes.md)
   * [chainType](./api/chainType.md)
-  * ·
+  * Models
   * [createModel](./api/createModel.md)
   * [Model](./api/Model.md)
   * [isModel](./api/isModel.md)
-  * ·
+  * Collections
   * [createCollection](./api/createCollection.md)
   * [Collection](./api/Collection.md)
   * [isCollection](./api/isCollection.md)
-  * ·
+  * Errors
   * [TypeError](./api/TypeError.md)
   * [CollectionError](./api/CollectionError.md)
   * [MethodError](./api/MethodError.md)

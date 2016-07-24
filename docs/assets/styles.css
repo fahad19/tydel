@@ -352,3 +352,10 @@ table.no-head thead {
 .toc-menu::before {
   content: '';
 }
+
+.toc-menu .submenu .submenu .menu-item span.title {
+  text-transform: uppercase;
+  color: #aaa;
+  margin-top: 15px;
+  font-weight: 600;
+}

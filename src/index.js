@@ -1,11 +1,11 @@
 /* eslint-disable */
-const ChainableTypes = require('./ChainableTypes').default;
+const ChainableTypes = require('./ChainableTypes');
 const chainType = require('./chainType').default;
 const createCollection = require('./createCollection').default;
 const createModel = require('./createModel').default;
 const isCollection = require('./isCollection').default;
 const isModel = require('./isModel').default;
-const Types = rquire('./Types').default;
+const Types = require('./Types').default;
 const TypeError = require('./errors/Type').default;
 const MethodError = require('./errors/Method').default;
 const CollectionError = require('./errors/Collection').default;

@@ -1,0 +1,14 @@
+language: node_js
+
+node_js:
+  - 'stable'
+
+script:
+  - 'npm run lint'
+  - 'npm run cover'
+  - 'npm run transpile'
+  - 'npm run dist'
+  - 'npm run docs:build'
+
+notifications:
+  email: false

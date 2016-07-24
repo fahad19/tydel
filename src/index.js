@@ -6,9 +6,9 @@ const createModel = require('./createModel').default;
 const isCollection = require('./isCollection').default;
 const isModel = require('./isModel').default;
 const Types = rquire('./Types').default;
-const TypeError = require('./errors/TypeError').default;
-const MethodError = require('./errors/MethodError').default;
-const CollectionError = require('./errors/CollectionError').default;
+const TypeError = require('./errors/Type').default;
+const MethodError = require('./errors/Method').default;
+const CollectionError = require('./errors/Collection').default;
 
 module.exports = {
   ChainableTypes,

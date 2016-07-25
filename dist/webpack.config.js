@@ -4,7 +4,7 @@ module.exports = {
     path: __dirname,
     filename: 'tydel.js',
     libraryTarget: 'this',
-    library: 'tydel'
+    library: 'Tydel'
   },
   externals: {
     lodash: '_'

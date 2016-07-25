@@ -42,4 +42,4 @@ Now in your HTML file:
 </html>
 ```
 
-The library would be available in `window.tydel`.
+The library would be available in `window.Tydel`.

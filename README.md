@@ -25,6 +25,14 @@ There is a [quickstart](./docs/intro/quickstart.md) guide which would get you up
 
 [Install](./docs/intro/installation.md) it, and enjoy!
 
+## Thanks
+
+These beautifully made open source projects have directly or indirectly played an influential role for Tydel, and a huge amount of thanks go to their authors and contributors:
+
+* [Backbone.js](http://backbonejs.org/)
+* [Redux](https://redux.js.org/)
+* [MobX](https://mobxjs.github.io/mobx/)
+
 ## License
 
 MIT © [Fahad Ibnay Heylaal](http://fahad19.com)

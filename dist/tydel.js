@@ -901,10 +901,13 @@ this["Tydel"] =
 	            return attributes[attributeName];
 	          },
 	          set: function set(newValue) {
-	            if (schema[attributeName](newValue)) {
+	            try {
+	              schema[attributeName](newValue);
 	              attributes[attributeName] = newValue;
 
 	              self.trigger('change');
+	            } catch (typeError) {
+	              throw typeError;
 	            }
 	          },
 

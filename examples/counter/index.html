@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tydel Counter Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.0/lodash.min.js"></script>
+    <script src="https://npmcdn.com/tydel@latest/dist/tydel.min.js"></script>
+  </head>
+
+  <body>
+    <div>
+      <p>
+        Counter value: <span id="value">n/a</span>
+
+        <button id="increment">+</button>
+        <button id="decrement">-</button>
+      </p>
+    </div>
+
+    <script>
+      const Counter = Tydel.createModel({
+        value: Tydel.Types.number.isRequired
+      }, {
+        increment: function () {
+          this.value++;
+        },
+        decrement: function () {
+          this.value--;
+        }
+      });
+
+      var counter = new Counter({ value: 0 });
+      var valueEl = document.getElementById('value');
+
+      function render() {
+        valueEl.innerHTML = counter.value.toString();
+      }
+
+      render();
+      counter.on('change', render);
+
+      document
+        .getElementById('increment')
+        .addEventListener('click', function () {
+          counter.increment();
+        });
+
+      document
+        .getElementById('decrement')
+        .addEventListener('click', function () {
+          counter.decrement();
+        });
+    </script>
+  </body>
+</html>

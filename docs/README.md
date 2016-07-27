@@ -13,6 +13,8 @@
   * [Embedding](./guides/embed.md)
 * Integrations
   * [React](./integrations/react.md)
+* [Examples](./examples/README.md)
+  * [Basic counter](./examples/counter/README.md)
 * API Reference
   * Types
   * [Types](./api/Types.md)

@@ -25,6 +25,10 @@ There is a [quickstart](./docs/intro/quickstart.md) guide which would get you up
 
 [Install](./docs/intro/installation.md) it, and enjoy!
 
+## Integrations
+
+* [tydel-react](https://github.com/fahad19/tydel-react): React.js bindings
+
 ## Thanks
 
 These beautifully made open source projects have directly or indirectly played an influential role for Tydel, and a huge amount of thanks go to their authors and contributors:

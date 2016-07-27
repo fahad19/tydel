@@ -310,6 +310,30 @@ describe('createModel', function () {
     expect(ron.name).to.eql('Ron');
   });
 
+  it('sets falsy values', function () {
+    const Counter = createModel({
+      value: Types.number.isRequired
+    }, {
+      increment() {
+        this.value++;
+      },
+      decrement() {
+        this.value--;
+      }
+    });
+
+    const counter = new Counter({ value: 0 });
+
+    counter.increment();
+    counter.increment();
+
+    counter.decrement();
+    counter.decrement();
+    counter.decrement();
+
+    expect(counter.value).to.eql(-1);
+  });
+
   it('embeds collections', function () {
     const Post = createModel({
       title: Types.string.isRequired

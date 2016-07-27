@@ -70,10 +70,13 @@ export default function createModel(schema = {}, methods = {}) {
           },
 
           set(newValue) {
-            if (schema[attributeName](newValue)) {
+            try {
+              schema[attributeName](newValue);
               attributes[attributeName] = newValue;
 
               self.trigger('change');
+            } catch (typeError) {
+              throw typeError;
             }
           },
 

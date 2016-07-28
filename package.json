@@ -14,7 +14,7 @@
     "docs:clean": "rimraf _docpress",
     "docs:serve": "docpress serve",
     "docs:build": "docpress build",
-    "docs:publish": "npm run docs:clean && npm run docs:build && cd _docpress && git init && git commit --allow-empty -m 'update docs' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update docs' && git push git@github.com:fahad19/tydel gh-pages --force"
+    "docs:publish": "npm run docs:clean && npm run docs:build && cp CNAME ./_docpress/CNAME && cd _docpress && git init && git commit --allow-empty -m 'update docs' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update docs' && git push git@github.com:fahad19/tydel gh-pages --force"
   },
   "repository": {
     "type": "git",

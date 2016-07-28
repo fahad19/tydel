@@ -15,6 +15,7 @@
   * [React](./integrations/react.md)
 * [Examples](./examples/README.md)
   * [Basic counter](./examples/counter/README.md)
+  * [React counter](./examples/react-counter/README.md)
 * API Reference
   * Types
   * [Types](./api/Types.md)

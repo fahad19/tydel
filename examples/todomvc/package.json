@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "Tydel TodoMVC Example",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,7 @@
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "todomvc-app-css": "^2.0.6",
-    "tydel": "^0.5.5",
+    "tydel": "^0.5.6",
     "tydel-react": "^0.1.1"
   },
   "devDependencies": {

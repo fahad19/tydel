@@ -916,7 +916,7 @@ this["Tydel"] =
 	        });
 
 	        // watch children
-	        if ((0, _isModel2.default)(value)) {
+	        if ((0, _isModel2.default)(value) || (0, _isCollection2.default)(value)) {
 	          (function () {
 	            var watcher = value.on('change', function () {
 	              self.trigger('change');

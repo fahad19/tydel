@@ -16,6 +16,7 @@
 * [Examples](./examples/README.md)
   * [Basic counter](./examples/counter/README.md)
   * [React counter](./examples/react-counter/README.md)
+  * [TodoMVC](./examples/todomvc/README.md)
 * API Reference
   * Types
   * [Types](./api/Types.md)

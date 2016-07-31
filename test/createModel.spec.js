@@ -452,4 +452,44 @@ describe('createModel', function () {
     person.setName('Should not emit any further change');
     expect(changeCounter).to.eql(2);
   });
+
+  it('listens for child-collection changes', function () {
+    const Book = createModel({
+      title: Types.string.isRequired
+    }, {
+      setTitle(title) {
+        this.title = title;
+      }
+    });
+
+    const Books = createCollection(Book, {
+      addBook(title) {
+        this.push(new Book({
+          title
+        }));
+      }
+    });
+
+    const Author = createModel({
+      name: Types.string.isRequired,
+      books: Types.collection.of(Books)
+    });
+
+    const author = new Author({
+      name: 'Fahad',
+      books: []
+    });
+
+    let changeCounter = 0;
+
+    const cancelListener = author.on('change', function () {
+      changeCounter++;
+    });
+
+    author.books.addBook('My New Book');
+    expect(changeCounter).to.eql(1);
+
+    author.books.push(new Book({ title: 'Another Book' }));
+    expect(changeCounter).to.eql(2);
+  });
 });

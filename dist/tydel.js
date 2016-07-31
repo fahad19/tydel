@@ -369,10 +369,12 @@ this["Tydel"] =
 	        });
 
 	        model.on('destroy', function () {
+	          _this2.trigger('change');
 	          watcher();
 	        });
 
 	        model.on('remove', function () {
+	          _this2.trigger('change');
 	          watcher();
 	        });
 
@@ -441,6 +443,7 @@ this["Tydel"] =
 	        });
 
 	        model.on('destroy', function () {
+	          _this3.trigger('change');
 	          watcher();
 	        });
 

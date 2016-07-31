@@ -173,4 +173,35 @@ describe('createCollection', function () {
     people.push(new Person({ name: 'Luna' }));
     expect(changeCounter).to.eql(2);
   });
+
+  it('listens for child-model destroys', function () {
+    const Person = createModel({
+      name: Types.string.isRequired
+    }, {
+      setName(name) {
+        this.name = name;
+      }
+    });
+
+    const People = createCollection(Person);
+
+    const people = new People([
+      { name: 'Harry' },
+      { name: 'Ron' },
+      { name: 'Hermione' }
+    ]);
+
+    let changeCounter = 0;
+
+    const cancelListener = people.on('change', function () {
+      changeCounter++;
+    });
+
+    const hermione = people.at(2);
+    hermione.destroy();
+
+    expect(changeCounter).to.eql(1);
+
+    cancelListener();
+  });
 });

@@ -44,11 +44,13 @@ export default function createCollection(Model, methods = {}) {
           this.trigger('change');
         });
 
-        model.on('destroy', function () {
+        model.on('destroy', () => {
+          this.trigger('change');
           watcher();
         });
 
-        model.on('remove', function () {
+        model.on('remove', () => {
+          this.trigger('change');
           watcher();
         });
 
@@ -124,7 +126,8 @@ export default function createCollection(Model, methods = {}) {
           this.trigger('change');
         });
 
-        model.on('destroy', function () {
+        model.on('destroy', () => {
+          this.trigger('change');
           watcher();
         });
 

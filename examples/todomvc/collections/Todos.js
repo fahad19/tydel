@@ -3,12 +3,8 @@ import { createCollection } from 'tydel';
 
 import Todo from '../models/Todo';
 
-window.Todo = Todo;
-
 export default createCollection(Todo, {
   addTodo(text) {
-    console.log('Todos.addTodo', text);
-
     const todo = new Todo({
       id: Number(_.uniqueId()),
       text,

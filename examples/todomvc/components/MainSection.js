@@ -3,9 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import TodoItem from './TodoItem';
 import Footer from './Footer';
 
-const SHOW_ALL = 'SHOW_ALL';
-const SHOW_COMPLETED = 'SHOW_COMPLETED';
-const SHOW_ACTIVE = 'SHOW_ACTIVE';
+import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants';
 
 const TODO_FILTERS = {
   [SHOW_ALL]: () => true,
@@ -74,6 +72,7 @@ export default class MainSection extends Component {
     const { filter } = this.state;
 
     const filteredTodos = todos.filter(TODO_FILTERS[filter]);
+
     const completedCount = todos.reduce((count, todo) =>
       todo.completed ? count + 1 : count,
       0

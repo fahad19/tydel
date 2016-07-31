@@ -12,6 +12,11 @@ module.exports = {
     publicPath: '/build/'
   },
   plugins: [],
+  resolve: {
+    alias: {
+      tydel: __dirname + '/../../index.js'
+    }
+  },
   module: {
     loaders: [
       {

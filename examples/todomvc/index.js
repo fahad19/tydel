@@ -12,6 +12,8 @@ const appState = new AppState({
   todos: []
 });
 
+window.appState = appState;
+
 render(
   <Provider model={appState}>
     <App />

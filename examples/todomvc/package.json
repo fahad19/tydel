@@ -21,7 +21,7 @@
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "todomvc-app-css": "^2.0.6",
-    "tydel": "^0.5.3",
+    "tydel": "^0.5.4",
     "tydel-react": "^0.1.1"
   },
   "devDependencies": {

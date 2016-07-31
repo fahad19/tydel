@@ -45,7 +45,7 @@ export default function createCollection(Model, methods = {}) {
         });
 
         model.on('destroy', () => {
-          this.trigger('change');
+          this.remove(model);
           watcher();
         });
 
@@ -127,6 +127,7 @@ export default function createCollection(Model, methods = {}) {
         });
 
         model.on('destroy', () => {
+          this.remove(model);
           this.trigger('change');
           watcher();
         });
@@ -143,10 +144,12 @@ export default function createCollection(Model, methods = {}) {
       this.removeFrom = function (index) {
         const model = models[index];
 
+        if (!model) {
+          return;
+        }
+
         models.splice(index, 1);
-
         model.destroy();
-
         this.trigger('change');
       };
 

@@ -201,6 +201,9 @@ describe('createCollection', function () {
     hermione.destroy();
 
     expect(changeCounter).to.eql(1);
+    expect(people.length).to.eql(2);
+    expect(people.at(0).name).to.eql('Harry');
+    expect(people.at(1).name).to.eql('Ron');
 
     cancelListener();
   });

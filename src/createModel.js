@@ -84,7 +84,7 @@ export default function createModel(schema = {}, methods = {}) {
         });
 
         // watch children
-        if (isModel(value)) {
+        if (isModel(value) || isCollection(value)) {
           const watcher = value.on('change', function () {
             self.trigger('change');
           });

@@ -50,7 +50,7 @@ export default function createCollection(Model, methods = {}) {
 
         model.on('remove', function () {
           watcher();
-        })
+        });
 
         return result;
       };

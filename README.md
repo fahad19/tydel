@@ -3,7 +3,7 @@
 
 > Typed models and collections
 
-[![Build Status](https://img.shields.io/travis/fahad19/tydel/master.svg)](http://travis-ci.org/fahad19/tydel) [![npm](https://img.shields.io/npm/v/tydel.svg)](https://www.npmjs.com/package/tydel)
+[![Build Status](https://img.shields.io/travis/fahad19/tydel/master.svg)](http://travis-ci.org/fahad19/tydel) [![npm](https://img.shields.io/npm/v/tydel.svg)](https://www.npmjs.com/package/tydel) [![star](https://img.shields.io/github/stars/fahad19/tydel.svg?style=social&label=Star)](https://github.com/fahad19/tydel)
 
 For documentation, visit [http://tydel.js.org](http://tydel.js.org).
 

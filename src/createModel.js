@@ -60,6 +60,36 @@ export default function createModel(schema = {}, methods = {}) {
         }
       });
 
+      Object.defineProperty(this, 'getIn', {
+        value: function (paths) {
+          if (!_.isArray(paths)) {
+            throw new MethodError('`path` array is not provided');
+          }
+
+          const reducedPaths = [];
+          return paths.reduce((result, path) => {
+            reducedPaths.push(path);
+
+            if (!isNaN(path)) {
+              // collection
+              if (!isCollection(result)) {
+                const collectionPath = _.take(reducedPaths, reducedPaths.length - 1);
+                throw new MethodError(`Path ${JSON.stringify(collectionPath)} is not inside a collection`);
+              }
+
+              return result.at(path);
+            }
+
+            // model
+            if (!path in result) {
+              throw new MethodError(`Path ${JSON.stringify(reducedPaths)} does not exist`)
+            }
+
+            return result[path];
+          }, this);
+        }
+      })
+
       // parse by schema
       const applySchema = Types.object.of(schema);
       attributes = applySchema(givenAttributes);

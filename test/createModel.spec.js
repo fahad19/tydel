@@ -543,6 +543,7 @@ describe('createModel', function () {
       expect(isEvent(event)).to.eql(true);
       expect(event.path).to.eql(['address', 'street']);
       expect(person.address.street).to.eql('4 Privet Drive');
+      expect(person.getIn(event.path)).to.eql('4 Privet Drive');
 
       done();
     });
@@ -580,6 +581,7 @@ describe('createModel', function () {
       expect(isEvent(event)).to.eql(true);
       expect(event.path).to.eql(['books', 0, 'title']);
       expect(author.books.at(0).title).to.eql('The Life and Lies of Albus Dumbledore');
+      expect(author.getIn(event.path)).to.eql('The Life and Lies of Albus Dumbledore');
 
       watcher();
     });
@@ -591,6 +593,7 @@ describe('createModel', function () {
       expect(isEvent(event)).to.eql(true);
       expect(event.path).to.eql(['books', 1]);
       expect(author.books.at(1).title).to.eql(`Dumbledore's Army`);
+      expect(author.getIn(event.path)).to.eql(author.books.at(1));
 
       watcher();
       done();

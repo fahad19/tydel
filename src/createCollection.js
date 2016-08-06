@@ -4,6 +4,8 @@ import MethodError from './errors/Method';
 import CollectionError from './errors/Collection';
 import isModel from './isModel';
 import BaseCollection from './base/Collection';
+import Event from './base/Event';
+import isEvent from './isEvent';
 import applyEventsMixin from './mixins/events';
 
 export default function createCollection(Model, methods = {}) {
@@ -38,10 +40,19 @@ export default function createCollection(Model, methods = {}) {
         }
 
         const result = models.push(model);
-        this.trigger('change');
+        const index = result - 1;
+        this.trigger('change', new Event({
+          path: [index]
+        }));
 
-        const watcher = model.on('change', () => {
-          this.trigger('change');
+        const watcher = model.on('change', (event) => {
+          const i = this.findIndex(model);
+
+          this.trigger('change', new Event({
+            path: isEvent(event)
+              ? [i].concat(event.path)
+              : [i]
+          }));
         });
 
         model.on('destroy', () => {
@@ -120,10 +131,18 @@ export default function createCollection(Model, methods = {}) {
 
         const result = models.unshift(model);
 
-        this.trigger('change');
+        this.trigger('change', new Event({
+          path: [0]
+        }));
 
-        const watcher = model.on('change', () => {
-          this.trigger('change');
+        const watcher = model.on('change', (event) => {
+          const index = this.findIndex(model);
+
+          this.trigger('change', new Event({
+            path: isEvent(event)
+              ? [index].concat(event.path)
+              : [index]
+          }));
         });
 
         model.on('destroy', () => {

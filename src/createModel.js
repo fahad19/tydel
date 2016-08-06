@@ -5,6 +5,8 @@ import isModel from './isModel';
 import isCollection from './isCollection';
 import MethodError from './errors/Method';
 import BaseModel from './base/Model';
+import Event from './base/Event';
+import isEvent from './isEvent';
 import applyEventsMixin from './mixins/events';
 
 export default function createModel(schema = {}, methods = {}) {
@@ -74,7 +76,9 @@ export default function createModel(schema = {}, methods = {}) {
               schema[attributeName](newValue);
               attributes[attributeName] = newValue;
 
-              self.trigger('change');
+              self.trigger('change', new Event({
+                path: [attributeName]
+              }));
             } catch (typeError) {
               throw typeError;
             }
@@ -85,12 +89,19 @@ export default function createModel(schema = {}, methods = {}) {
 
         // watch children
         if (isModel(value) || isCollection(value)) {
-          const watcher = value.on('change', function () {
-            self.trigger('change');
+          const watcher = value.on('change', function (event) {
+            self.trigger('change', new Event({
+              path: isEvent(event)
+                ? [attributeName].concat(event.path)
+                : [attributeName]
+            }));
           });
 
           value.on('destroy', function () {
-            self.trigger('change');
+            self.trigger('change', new Event({
+              path: [attributeName]
+            }));
+
             watcher();
           });
         }

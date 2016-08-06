@@ -1,5 +1,4 @@
-/* eslint-disable */
-import ChainableTypes from './ChainableTypes;
+import ChainableTypes from './ChainableTypes';
 import chainType from './chainType';
 import createCollection from './createCollection';
 import createModel from './createModel';
@@ -22,7 +21,7 @@ module.exports = {
   // Collection
   createCollection,
   isCollection,
-  CollectionError
+  CollectionError,
 
   // Model
   createModel,

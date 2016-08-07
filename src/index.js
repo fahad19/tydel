@@ -1,4 +1,4 @@
-import ChainableTypes from './ChainableTypes';
+import * as ChainableTypes from './ChainableTypes';
 import chainType from './chainType';
 import createCollection from './createCollection';
 import createModel from './createModel';

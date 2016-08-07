@@ -38,3 +38,5 @@
   * [TypeError](./api/TypeError.md)
   * [CollectionError](./api/CollectionError.md)
   * [MethodError](./api/MethodError.md)
+* Project
+  * [Changelog](./changelog.md)

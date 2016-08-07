@@ -51,7 +51,9 @@ export default function createModel(schema = {}, methods = {}) {
 
       Object.defineProperty(this, 'destroy', {
         value: function () {
+          this.trigger('method:call', new Event({ path: ['destroy'] }));
           this.trigger('destroy');
+          this.trigger('method:change', new Event({ path: ['destroy'] }));
           this.off();
 
           _.each(attributes, function (v, k) {

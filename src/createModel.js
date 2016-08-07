@@ -11,7 +11,7 @@ import applyEventsMixin from './mixins/events';
 import bubbleUpEvent from './utils/bubbleUpEvent';
 import wrapCustomMethod from './utils/wrapCustomMethod';
 
-export default function createModel(schema = {}, methods = {}) {
+export default function createModel(schema = {}, methods = {}, initializers = []) {
   class Model extends BaseModel {
     constructor(givenAttributes = {}) {
       super(givenAttributes);
@@ -149,6 +149,11 @@ export default function createModel(schema = {}, methods = {}) {
         }
 
         this[methodName] = wrapCustomMethod(this, methodName, func);
+      });
+
+      // initializers
+      initializers.forEach((initializer) => {
+        initializer(this);
       });
     }
   }

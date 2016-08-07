@@ -1,6 +1,6 @@
 # createCollection
 
-> createCollection(Model, methods)
+> createCollection(Model, methods = {}, initializers = [])
 
 Returns a [Collection](./Collection.md) class based on the Model class and methods that are provided.
 
@@ -14,7 +14,7 @@ import { createCollection } from 'tydel';
 
 The Model class that you want this Collection to be of.
 
-### Methods
+### methods
 
 Methods are passed in a plain object keyed by their names, and values being the functions that you want exposed from the Collection instance:
 
@@ -38,4 +38,16 @@ Now from your instances you can access the method as:
 const books = new Books();
 
 books.myCustomMethod();
+```
+
+### initializers
+
+Array of functions, accepting the collection instance as argument, fired when class is intantiated:
+
+```js
+const Books = createCollection(Book, {}, [
+  function myInitializer(collection) {
+    // collection is `Books` instance
+  }
+]);
 ```

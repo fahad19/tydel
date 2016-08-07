@@ -67,3 +67,21 @@ todo.setTitle('Changing the title');
 
 console.log(todo.title); // `Changing the title`
 ```
+
+## Initializers
+
+`createModel()` accepts a third argument, where you can pass an array of functions accepting the model instance, allowing you to perform some actions when the model class is first instantiated.
+
+```js
+const Todo = createModel({
+  title: Types.string
+}, {
+  setTitle(title) {
+    this.title = title;
+  }
+}, [
+  function myInitializer(model) {
+    // model is the `Todo` instance here
+  }
+]);
+```

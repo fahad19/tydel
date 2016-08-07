@@ -9,8 +9,9 @@
   * [Models](./getting-started/models.md)
   * [Collections](./getting-started/collections.md)
 * Advanced usage
-  * [Watcher](./guides/watcher.md)
   * [Embedding](./guides/embed.md)
+  * [Events](./guides/events.md)
+  * [Watcher](./guides/watcher.md)
 * Integrations
   * [React](./integrations/react.md)
 * [Examples](./examples/README.md)
@@ -30,6 +31,9 @@
   * [createCollection](./api/createCollection.md)
   * [Collection](./api/Collection.md)
   * [isCollection](./api/isCollection.md)
+  * Events
+  * [Event](./api/Event.md)
+  * [isEvent](./api/isEvent.md)
   * Errors
   * [TypeError](./api/TypeError.md)
   * [CollectionError](./api/CollectionError.md)

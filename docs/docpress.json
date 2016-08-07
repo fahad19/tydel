@@ -1,7 +1,8 @@
 {
   "github": "fahad19/tydel",
   "css": [
-    "docs/assets/styles.css"
+    "docs/assets/styles.css",
+    "docs/assets/custom.css"
   ],
   "markdown": {
     "typographer": true,

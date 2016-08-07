@@ -7,6 +7,7 @@ import MethodError from './errors/Method';
 import BaseModel from './base/Model';
 import Event from './base/Event';
 import isEvent from './isEvent';
+import isPromise from './utils/isPromise';
 import applyEventsMixin from './mixins/events';
 
 export default function createModel(schema = {}, methods = {}) {
@@ -118,21 +119,29 @@ export default function createModel(schema = {}, methods = {}) {
         });
 
         // watch children
-        if (isModel(value) || isCollection(value)) {
-          const watcher = value.on('change', function (event) {
-            self.trigger('change', new Event({
+        function bubbleUpEvent(mc, eventName) {
+          return mc.on(eventName, function (event) {
+            self.trigger(eventName, new Event({
               path: isEvent(event)
                 ? [attributeName].concat(event.path)
                 : [attributeName]
             }));
           });
+        }
+
+        if (isModel(value) || isCollection(value)) {
+          const changeWatcher = bubbleUpEvent(value, 'change');
+          const methodCallWatcher = bubbleUpEvent(value, 'method:call');
+          const methodChangeWatcher = bubbleUpEvent(value, 'method:change');
 
           value.on('destroy', function () {
             self.trigger('change', new Event({
               path: [attributeName]
             }));
 
-            watcher();
+            changeWatcher();
+            methodCallWatcher();
+            methodChangeWatcher();
           });
         }
       });
@@ -146,7 +155,44 @@ export default function createModel(schema = {}, methods = {}) {
           throw new MethodError('conflicting method name: ' + methodName);
         }
 
-        this[methodName] = func.bind(this);
+        this[methodName] = (...args) => {
+          this.trigger('method:call', new Event({
+            path: [methodName]
+          }));
+
+          let changed = false;
+          const watcher = this.on('change', function () {
+            changed = true;
+          });
+
+          const result = func.bind(this)(...args);
+
+          // sync
+          if (!isPromise(result)) {
+            watcher();
+
+            if (changed) {
+              this.trigger('method:change', new Event({
+                path: [methodName]
+              }));
+            }
+
+            return result;
+          }
+
+          // async
+          return result.then((promiseResult) => {
+            watcher();
+
+            if (changed) {
+              this.trigger('method', new Event({
+                path: [methodName]
+              }));
+            }
+
+            return promiseResult;
+          });
+        };
       });
     }
   }

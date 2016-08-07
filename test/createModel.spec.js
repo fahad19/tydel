@@ -494,7 +494,7 @@ describe('createModel', function () {
     expect(changeCounter).to.eql(2);
   });
 
-  it('emits event with Event object for self', function (done) {
+  it('emits `change` event with Event object for self', function (done) {
     const Book = createModel({
       title: Types.string.isRequired
     }, {
@@ -516,7 +516,7 @@ describe('createModel', function () {
     book.setTitle('Harry Potter and The Prisoner of Azkaban');
   });
 
-  it('emits event with Event object for child-model', function (done) {
+  it('emits `change` event with Event object for child-model', function (done) {
     const Address = createModel({
       street: Types.string,
       city: Types.string
@@ -551,7 +551,7 @@ describe('createModel', function () {
     person.address.setStreet('4 Privet Drive');
   });
 
-  it('emits event with Event object for child-collection', function (done) {
+  it('emits `change` event with Event object for child-collection', function (done) {
     const Book = createModel({
       title: Types.string.isRequired
     }, {
@@ -602,5 +602,58 @@ describe('createModel', function () {
     author.books.push(new Book({
       title: `Dumbledore's Army`
     }));
+  });
+
+  it('emits `method:change` event for self', function () {
+    const Book = createModel({
+      title: Types.string.isRequired,
+      description: Types.string.isRequired
+    }, {
+      getTitle() {
+        return this.title;
+      },
+      setTitle(title) {
+        this.title = title;
+      },
+      getDescription() {
+        return this.description;
+      },
+      setDescription(description) {
+        this.description = description;
+      },
+      setTitleAndDescription(title, description) {
+        this.title = title;
+        this.description = description;
+      }
+    });
+
+    const book = new Book({
+      title: 'Book Title',
+      description: 'hello...'
+    });
+
+    let count = 0;
+    const watcher = book.on('method:change', function () {
+      count++;
+    });
+
+    book.getTitle();
+    book.getTitle();
+    expect(count).to.eql(0);
+
+    book.setTitle('Book Title [updated]'); // +1
+    expect(count).to.eql(1);
+
+    book.getDescription();
+    book.getDescription();
+    expect(count).to.eql(1);
+
+    book.setDescription('blah...'); // +1
+    expect(count).to.eql(2);
+
+    book.setTitleAndDescription('Title here', 'description here'); // +1
+    expect(count).to.eql(3);
+
+    watcher();
   });
 });

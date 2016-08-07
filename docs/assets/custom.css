@@ -1,0 +1,18 @@
+/**
+ * Custom
+ */
+.toc-menu::before {
+  content: '';
+}
+
+.toc-menu .submenu .submenu .menu-item span.title {
+  text-transform: uppercase;
+  color: #aaa;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+code:not([class^="lang"]) {
+  background: rgba(0,0,0,0.04) !important;
+  border: 1px solid #eee;
+}

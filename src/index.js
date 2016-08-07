@@ -1,24 +1,35 @@
-/* eslint-disable */
-const ChainableTypes = require('./ChainableTypes');
-const chainType = require('./chainType').default;
-const createCollection = require('./createCollection').default;
-const createModel = require('./createModel').default;
-const isCollection = require('./isCollection').default;
-const isModel = require('./isModel').default;
-const Types = require('./Types').default;
-const TypeError = require('./errors/Type').default;
-const MethodError = require('./errors/Method').default;
-const CollectionError = require('./errors/Collection').default;
+import ChainableTypes from './ChainableTypes';
+import chainType from './chainType';
+import createCollection from './createCollection';
+import createModel from './createModel';
+import isCollection from './isCollection';
+import isModel from './isModel';
+import isEvent from './isEvent';
+import Event from './base/Event';
+import Types from './Types';
+import TypeError from './errors/Type';
+import MethodError from './errors/Method';
+import CollectionError from './errors/Collection';
 
 module.exports = {
+  // Type
   ChainableTypes,
   chainType,
-  createCollection,
-  createModel,
-  isCollection,
-  isModel,
   Types,
   TypeError,
+
+  // Collection
+  createCollection,
+  isCollection,
+  CollectionError,
+
+  // Model
+  createModel,
+  isModel,
+
+  // Event
+  Event,
+  isEvent,
+
   MethodError,
-  CollectionError
 };

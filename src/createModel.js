@@ -5,7 +5,11 @@ import isModel from './isModel';
 import isCollection from './isCollection';
 import MethodError from './errors/Method';
 import BaseModel from './base/Model';
+import Event from './base/Event';
+import isEvent from './isEvent';
 import applyEventsMixin from './mixins/events';
+import bubbleUpEvent from './utils/bubbleUpEvent';
+import wrapCustomMethod from './utils/wrapCustomMethod';
 
 export default function createModel(schema = {}, methods = {}) {
   class Model extends BaseModel {
@@ -47,7 +51,9 @@ export default function createModel(schema = {}, methods = {}) {
 
       Object.defineProperty(this, 'destroy', {
         value: function () {
+          this.trigger('method:call', new Event({ path: ['destroy'] }));
           this.trigger('destroy');
+          this.trigger('method:change', new Event({ path: ['destroy'] }));
           this.off();
 
           _.each(attributes, function (v, k) {
@@ -57,6 +63,36 @@ export default function createModel(schema = {}, methods = {}) {
           });
         }
       });
+
+      Object.defineProperty(this, 'getIn', {
+        value: function (paths) {
+          if (!_.isArray(paths)) {
+            throw new MethodError('`path` array is not provided');
+          }
+
+          const reducedPaths = [];
+          return paths.reduce((result, path) => {
+            reducedPaths.push(path);
+
+            if (!isNaN(path)) {
+              // collection
+              if (!isCollection(result)) {
+                const collectionPath = _.take(reducedPaths, reducedPaths.length - 1);
+                throw new MethodError(`Path ${JSON.stringify(collectionPath)} is not inside a collection`);
+              }
+
+              return result.at(path);
+            }
+
+            // model
+            if (!path in result) {
+              throw new MethodError(`Path ${JSON.stringify(reducedPaths)} does not exist`)
+            }
+
+            return result[path];
+          }, this);
+        }
+      })
 
       // parse by schema
       const applySchema = Types.object.of(schema);
@@ -74,7 +110,9 @@ export default function createModel(schema = {}, methods = {}) {
               schema[attributeName](newValue);
               attributes[attributeName] = newValue;
 
-              self.trigger('change');
+              self.trigger('change', new Event({
+                path: [attributeName]
+              }));
             } catch (typeError) {
               throw typeError;
             }
@@ -85,13 +123,18 @@ export default function createModel(schema = {}, methods = {}) {
 
         // watch children
         if (isModel(value) || isCollection(value)) {
-          const watcher = value.on('change', function () {
-            self.trigger('change');
-          });
+          const changeWatcher = bubbleUpEvent(self, value, 'change', [attributeName]);
+          const methodCallWatcher = bubbleUpEvent(self, value, 'method:call', [attributeName]);
+          const methodChangeWatcher = bubbleUpEvent(self, value, 'method:change', [attributeName]);
 
           value.on('destroy', function () {
-            self.trigger('change');
-            watcher();
+            self.trigger('change', new Event({
+              path: [attributeName]
+            }));
+
+            changeWatcher();
+            methodCallWatcher();
+            methodChangeWatcher();
           });
         }
       });
@@ -105,7 +148,7 @@ export default function createModel(schema = {}, methods = {}) {
           throw new MethodError('conflicting method name: ' + methodName);
         }
 
-        this[methodName] = func.bind(this);
+        this[methodName] = wrapCustomMethod(this, methodName, func);
       });
     }
   }

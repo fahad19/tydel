@@ -4,7 +4,11 @@ import MethodError from './errors/Method';
 import CollectionError from './errors/Collection';
 import isModel from './isModel';
 import BaseCollection from './base/Collection';
+import Event from './base/Event';
+import isEvent from './isEvent';
 import applyEventsMixin from './mixins/events';
+import bubbleUpEvent from './utils/bubbleUpEvent';
+import wrapCustomMethod from './utils/wrapCustomMethod';
 
 export default function createCollection(Model, methods = {}) {
   class Collection extends BaseCollection {
@@ -17,6 +21,12 @@ export default function createCollection(Model, methods = {}) {
       let listeners = {};
 
       applyEventsMixin(this, listeners);
+
+      const bubbleUp = (model, eventName) => {
+        return bubbleUpEvent(this, model, eventName, (ctx, m) => {
+          return [ctx.findIndex(m)];
+        });
+      };
 
       Object.defineProperty(this, 'length', {
         get() {
@@ -37,21 +47,29 @@ export default function createCollection(Model, methods = {}) {
           throw new CollectionError('Model instance is not of the one Collection is expecting');
         }
 
-        const result = models.push(model);
-        this.trigger('change');
+        this.trigger('method:call', new Event({ path: ['push'] }));
 
-        const watcher = model.on('change', () => {
-          this.trigger('change');
-        });
+        const result = models.push(model);
+        const index = result - 1;
+        this.trigger('change', new Event({ path: [index] }));
+        this.trigger('method:change', new Event({ path: ['push'] }));
+
+        const changeWatcher = bubbleUp(model, 'change');
+        const methodCallWatcher = bubbleUp(model, 'method:call');
+        const methodChangeWatcher = bubbleUp(model, 'method:change');
 
         model.on('destroy', () => {
           this.remove(model);
-          watcher();
+          changeWatcher();
+          methodCallWatcher();
+          methodChangeWatcher();
         });
 
         model.on('remove', () => {
           this.trigger('change');
-          watcher();
+          changeWatcher();
+          methodCallWatcher();
+          methodChangeWatcher();
         });
 
         return result;
@@ -90,9 +108,11 @@ export default function createCollection(Model, methods = {}) {
       });
 
       this.pop = function () {
+        this.trigger('method:call', new Event({ path: ['pop'] }));
         const model = models.pop();
 
         this.trigger('change');
+        this.trigger('method:change', new Event({ path: ['pop'] }));
 
         model.trigger('remove');
 
@@ -100,9 +120,11 @@ export default function createCollection(Model, methods = {}) {
       };
 
       this.shift = function () {
+        this.trigger('method:call', new Event({ path: ['shift'] }));
         const model = models.shift();
 
         this.trigger('change');
+        this.trigger('method:change', new Event({ path: ['shift'] }));
 
         model.trigger('remove');
 
@@ -118,18 +140,23 @@ export default function createCollection(Model, methods = {}) {
           throw new CollectionError('Model instance is not of the one Collection is expecting');
         }
 
+        this.trigger('method:call', new Event({ path: ['unshift'] }));
         const result = models.unshift(model);
 
-        this.trigger('change');
+        this.trigger('change', new Event({ path: [0] }));
+        this.trigger('method:change', new Event({ path: ['unshift'] }));
 
-        const watcher = model.on('change', () => {
-          this.trigger('change');
-        });
+        const changeWatcher = bubbleUp(model, 'change');
+        const methodCallWatcher = bubbleUp(model, 'method:call');
+        const methodChangeWatcher = bubbleUp(model, 'method:change');
 
         model.on('destroy', () => {
           this.remove(model);
           this.trigger('change');
-          watcher();
+
+          changeWatcher();
+          methodCallWatcher();
+          methodChangeWatcher();
         });
 
         return result;
@@ -148,17 +175,21 @@ export default function createCollection(Model, methods = {}) {
           return;
         }
 
+        this.trigger('method:call', new Event({ path: ['removeFrom'] }));
         models.splice(index, 1);
         model.destroy();
         this.trigger('change');
+        this.trigger('method:change', new Event({ path: ['removeFrom'] }));
       };
 
       this.destroy = function () {
+        this.trigger('method:call', new Event({ path: ['destroy'] }));
         models.forEach(function (model) {
           model.destroy();
         });
 
         this.trigger('destroy');
+        this.trigger('method:change', new Event({ path: ['destroy'] }));
         this.off();
       };
 
@@ -174,7 +205,7 @@ export default function createCollection(Model, methods = {}) {
           throw new MethodError('conflicting method name: ' + methodName);
         }
 
-        this[methodName] = methodFunc.bind(this);
+        this[methodName] = wrapCustomMethod(this, methodName, methodFunc);
       });
 
       // initialize

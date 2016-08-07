@@ -4,7 +4,7 @@
 
 With [npm](https://npmjs.com):
 
-```
+```sh
 $ npm install --save tydel
 ```
 
@@ -26,7 +26,7 @@ const tydel = require('tydel');
 
 With [bower](http://bower.io):
 
-```
+```sh
 $ bower install --save tydel
 ```
 

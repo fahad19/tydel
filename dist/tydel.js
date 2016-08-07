@@ -54,29 +54,79 @@ this["Tydel"] =
 
 	'use strict';
 
-	/* eslint-disable */
-	var ChainableTypes = __webpack_require__(2);
-	var chainType = __webpack_require__(5).default;
-	var createCollection = __webpack_require__(7).default;
-	var createModel = __webpack_require__(15).default;
-	var isCollection = __webpack_require__(17).default;
-	var isModel = __webpack_require__(10).default;
-	var Types = __webpack_require__(16).default;
-	var TypeError = __webpack_require__(3).default;
-	var MethodError = __webpack_require__(8).default;
-	var CollectionError = __webpack_require__(9).default;
+	var _ChainableTypes = __webpack_require__(2);
+
+	var ChainableTypes = _interopRequireWildcard(_ChainableTypes);
+
+	var _chainType = __webpack_require__(5);
+
+	var _chainType2 = _interopRequireDefault(_chainType);
+
+	var _createCollection = __webpack_require__(7);
+
+	var _createCollection2 = _interopRequireDefault(_createCollection);
+
+	var _createModel = __webpack_require__(20);
+
+	var _createModel2 = _interopRequireDefault(_createModel);
+
+	var _isCollection = __webpack_require__(22);
+
+	var _isCollection2 = _interopRequireDefault(_isCollection);
+
+	var _isModel = __webpack_require__(10);
+
+	var _isModel2 = _interopRequireDefault(_isModel);
+
+	var _isEvent = __webpack_require__(15);
+
+	var _isEvent2 = _interopRequireDefault(_isEvent);
+
+	var _Event = __webpack_require__(14);
+
+	var _Event2 = _interopRequireDefault(_Event);
+
+	var _Types = __webpack_require__(21);
+
+	var _Types2 = _interopRequireDefault(_Types);
+
+	var _Type = __webpack_require__(3);
+
+	var _Type2 = _interopRequireDefault(_Type);
+
+	var _Method = __webpack_require__(8);
+
+	var _Method2 = _interopRequireDefault(_Method);
+
+	var _Collection = __webpack_require__(9);
+
+	var _Collection2 = _interopRequireDefault(_Collection);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	module.exports = {
+	  // Type
 	  ChainableTypes: ChainableTypes,
-	  chainType: chainType,
-	  createCollection: createCollection,
-	  createModel: createModel,
-	  isCollection: isCollection,
-	  isModel: isModel,
-	  Types: Types,
-	  TypeError: TypeError,
-	  MethodError: MethodError,
-	  CollectionError: CollectionError
+	  chainType: _chainType2.default,
+	  Types: _Types2.default,
+	  TypeError: _Type2.default,
+
+	  // Collection
+	  createCollection: _createCollection2.default,
+	  isCollection: _isCollection2.default,
+	  CollectionError: _Collection2.default,
+
+	  // Model
+	  createModel: _createModel2.default,
+	  isModel: _isModel2.default,
+
+	  // Event
+	  Event: _Event2.default,
+	  isEvent: _isEvent2.default,
+
+	  MethodError: _Method2.default
 	};
 
 /***/ },
@@ -308,9 +358,25 @@ this["Tydel"] =
 
 	var _Collection4 = _interopRequireDefault(_Collection3);
 
-	var _events = __webpack_require__(14);
+	var _Event = __webpack_require__(14);
+
+	var _Event2 = _interopRequireDefault(_Event);
+
+	var _isEvent = __webpack_require__(15);
+
+	var _isEvent2 = _interopRequireDefault(_isEvent);
+
+	var _events = __webpack_require__(16);
 
 	var _events2 = _interopRequireDefault(_events);
+
+	var _bubbleUpEvent = __webpack_require__(17);
+
+	var _bubbleUpEvent2 = _interopRequireDefault(_bubbleUpEvent);
+
+	var _wrapCustomMethod = __webpack_require__(18);
+
+	var _wrapCustomMethod2 = _interopRequireDefault(_wrapCustomMethod);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -340,6 +406,12 @@ this["Tydel"] =
 
 	      (0, _events2.default)(_this, listeners);
 
+	      var bubbleUp = function bubbleUp(model, eventName) {
+	        return (0, _bubbleUpEvent2.default)(_this, model, eventName, function (ctx, m) {
+	          return [ctx.findIndex(m)];
+	        });
+	      };
+
 	      Object.defineProperty(_this, 'length', {
 	        get: function get() {
 	          return models.length;
@@ -361,21 +433,29 @@ this["Tydel"] =
 	          throw new _Collection2.default('Model instance is not of the one Collection is expecting');
 	        }
 
-	        var result = models.push(model);
-	        this.trigger('change');
+	        this.trigger('method:call', new _Event2.default({ path: ['push'] }));
 
-	        var watcher = model.on('change', function () {
-	          _this2.trigger('change');
-	        });
+	        var result = models.push(model);
+	        var index = result - 1;
+	        this.trigger('change', new _Event2.default({ path: [index] }));
+	        this.trigger('method:change', new _Event2.default({ path: ['push'] }));
+
+	        var changeWatcher = bubbleUp(model, 'change');
+	        var methodCallWatcher = bubbleUp(model, 'method:call');
+	        var methodChangeWatcher = bubbleUp(model, 'method:change');
 
 	        model.on('destroy', function () {
 	          _this2.remove(model);
-	          watcher();
+	          changeWatcher();
+	          methodCallWatcher();
+	          methodChangeWatcher();
 	        });
 
 	        model.on('remove', function () {
 	          _this2.trigger('change');
-	          watcher();
+	          changeWatcher();
+	          methodCallWatcher();
+	          methodChangeWatcher();
 	        });
 
 	        return result;
@@ -404,9 +484,11 @@ this["Tydel"] =
 	      });
 
 	      _this.pop = function () {
+	        this.trigger('method:call', new _Event2.default({ path: ['pop'] }));
 	        var model = models.pop();
 
 	        this.trigger('change');
+	        this.trigger('method:change', new _Event2.default({ path: ['pop'] }));
 
 	        model.trigger('remove');
 
@@ -414,9 +496,11 @@ this["Tydel"] =
 	      };
 
 	      _this.shift = function () {
+	        this.trigger('method:call', new _Event2.default({ path: ['shift'] }));
 	        var model = models.shift();
 
 	        this.trigger('change');
+	        this.trigger('method:change', new _Event2.default({ path: ['shift'] }));
 
 	        model.trigger('remove');
 
@@ -434,18 +518,23 @@ this["Tydel"] =
 	          throw new _Collection2.default('Model instance is not of the one Collection is expecting');
 	        }
 
+	        this.trigger('method:call', new _Event2.default({ path: ['unshift'] }));
 	        var result = models.unshift(model);
 
-	        this.trigger('change');
+	        this.trigger('change', new _Event2.default({ path: [0] }));
+	        this.trigger('method:change', new _Event2.default({ path: ['unshift'] }));
 
-	        var watcher = model.on('change', function () {
-	          _this3.trigger('change');
-	        });
+	        var changeWatcher = bubbleUp(model, 'change');
+	        var methodCallWatcher = bubbleUp(model, 'method:call');
+	        var methodChangeWatcher = bubbleUp(model, 'method:change');
 
 	        model.on('destroy', function () {
 	          _this3.remove(model);
 	          _this3.trigger('change');
-	          watcher();
+
+	          changeWatcher();
+	          methodCallWatcher();
+	          methodChangeWatcher();
 	        });
 
 	        return result;
@@ -464,17 +553,21 @@ this["Tydel"] =
 	          return;
 	        }
 
+	        this.trigger('method:call', new _Event2.default({ path: ['removeFrom'] }));
 	        models.splice(index, 1);
 	        model.destroy();
 	        this.trigger('change');
+	        this.trigger('method:change', new _Event2.default({ path: ['removeFrom'] }));
 	      };
 
 	      _this.destroy = function () {
+	        this.trigger('method:call', new _Event2.default({ path: ['destroy'] }));
 	        models.forEach(function (model) {
 	          model.destroy();
 	        });
 
 	        this.trigger('destroy');
+	        this.trigger('method:change', new _Event2.default({ path: ['destroy'] }));
 	        this.off();
 	      };
 
@@ -490,7 +583,7 @@ this["Tydel"] =
 	          throw new _Method2.default('conflicting method name: ' + methodName);
 	        }
 
-	        _this[methodName] = methodFunc.bind(_this);
+	        _this[methodName] = (0, _wrapCustomMethod2.default)(_this, methodName, methodFunc);
 	      });
 
 	      // initialize
@@ -720,6 +813,73 @@ this["Tydel"] =
 
 /***/ },
 /* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _Base2 = __webpack_require__(12);
+
+	var _Base3 = _interopRequireDefault(_Base2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Event = function (_Base) {
+	  _inherits(Event, _Base);
+
+	  function Event(_ref) {
+	    var _ref$path = _ref.path;
+	    var path = _ref$path === undefined ? [] : _ref$path;
+
+	    _classCallCheck(this, Event);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Event).call(this));
+
+	    _this.path = path;
+	    return _this;
+	  }
+
+	  return Event;
+	}(_Base3.default);
+
+	exports.default = Event;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = isEvent;
+
+	var _Event = __webpack_require__(14);
+
+	var _Event2 = _interopRequireDefault(_Event);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function isEvent(event) {
+	  try {
+	    return event instanceof _Event2.default;
+	  } catch (e) {
+	    return false;
+	  }
+	}
+
+/***/ },
+/* 16 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -792,7 +952,125 @@ this["Tydel"] =
 	}
 
 /***/ },
-/* 15 */
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = bubbleUpEvent;
+
+	var _isEvent = __webpack_require__(15);
+
+	var _isEvent2 = _interopRequireDefault(_isEvent);
+
+	var _Event = __webpack_require__(14);
+
+	var _Event2 = _interopRequireDefault(_Event);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function bubbleUpEvent(context, mc, eventName) {
+	  var prefix = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
+
+	  return mc.on(eventName, function (event) {
+	    var p = typeof prefix === 'function' ? prefix(context, mc) : prefix;
+
+	    context.trigger(eventName, new _Event2.default({
+	      path: (0, _isEvent2.default)(event) ? p.concat(event.path) : p
+	    }));
+	  });
+	}
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = wrapCustomMethod;
+
+	var _Event = __webpack_require__(14);
+
+	var _Event2 = _interopRequireDefault(_Event);
+
+	var _isPromise = __webpack_require__(19);
+
+	var _isPromise2 = _interopRequireDefault(_isPromise);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function wrapCustomMethod(context, methodName, func) {
+	  return function () {
+	    context.trigger('method:call', new _Event2.default({ path: [methodName] }));
+
+	    var changed = false;
+	    var watcher = context.on('change', function () {
+	      changed = true;
+	    });
+
+	    var result = func.bind(context).apply(undefined, arguments);
+
+	    // sync
+	    if (!(0, _isPromise2.default)(result)) {
+	      watcher();
+
+	      if (changed) {
+	        context.trigger('method:change', new _Event2.default({
+	          path: [methodName]
+	        }));
+	      }
+
+	      return result;
+	    }
+
+	    // async
+	    return result.then(function (promiseResult) {
+	      watcher();
+
+	      if (changed) {
+	        context.trigger('method', new _Event2.default({
+	          path: [methodName]
+	        }));
+	      }
+
+	      return promiseResult;
+	    });
+	  };
+	}
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	exports.default = isPromise;
+	function isPromise(promise) {
+	  if ((typeof promise === 'undefined' ? 'undefined' : _typeof(promise)) !== 'object') {
+	    return false;
+	  }
+
+	  if (typeof promise.then !== 'function') {
+	    return false;
+	  }
+
+	  return true;
+	}
+
+/***/ },
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -806,7 +1084,7 @@ this["Tydel"] =
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _Types = __webpack_require__(16);
+	var _Types = __webpack_require__(21);
 
 	var _Types2 = _interopRequireDefault(_Types);
 
@@ -814,7 +1092,7 @@ this["Tydel"] =
 
 	var _isModel2 = _interopRequireDefault(_isModel);
 
-	var _isCollection = __webpack_require__(17);
+	var _isCollection = __webpack_require__(22);
 
 	var _isCollection2 = _interopRequireDefault(_isCollection);
 
@@ -826,9 +1104,25 @@ this["Tydel"] =
 
 	var _Model2 = _interopRequireDefault(_Model);
 
-	var _events = __webpack_require__(14);
+	var _Event = __webpack_require__(14);
+
+	var _Event2 = _interopRequireDefault(_Event);
+
+	var _isEvent = __webpack_require__(15);
+
+	var _isEvent2 = _interopRequireDefault(_isEvent);
+
+	var _events = __webpack_require__(16);
 
 	var _events2 = _interopRequireDefault(_events);
+
+	var _bubbleUpEvent = __webpack_require__(17);
+
+	var _bubbleUpEvent2 = _interopRequireDefault(_bubbleUpEvent);
+
+	var _wrapCustomMethod = __webpack_require__(18);
+
+	var _wrapCustomMethod2 = _interopRequireDefault(_wrapCustomMethod);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -885,7 +1179,9 @@ this["Tydel"] =
 
 	      Object.defineProperty(_this, 'destroy', {
 	        value: function value() {
+	          this.trigger('method:call', new _Event2.default({ path: ['destroy'] }));
 	          this.trigger('destroy');
+	          this.trigger('method:change', new _Event2.default({ path: ['destroy'] }));
 	          this.off();
 
 	          _lodash2.default.each(attributes, function (v, k) {
@@ -893,6 +1189,36 @@ this["Tydel"] =
 	              v.destroy();
 	            }
 	          });
+	        }
+	      });
+
+	      Object.defineProperty(_this, 'getIn', {
+	        value: function value(paths) {
+	          if (!_lodash2.default.isArray(paths)) {
+	            throw new _Method2.default('`path` array is not provided');
+	          }
+
+	          var reducedPaths = [];
+	          return paths.reduce(function (result, path) {
+	            reducedPaths.push(path);
+
+	            if (!isNaN(path)) {
+	              // collection
+	              if (!(0, _isCollection2.default)(result)) {
+	                var collectionPath = _lodash2.default.take(reducedPaths, reducedPaths.length - 1);
+	                throw new _Method2.default('Path ' + JSON.stringify(collectionPath) + ' is not inside a collection');
+	              }
+
+	              return result.at(path);
+	            }
+
+	            // model
+	            if (!path in result) {
+	              throw new _Method2.default('Path ' + JSON.stringify(reducedPaths) + ' does not exist');
+	            }
+
+	            return result[path];
+	          }, this);
 	        }
 	      });
 
@@ -911,7 +1237,9 @@ this["Tydel"] =
 	              schema[attributeName](newValue);
 	              attributes[attributeName] = newValue;
 
-	              self.trigger('change');
+	              self.trigger('change', new _Event2.default({
+	                path: [attributeName]
+	              }));
 	            } catch (typeError) {
 	              throw typeError;
 	            }
@@ -924,13 +1252,18 @@ this["Tydel"] =
 	        // watch children
 	        if ((0, _isModel2.default)(value) || (0, _isCollection2.default)(value)) {
 	          (function () {
-	            var watcher = value.on('change', function () {
-	              self.trigger('change');
-	            });
+	            var changeWatcher = (0, _bubbleUpEvent2.default)(self, value, 'change', [attributeName]);
+	            var methodCallWatcher = (0, _bubbleUpEvent2.default)(self, value, 'method:call', [attributeName]);
+	            var methodChangeWatcher = (0, _bubbleUpEvent2.default)(self, value, 'method:change', [attributeName]);
 
 	            value.on('destroy', function () {
-	              self.trigger('change');
-	              watcher();
+	              self.trigger('change', new _Event2.default({
+	                path: [attributeName]
+	              }));
+
+	              changeWatcher();
+	              methodCallWatcher();
+	              methodChangeWatcher();
 	            });
 	          })();
 	        }
@@ -942,7 +1275,7 @@ this["Tydel"] =
 	          throw new _Method2.default('conflicting method name: ' + methodName);
 	        }
 
-	        _this[methodName] = func.bind(_this);
+	        _this[methodName] = (0, _wrapCustomMethod2.default)(_this, methodName, func);
 	      });
 	      return _this;
 	    }
@@ -954,7 +1287,7 @@ this["Tydel"] =
 	}
 
 /***/ },
-/* 16 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -979,7 +1312,7 @@ this["Tydel"] =
 
 	var _isModel2 = _interopRequireDefault(_isModel);
 
-	var _isCollection = __webpack_require__(17);
+	var _isCollection = __webpack_require__(22);
 
 	var _isCollection2 = _interopRequireDefault(_isCollection);
 
@@ -1236,7 +1569,7 @@ this["Tydel"] =
 	exports.default = Types;
 
 /***/ },
-/* 17 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

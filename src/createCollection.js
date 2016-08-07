@@ -8,6 +8,7 @@ import Event from './base/Event';
 import isEvent from './isEvent';
 import applyEventsMixin from './mixins/events';
 import bubbleUpEvent from './utils/bubbleUpEvent';
+import wrapCustomMethod from './utils/wrapCustomMethod';
 
 export default function createCollection(Model, methods = {}) {
   class Collection extends BaseCollection {
@@ -204,7 +205,7 @@ export default function createCollection(Model, methods = {}) {
           throw new MethodError('conflicting method name: ' + methodName);
         }
 
-        this[methodName] = methodFunc.bind(this);
+        this[methodName] = wrapCustomMethod(this, methodName, methodFunc);
       });
 
       // initialize

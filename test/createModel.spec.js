@@ -703,7 +703,13 @@ describe('createModel', function () {
       }
     });
 
-    const Books = createCollection(Book);
+    const Books = createCollection(Book, {
+      add(title) {
+        return this.push(new Book({
+          title
+        }));
+      }
+    });
 
     const Author = createModel({
       name: Types.string.isRequired,
@@ -747,6 +753,22 @@ describe('createModel', function () {
       title: `Dumbledore's Army`
     }));
     watcher();
-    expect(count).to.eql(1);
+
+    // third change
+    count = 0;
+    const events = [];
+    watcher = author.on('method:change', function (event) {
+      count++;
+      events.push(event);
+
+      expect(isEvent(event)).to.eql(true);
+      expect(author.books.at(2).title).to.eql('A new book name');
+    });
+
+    author.books.add('A new book name');
+    watcher();
+
+    expect(count).to.eql(2);
+    expect(events[1].path).to.eql(['books', 'add']);
   });
 });

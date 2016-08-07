@@ -7,9 +7,9 @@ import MethodError from './errors/Method';
 import BaseModel from './base/Model';
 import Event from './base/Event';
 import isEvent from './isEvent';
-import isPromise from './utils/isPromise';
 import applyEventsMixin from './mixins/events';
 import bubbleUpEvent from './utils/bubbleUpEvent';
+import wrapCustomMethod from './utils/wrapCustomMethod';
 
 export default function createModel(schema = {}, methods = {}) {
   class Model extends BaseModel {
@@ -148,44 +148,7 @@ export default function createModel(schema = {}, methods = {}) {
           throw new MethodError('conflicting method name: ' + methodName);
         }
 
-        this[methodName] = (...args) => {
-          this.trigger('method:call', new Event({
-            path: [methodName]
-          }));
-
-          let changed = false;
-          const watcher = this.on('change', function () {
-            changed = true;
-          });
-
-          const result = func.bind(this)(...args);
-
-          // sync
-          if (!isPromise(result)) {
-            watcher();
-
-            if (changed) {
-              this.trigger('method:change', new Event({
-                path: [methodName]
-              }));
-            }
-
-            return result;
-          }
-
-          // async
-          return result.then((promiseResult) => {
-            watcher();
-
-            if (changed) {
-              this.trigger('method', new Event({
-                path: [methodName]
-              }));
-            }
-
-            return promiseResult;
-          });
-        };
+        this[methodName] = wrapCustomMethod(this, methodName, func);
       });
     }
   }

@@ -1,6 +1,6 @@
 {
   "name": "tydel",
-  "version": "0.5.6",
+  "version": "0.6.0",
   "description": "Typed Models and Collections",
   "main": "index.js",
   "scripts": {

@@ -14,12 +14,12 @@ From model instances:
 ```js
 const person = new Person({ name: 'Salazar' });
 
-const watcher = person.on('change', function () {
-  console.log('person has changed');
+const watcher = person.on('change', function (event) {
+  console.log('person has changed in:', event.path);
 });
 
 person.setName('Salazar Slytherin');
-// prints out `person has changed` in console
+// prints out `person has changed in: ['name']` in console
 
 // stop watching
 watcher();
@@ -32,7 +32,7 @@ Same like models:
 ```js
 const todos = new Todos();
 
-const watcher = todos.on('change', function () {
+const watcher = todos.on('change', function (event) {
   console.log('the collection has changed');
 });
 

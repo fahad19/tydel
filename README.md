@@ -25,9 +25,10 @@ There is a [quickstart](./docs/intro/quickstart.md) guide which would get you up
 
 [Install](./docs/intro/installation.md) it, and enjoy!
 
-## Integrations
+## Integrations & Resources
 
 * [tydel-react](https://github.com/fahad19/tydel-react): React.js bindings
+* [tydel-logger](https://github.com/fahad19/tydel-logger): Prints state changes to console
 
 ## Thanks
 

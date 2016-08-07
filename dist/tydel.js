@@ -388,6 +388,7 @@ this["Tydel"] =
 
 	function createCollection(Model) {
 	  var methods = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	  var initializers = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
 
 	  var Collection = function (_BaseCollection) {
 	    _inherits(Collection, _BaseCollection);
@@ -596,6 +597,11 @@ this["Tydel"] =
 
 	        var model = new Model(v);
 	        _this.push(model);
+	      });
+
+	      // initializers
+	      initializers.forEach(function (initializer) {
+	        initializer(_this);
 	      });
 	      return _this;
 	    }
@@ -1135,6 +1141,7 @@ this["Tydel"] =
 	function createModel() {
 	  var schema = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	  var methods = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	  var initializers = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
 
 	  var Model = function (_BaseModel) {
 	    _inherits(Model, _BaseModel);
@@ -1276,6 +1283,11 @@ this["Tydel"] =
 	        }
 
 	        _this[methodName] = (0, _wrapCustomMethod2.default)(_this, methodName, func);
+	      });
+
+	      // initializers
+	      initializers.forEach(function (initializer) {
+	        initializer(_this);
 	      });
 	      return _this;
 	    }

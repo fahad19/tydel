@@ -1,6 +1,6 @@
 # createModel
 
-> createModel(schema, methods)
+> createModel(schema, methods = {}, initializers = [])
 
 Returns a [Model](./Model.md) class based on the schema and methods that are provided.
 
@@ -57,4 +57,20 @@ const person = new Person({
 const fullName = person.getFullName();
 
 person.setAge(19);
+```
+
+### initializers
+
+Array of functions, accepting the model instance as argument, fired when class is intantiated:
+
+```js
+const Person = createModel({
+  name: Types.string
+}, {
+  // methods
+}, [
+  function myInitializer(model) {
+    // model is `Person` instance
+  }
+]);
 ```

@@ -44,3 +44,15 @@ const Todos = createCollection(Todo, {
 ```
 
 Collection instances also come with built-in methods like `map`, `filter`, `reduce` just like `Array`. See more in [API Reference](/docs/api/Collection.md).
+
+## Initializers
+
+`createCollection()` accepts a third argument, where you can pass an array of functions accepting the collection instance, allowing you to perform some actions when the collection class is first instantiated.
+
+```js
+const Todos = createCollection(Todo, {}, [
+  function myInitializer(collection) {
+    // collection is the `Todos` instance here
+  }
+]);
+```

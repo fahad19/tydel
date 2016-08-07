@@ -10,7 +10,7 @@ import applyEventsMixin from './mixins/events';
 import bubbleUpEvent from './utils/bubbleUpEvent';
 import wrapCustomMethod from './utils/wrapCustomMethod';
 
-export default function createCollection(Model, methods = {}) {
+export default function createCollection(Model, methods = {}, initializers = []) {
   class Collection extends BaseCollection {
     constructor(givenModels = []) {
       super(givenModels);
@@ -218,6 +218,11 @@ export default function createCollection(Model, methods = {}) {
 
         const model = new Model(v);
         this.push(model);
+      });
+
+      // initializers
+      initializers.forEach((initializer) => {
+        initializer(this);
       });
     }
   }

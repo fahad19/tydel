@@ -771,4 +771,26 @@ describe('createModel', function () {
     expect(count).to.eql(2);
     expect(events[1].path).to.eql(['books', 'add']);
   });
+
+  it('applies initializers', function () {
+    function initializer(model) {
+      model.setName('Updated by initializer');
+    }
+
+    const Person = createModel({
+      name: Types.string.isRequired
+    }, {
+      setName(name) {
+        this.name = name;
+      }
+    }, [
+      initializer
+    ]);
+
+    const person = new Person({
+      name: 'Initial name'
+    });
+
+    expect(person.name).to.eql('Updated by initializer');
+  });
 });

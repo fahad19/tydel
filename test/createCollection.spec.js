@@ -207,4 +207,24 @@ describe('createCollection', function () {
 
     cancelListener();
   });
+
+  it('applies initializers', function () {
+    const Person = createModel({
+      name: Types.string.isRequired
+    });
+
+    function initializer(collection) {
+      collection.push(new Person({
+        name: 'Initializer'
+      }));
+    }
+
+    const People = createCollection(Person, {}, [
+      initializer
+    ]);
+
+    const people = new People();
+
+    expect(people.at(0).name).to.eql('Initializer');
+  });
 });

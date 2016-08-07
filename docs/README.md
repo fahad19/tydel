@@ -13,7 +13,7 @@
   * [Events](./guides/events.md)
   * [Watcher](./guides/watcher.md)
 * Integrations
-  * [React](./integrations/react.md)
+  * [React](./integrations/react/README.md)
 * [Examples](./examples/README.md)
   * [Basic counter](./examples/counter/README.md)
   * [React counter](./examples/react-counter/README.md)

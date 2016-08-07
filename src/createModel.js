@@ -9,6 +9,7 @@ import Event from './base/Event';
 import isEvent from './isEvent';
 import isPromise from './utils/isPromise';
 import applyEventsMixin from './mixins/events';
+import bubbleUpEvent from './utils/bubbleUpEvent';
 
 export default function createModel(schema = {}, methods = {}) {
   class Model extends BaseModel {
@@ -119,20 +120,10 @@ export default function createModel(schema = {}, methods = {}) {
         });
 
         // watch children
-        function bubbleUpEvent(mc, eventName) {
-          return mc.on(eventName, function (event) {
-            self.trigger(eventName, new Event({
-              path: isEvent(event)
-                ? [attributeName].concat(event.path)
-                : [attributeName]
-            }));
-          });
-        }
-
         if (isModel(value) || isCollection(value)) {
-          const changeWatcher = bubbleUpEvent(value, 'change');
-          const methodCallWatcher = bubbleUpEvent(value, 'method:call');
-          const methodChangeWatcher = bubbleUpEvent(value, 'method:change');
+          const changeWatcher = bubbleUpEvent(self, value, 'change', [attributeName]);
+          const methodCallWatcher = bubbleUpEvent(self, value, 'method:call', [attributeName]);
+          const methodChangeWatcher = bubbleUpEvent(self, value, 'method:change', [attributeName]);
 
           value.on('destroy', function () {
             self.trigger('change', new Event({

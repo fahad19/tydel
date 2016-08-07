@@ -693,4 +693,60 @@ describe('createModel', function () {
     expect(count).to.eql(1);
     watcher();
   });
+
+  it('emits `method:change` event for child-collection', function () {
+    const Book = createModel({
+      title: Types.string.isRequired
+    }, {
+      setTitle(title) {
+        this.title = title;
+      }
+    });
+
+    const Books = createCollection(Book);
+
+    const Author = createModel({
+      name: Types.string.isRequired,
+      books: Types.collection.of(Books)
+    });
+
+    const author = new Author({
+      name: 'Rita Skeeter',
+      books: [
+        { title: 'The Life and Lies of Dumbledore' }
+      ]
+    });
+
+    let watcher;
+    let count = 0;
+
+    // first change
+    watcher = author.on('method:change', function (event) {
+      count++;
+
+      expect(isEvent(event)).to.eql(true);
+      expect(event.path).to.eql(['books', 0, 'setTitle']);
+      expect(author.books.at(0).title).to.eql('The Life and Lies of Albus Dumbledore');
+    });
+
+    author.books.at(0).setTitle('The Life and Lies of Albus Dumbledore');
+    watcher();
+    expect(count).to.eql(1);
+
+    // second change
+    count = 0;
+    watcher = author.on('method:change', function (event) {
+      count++;
+
+      expect(isEvent(event)).to.eql(true);
+      expect(event.path).to.eql(['books', 'push']);
+      expect(author.books.at(1).title).to.eql(`Dumbledore's Army`);
+    });
+
+    author.books.push(new Book({
+      title: `Dumbledore's Army`
+    }));
+    watcher();
+    expect(count).to.eql(1);
+  });
 });

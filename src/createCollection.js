@@ -7,6 +7,7 @@ import BaseCollection from './base/Collection';
 import Event from './base/Event';
 import isEvent from './isEvent';
 import applyEventsMixin from './mixins/events';
+import bubbleUpEvent from './utils/bubbleUpEvent';
 
 export default function createCollection(Model, methods = {}) {
   class Collection extends BaseCollection {
@@ -19,6 +20,12 @@ export default function createCollection(Model, methods = {}) {
       let listeners = {};
 
       applyEventsMixin(this, listeners);
+
+      const bubbleUp = (model, eventName) => {
+        return bubbleUpEvent(this, model, eventName, (ctx, m) => {
+          return [ctx.findIndex(m)];
+        });
+      };
 
       Object.defineProperty(this, 'length', {
         get() {
@@ -44,25 +51,26 @@ export default function createCollection(Model, methods = {}) {
         this.trigger('change', new Event({
           path: [index]
         }));
+        this.trigger('method:change', new Event({
+          path: ['push']
+        }));
 
-        const watcher = model.on('change', (event) => {
-          const i = this.findIndex(model);
-
-          this.trigger('change', new Event({
-            path: isEvent(event)
-              ? [i].concat(event.path)
-              : [i]
-          }));
-        });
+        const changeWatcher = bubbleUp(model, 'change');
+        const methodCallWatcher = bubbleUp(model, 'method:call');
+        const methodChangeWatcher = bubbleUp(model, 'method:change');
 
         model.on('destroy', () => {
           this.remove(model);
-          watcher();
+          changeWatcher();
+          methodCallWatcher();
+          methodChangeWatcher();
         });
 
         model.on('remove', () => {
           this.trigger('change');
-          watcher();
+          changeWatcher();
+          methodCallWatcher();
+          methodChangeWatcher();
         });
 
         return result;
@@ -135,20 +143,17 @@ export default function createCollection(Model, methods = {}) {
           path: [0]
         }));
 
-        const watcher = model.on('change', (event) => {
-          const index = this.findIndex(model);
-
-          this.trigger('change', new Event({
-            path: isEvent(event)
-              ? [index].concat(event.path)
-              : [index]
-          }));
-        });
+        const changeWatcher = bubbleUp(model, 'change');
+        const methodCallWatcher = bubbleUp(model, 'method:call');
+        const methodChangeWatcher = bubbleUp(model, 'method:change');
 
         model.on('destroy', () => {
           this.remove(model);
           this.trigger('change');
-          watcher();
+
+          changeWatcher();
+          methodCallWatcher();
+          methodChangeWatcher();
         });
 
         return result;

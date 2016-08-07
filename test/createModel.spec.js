@@ -656,4 +656,41 @@ describe('createModel', function () {
 
     watcher();
   });
+
+  it('emits `method:change` event for child-model', function () {
+    const Address = createModel({
+      street: Types.string,
+      city: Types.string
+    }, {
+      setStreet(street) {
+        this.street = street;
+      }
+    });
+
+    const Person = createModel({
+      name: Types.string.isRequired,
+      address: Types.model.of(Address)
+    });
+
+    const person = new Person({
+      name: 'Vernon Dursley',
+      address: {
+        street: 'Privet Drive',
+        city: 'Surrey'
+      }
+    });
+
+    let count = 0;
+    const watcher = person.on('method:change', function (event) {
+      count++;
+
+      expect(isEvent(event)).to.eql(true);
+      expect(event.path).to.eql(['address', 'setStreet']);
+      expect(person.address.street).to.eql('4 Privet Drive');
+    });
+
+    person.address.setStreet('4 Privet Drive');
+    expect(count).to.eql(1);
+    watcher();
+  });
 });

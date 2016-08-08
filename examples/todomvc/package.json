@@ -22,8 +22,9 @@
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "todomvc-app-css": "^2.0.6",
-    "tydel": "^0.5.6",
-    "tydel-react": "^0.1.1"
+    "tydel": "^0.7.0",
+    "tydel-logger": "^0.7.4",
+    "tydel-react": "^0.1.2"
   },
   "devDependencies": {
     "babel-core": "^6.11.4",

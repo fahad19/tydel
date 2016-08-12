@@ -46,6 +46,12 @@ Or load it via [npmcdn](https://npmcdn.com):
 </script>
 ```
 
+Try it out:
+
+<a class="jsbin-embed" href="http://jsbin.com/fudonovogi/embed?js,output">JSBin</a>
+
+<script src="http://static.jsbin.com/js/embed.min.js?3.39.11"></script>
+
 ## Terminologies
 
 The three main **terminologies** you would come across are:

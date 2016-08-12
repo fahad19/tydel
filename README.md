@@ -11,6 +11,30 @@ For documentation, visit [http://tydel.js.org](http://tydel.js.org).
 
 Tydel is a small library aimed at giving you a solid and strict **foundation** for your **data structure** needs in JavaScript.
 
+Install it via npm:
+
+```sh
+$ npm install --save tydel
+```
+
+Basic usage example:
+
+```js
+import { Types, createModel } from 'tydel';
+
+const Todo = createModel({
+  title: Types.string.isRequired,
+  description: Types.string
+});
+
+const todo = new Todo({
+  title: 'My first ToDo',
+  description: 'notes here...'
+});
+
+console.log(todo.title); // `My first ToDo`
+```
+
 ## Terminologies
 
 The three main **terminologies** you would come across are:

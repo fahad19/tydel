@@ -11,7 +11,7 @@ For documentation, visit [http://tydel.js.org](http://tydel.js.org).
 
 Tydel is a small library aimed at giving you a solid and strict **foundation** for your **data structure** needs in JavaScript.
 
-Install it via npm:
+Install it via [npm](https://npmjs.com):
 
 ```sh
 $ npm install --save tydel
@@ -33,6 +33,17 @@ const todo = new Todo({
 });
 
 console.log(todo.title); // `My first ToDo`
+```
+
+Or load it via [npmcdn](https://npmcdn.com):
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
+<script src="https://npmcdn.com/tydel@latest/dist/tydel.min.js"></script>
+
+<script>
+  // window.Tydel
+</script>
 ```
 
 ## Terminologies

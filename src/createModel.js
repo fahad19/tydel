@@ -92,7 +92,11 @@ export default function createModel(schema = {}, methods = {}, initializers = []
             return result[path];
           }, this);
         }
-      })
+      });
+
+      const context = typeof methods.getContext === 'function'
+        ? methods.getContext()
+        : {};
 
       // parse by schema
       const applySchema = Types.object.of(schema);
@@ -121,8 +125,9 @@ export default function createModel(schema = {}, methods = {}, initializers = []
           enumerable: true
         });
 
-        // watch children
+        // children
         if (isModel(value) || isCollection(value)) {
+          // watch
           const changeWatcher = bubbleUpEvent(self, value, 'change', [attributeName]);
           const methodCallWatcher = bubbleUpEvent(self, value, 'method:call', [attributeName]);
           const methodChangeWatcher = bubbleUpEvent(self, value, 'method:change', [attributeName]);
@@ -136,6 +141,27 @@ export default function createModel(schema = {}, methods = {}, initializers = []
             methodCallWatcher();
             methodChangeWatcher();
           });
+
+          // context
+          if (_.isEmpty(context)) {
+            return;
+          }
+
+          function applyContextToChild(child, ctx) {
+            _.each(child, (childV, childK) => {
+              if (isModel(childV) || isCollection(childV)) {
+                return applyContextToChild(childV);
+              }
+
+              _.each(context, (v, k) => {
+                Object.defineProperty(child, k, {
+                  value: v
+                });
+              });
+            });
+          }
+
+          applyContextToChild(value, context);
         }
       });
 
@@ -149,6 +175,13 @@ export default function createModel(schema = {}, methods = {}, initializers = []
         }
 
         this[methodName] = wrapCustomMethod(this, methodName, func);
+      });
+
+      // context
+      _.each(context, (v, k) => {
+        Object.defineProperty(this, k, {
+          value: v
+        });
       });
 
       // initializers

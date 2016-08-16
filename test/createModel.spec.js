@@ -793,4 +793,69 @@ describe('createModel', function () {
 
     expect(person.name).to.eql('Updated by initializer');
   });
+
+  it('passes context to self', function () {
+    const Todo = createModel({
+      title: Types.string.isRequired
+    }, {
+      getContext() {
+        return {
+          someContextKey: 'someContextValue'
+        };
+      }
+    });
+
+    const todo = new Todo({
+      title: 'My todo'
+    });
+
+    expect(isModel(todo)).to.eql(true);
+    expect(todo.title).to.eql('My todo');
+    expect(todo.someContextKey).to.eql('someContextValue');
+  });
+
+  it.skip('passes context to child-model', function () {
+    const Country = createModel({
+      name: Types.string
+    });
+
+    const Address = createModel({
+      street: Types.string,
+      city: Types.string,
+      country: Types.model.of(Country)
+    });
+
+    const Person = createModel({
+      name: Types.string.isRequired,
+      address: Types.model.of(Address)
+    }, {
+      getContext() {
+        return {
+          someContextKey: 'someContextValue'
+        };
+      }
+    });
+
+    const person = new Person({
+      name: 'Vernon Dursley',
+      address: {
+        street: 'Privet Drive',
+        city: 'Surrey',
+        country: {
+          name: 'United Kingdom'
+        }
+      }
+    });
+
+    expect(isModel(person)).to.eql(true);
+    expect(person.name).to.eql('Vernon Dursley');
+    expect(person.someContextKey).to.eql('someContextValue');
+
+    expect(isModel(person.address)).to.eql(true);
+    expect(person.address.someContextKey).to.eql('someContextValue');
+
+    expect(isModel(person.address.country)).to.eql(true);
+    expect(person.address.country.name).to.eql('United Kingdom');
+    expect(person.address.country.someContextKey).to.eql('someContextValue');
+  });
 });

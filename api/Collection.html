@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../assets/style.css?t=a44c9e9d">
+    <link rel="stylesheet" href="../assets/styles.css?t=09769bc9">
+    <link rel="stylesheet" href="../assets/custom.css?t=a7b82f7c">
+    <script src="../assets/script.js?t=2bcc4b59"></script>
+    <title>Collection</title>
+    <meta name="viewport" content="width=device-width">
+    <script>
+      if (false || window.location.hostname.indexOf("tydel.js.org") === window.location.hostname.length - 12) {
+        (function(d,o,c,p,r,e,s){d['GoogleAnalyticsObject']=r;d[r]=d[r]||function(){(d[r].q=d[r].q||[]).push(arguments)},d[r].l=1*new Date();e=o.createElement(c),s=o.getElementsByTagName(c)[0];e.async=1;e.src=p;s.parentNode.insertBefore(e,s)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create',"UA-47493443-5",'auto')
+      }
+    </script>
+  </head>
+  <body class="-menu-visible">
+    <div class="doc-layout">
+      <div class="toggle menu-toggle js-menu-toggle"></div>
+      <div class="body page-apicollection">
+        <div class="header-nav">
+          <div class="right"><a href="https://github.com/fahad19/tydel" data-title="fahad19/tydel" class="iconlink">
+              <!-- span.title Open in GitHub--><span class="icon -github"></span></a>
+          </div>
+        </div>
+        <div class="markdown-body"><h1 id="collection">Collection</h1>
+<p>Instance properties and methods listed below.</p>
+<p>Collections also expose a few more methods for the built-in event system, which is explained in <a href="../guides/watcher.html">Watcher</a> section.</p>
+<h3 id="length">length</h3>
+<blockquote>
+<p>length</p>
+</blockquote>
+<p>Property returning the length of the collection as an integer.</p>
+<h3 id="at">at</h3>
+<blockquote>
+<p>at(n)</p>
+</blockquote>
+<p>Returns the model at specific index.</p>
+<h3 id="push">push</h3>
+<blockquote>
+<p>push(model)</p>
+</blockquote>
+<p>Pushes the model, and adds it to the end of the collection.</p>
+<h3 id="every">every</h3>
+<blockquote>
+<p>every(iteratorFn)</p>
+</blockquote>
+<p>Tests whether all models in the collection pass the test implemented by the provided function.</p>
+<h3 id="filter">filter</h3>
+<blockquote>
+<p>filter(iteratorFn)</p>
+</blockquote>
+<p>Creates a new array with all models that pass the test implemented by the provided function.</p>
+<h3 id="find">find</h3>
+<blockquote>
+<p>find(iteratorFn)</p>
+</blockquote>
+<p>Returns a model in the collection, if a model in the array satisfies the provided testing function. Otherwise <code>undefined</code> is returned.</p>
+<h3 id="foreach">forEach</h3>
+<blockquote>
+<p>forEach(iteratorFn)</p>
+</blockquote>
+<p>Executes provided function once per model in the collection.</p>
+<h3 id="includes">includes</h3>
+<blockquote>
+<p>includes(model)</p>
+</blockquote>
+<p>Determines whether colelction includes a certain model, returning <code>true</code> or <code>false</code> as appropriate.</p>
+<h3 id="indexof">indexOf</h3>
+<blockquote>
+<p>indexOf(model)</p>
+</blockquote>
+<p>Returns the first index at which a given model can be found in the collection, or -1 if it is not present.</p>
+<h3 id="map">map</h3>
+<blockquote>
+<p>map(fn)</p>
+</blockquote>
+<p>Creates a new array with the results of calling the provided function on every model in this collection.</p>
+<h3 id="reduce">reduce</h3>
+<blockquote>
+<p>reduce(fn, initialValue)</p>
+</blockquote>
+<p>Applies the function against an accumulator and each model of the collection (from left-to-right) to reduce it to a single value.</p>
+<h3 id="some">some</h3>
+<blockquote>
+<p>some(iteratorFn)</p>
+</blockquote>
+<p>Tests whether some model in the collection passes the test implemented by the provided function.</p>
+<h3 id="pop">pop</h3>
+<blockquote>
+<p>pop()</p>
+</blockquote>
+<p>Removes the last model from the collection and returns that model. This method changes the length of the collection.</p>
+<h3 id="shift">shift</h3>
+<blockquote>
+<p>shift()</p>
+</blockquote>
+<p>Removes the first model from the collection and returns that model. This method changes the length of the collection.</p>
+<h3 id="unshift">unshift</h3>
+<blockquote>
+<p>unshift(model)</p>
+</blockquote>
+<p>Adds one or more models to the beginning of the collection and returns the new length of the collection.</p>
+<h3 id="remove">remove</h3>
+<blockquote>
+<p>remove(model)</p>
+</blockquote>
+<p>Removes model from the collection.</p>
+<h3 id="removefrom">removeFrom</h3>
+<blockquote>
+<p>removeFrom(n)</p>
+</blockquote>
+<p>Removes model from the given <code>n</code> index.</p>
+<h3 id="difference">difference</h3>
+<blockquote>
+<p>difference(models)</p>
+</blockquote>
+<p>Creates an array of unique models not included in the other given models array.</p>
+<h3 id="findindex">findIndex</h3>
+<blockquote>
+<p>findIndex(model)</p>
+</blockquote>
+<p>This method is like <code>find()</code>, except that it returns the index of the first model.</p>
+<h3 id="first">first</h3>
+<blockquote>
+<p>first()</p>
+</blockquote>
+<p>Gets the first model of the collection.</p>
+<h3 id="last">last</h3>
+<blockquote>
+<p>last()</p>
+</blockquote>
+<p>Gets the last model of the collection.</p>
+<h3 id="nth">nth</h3>
+<blockquote>
+<p>nth(n = 0)</p>
+</blockquote>
+<p>Gets the model at <code>n</code> index of the collection. If <code>n</code> is negative, the nth element from the end is returned.</p>
+<h3 id="take">take</h3>
+<blockquote>
+<p>take(n = 1)</p>
+</blockquote>
+<p>Creates a slice of array with <code>n</code> models taken from the beginning.</p>
+<h3 id="takeright">takeRight</h3>
+<blockquote>
+<p>takeRight(n = 1)</p>
+</blockquote>
+<p>Creates a slice of array with <code>n</code> models taken from the end.</p>
+<h3 id="destroy">destroy</h3>
+<blockquote>
+<p>destroy()</p>
+</blockquote>
+<p>Destroys the collection and its watchers.</p>
+<h3 id="tojs">toJS</h3>
+<blockquote>
+<p>toJS()</p>
+</blockquote>
+<p>Converts the collection to an plain array, and also converting the models into plain objects recursively.</p>
+
+        </div>
+        <div class="footer-nav">
+          <div class="left"><a href="../api/createCollection.html"><span class="title">createCollection</span></a></div>
+          <div class="right"><a href="../api/isCollection.html"><span class="label">Next: </span><span class="title">isCollection</span></a></div>
+        </div>
+      </div>
+      <div class="menu toc-menu">
+        <li class="menu-item -level-0 -parent">
+          <ul class="submenu">
+            <li class="menu-item -level-1"><a href="../index.html" class="link title  link-index">tydel</a>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Introduction</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../intro/installation.html" class="link title  link-introinstallation">Installation</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../intro/quickstart.html" class="link title  link-introquickstart">Quick-start</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Getting started</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../getting-started/types.html" class="link title  link-getting-startedtypes">Types</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../getting-started/models.html" class="link title  link-getting-startedmodels">Models</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../getting-started/collections.html" class="link title  link-getting-startedcollections">Collections</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Advanced usage</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../guides/embed.html" class="link title  link-guidesembed">Embedding</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../guides/events.html" class="link title  link-guidesevents">Events</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../guides/watcher.html" class="link title  link-guideswatcher">Watcher</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Integrations</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../integrations/react/index.html" class="link title  link-integrationsreact">React</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><a href="../examples/index.html" class="link title  link-examples">Examples</a>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../examples/counter/index.html" class="link title  link-examplescounter">Basic counter</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../examples/react-counter/index.html" class="link title  link-examplesreact-counter">React counter</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../examples/todomvc/index.html" class="link title  link-examplestodomvc">TodoMVC</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">API Reference</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><span class="title">Types</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Types.html" class="link title  link-apitypes">Types</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/ChainableTypes.html" class="link title  link-apichainabletypes">ChainableTypes</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/chainType.html" class="link title  link-apichaintype">chainType</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Models</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/createModel.html" class="link title  link-apicreatemodel">createModel</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Model.html" class="link title  link-apimodel">Model</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/isModel.html" class="link title  link-apiismodel">isModel</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Collections</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/createCollection.html" class="link title  link-apicreatecollection">createCollection</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Collection.html" class="link title -active link-apicollection">Collection</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-3"><a href="#length" class="hlink link-length">length</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#at" class="hlink link-at">at</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#push" class="hlink link-push">push</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#every" class="hlink link-every">every</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#filter" class="hlink link-filter">filter</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#find" class="hlink link-find">find</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#foreach" class="hlink link-foreach">forEach</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#includes" class="hlink link-includes">includes</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#indexof" class="hlink link-indexof">indexOf</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#map" class="hlink link-map">map</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#reduce" class="hlink link-reduce">reduce</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#some" class="hlink link-some">some</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#pop" class="hlink link-pop">pop</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#shift" class="hlink link-shift">shift</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#unshift" class="hlink link-unshift">unshift</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#remove" class="hlink link-remove">remove</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#removefrom" class="hlink link-removefrom">removeFrom</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#difference" class="hlink link-difference">difference</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#findindex" class="hlink link-findindex">findIndex</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#first" class="hlink link-first">first</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#last" class="hlink link-last">last</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#nth" class="hlink link-nth">nth</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#take" class="hlink link-take">take</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#takeright" class="hlink link-takeright">takeRight</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#destroy" class="hlink link-destroy">destroy</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#tojs" class="hlink link-tojs">toJS</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/isCollection.html" class="link title  link-apiiscollection">isCollection</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Events</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Event.html" class="link title  link-apievent">Event</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/isEvent.html" class="link title  link-apiisevent">isEvent</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Errors</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/TypeError.html" class="link title  link-apitypeerror">TypeError</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/CollectionError.html" class="link title  link-apicollectionerror">CollectionError</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/MethodError.html" class="link title  link-apimethoderror">MethodError</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Project</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../changelog.html" class="link title  link-changelog">Changelog</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </body>
+</html>

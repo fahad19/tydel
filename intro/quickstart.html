@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../assets/style.css?t=a44c9e9d">
+    <link rel="stylesheet" href="../assets/styles.css?t=09769bc9">
+    <link rel="stylesheet" href="../assets/custom.css?t=a7b82f7c">
+    <script src="../assets/script.js?t=2bcc4b59"></script>
+    <title>Quick-start</title>
+    <meta name="viewport" content="width=device-width">
+    <script>
+      if (false || window.location.hostname.indexOf("tydel.js.org") === window.location.hostname.length - 12) {
+        (function(d,o,c,p,r,e,s){d['GoogleAnalyticsObject']=r;d[r]=d[r]||function(){(d[r].q=d[r].q||[]).push(arguments)},d[r].l=1*new Date();e=o.createElement(c),s=o.getElementsByTagName(c)[0];e.async=1;e.src=p;s.parentNode.insertBefore(e,s)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create',"UA-47493443-5",'auto')
+      }
+    </script>
+  </head>
+  <body class="-menu-visible">
+    <div class="doc-layout">
+      <div class="toggle menu-toggle js-menu-toggle"></div>
+      <div class="body page-introquickstart">
+        <div class="header-nav">
+          <div class="right"><a href="https://github.com/fahad19/tydel" data-title="fahad19/tydel" class="iconlink">
+              <!-- span.title Open in GitHub--><span class="icon -github"></span></a>
+          </div>
+        </div>
+        <div class="markdown-body"><h1 id="quickstart">Quickstart</h1>
+<p>See <a href="../getting-started/types.html">getting started guides</a> to have more in-depth understanding of the concepts.</p>
+<p>This quickstart guide is only for getting you up and running with code examples very quickly.</p>
+<h2 id="define-classes">Define classes</h2>
+<pre><code class="lang-js"><span class="pl-k">import</span> { Types, createModel, createCollection } <span class="pl-k">from</span> <span class="pl-s">&apos;tydel&apos;</span>;
+
+<span class="pl-c">// Model class</span>
+<span class="pl-k">const</span> Todo = createModel({
+  title: Types.string, <span class="pl-c">// or, Types.string.isRequired</span>
+  completed: Types.bool <span class="pl-c">// or, Types.bool.defaults(false)</span>
+}, {
+  setTitle(newTitle) {
+    <span class="pl-k">this</span>.title = newTitle;
+  }
+});
+
+<span class="pl-c">// Collection class, for a specific Model</span>
+<span class="pl-k">const</span> Todos = createCollection(Todo);
+</code></pre>
+<h2 id="instantiate-classes">Instantiate classes</h2>
+<pre><code class="lang-js"><span class="pl-c">// Model instance</span>
+<span class="pl-k">const</span> todo = <span class="pl-k">new</span> Todo({
+  title: <span class="pl-s">&apos;First task&apos;</span>,
+  completed: <span class="pl-c1">false</span>
+});
+
+<span class="pl-c">// Collection instance</span>
+<span class="pl-k">const</span> todos = <span class="pl-k">new</span> Todos();
+</code></pre>
+<h2 id="model-usage">Model usage</h2>
+<pre><code class="lang-js"><span class="pl-c">// access properties</span>
+<span class="pl-c1">console</span>.log(todo.title); <span class="pl-c">// `First task`</span>
+
+<span class="pl-c">// properties are immutable</span>
+todo.title = <span class="pl-s">&apos;First task title changed&apos;</span>;
+<span class="pl-c1">console</span>.log(todo.title); <span class="pl-c">// still `First task`</span>
+
+<span class="pl-c">// mutate them via methods</span>
+todo.setTitle(<span class="pl-s">&apos;First task [updated]&apos;</span>);
+<span class="pl-c1">console</span>.log(todo.title); <span class="pl-c">// `First task [updated]`</span>
+</code></pre>
+<h2 id="collection-usage">Collection usage</h2>
+<pre><code class="lang-js"><span class="pl-c">// lets push the model to collection</span>
+todos.push(todo);
+<span class="pl-c1">console</span>.log(todos.length); <span class="pl-c">// `1`</span>
+
+todos.push(<span class="pl-k">new</span> Todo({
+  title: <span class="pl-s">&apos;My second task&apos;</span>,
+  completed: <span class="pl-c1">false</span>
+}));
+<span class="pl-c1">console</span>.log(todos.length); <span class="pl-c">// `2`</span>
+
+<span class="pl-c">// let&apos;s take the last model out of the collection</span>
+<span class="pl-k">const</span> lastTodo = todos.pop();
+<span class="pl-c1">console</span>.log(lastTodo); <span class="pl-c">// `My second task`</span>
+</code></pre>
+<h2 id="watchers">Watchers</h2>
+<pre><code class="lang-js"><span class="pl-c">// listen for changes</span>
+<span class="pl-k">const</span> modelWatcher = todo.on(<span class="pl-s">&apos;change&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span> (<span class="hljs-params"></span>) </span>{
+  <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;todo model has been changed&apos;</span>);
+});
+
+todo.setTitle(<span class="pl-s">&apos;First task [updated again]&apos;</span>); <span class="pl-c">// prints out `todo has been changed` in console</span>
+
+modelWatcher(); <span class="pl-c">// stops listening</span>
+
+<span class="pl-k">const</span> collectionWatcher = todos.on(<span class="pl-s">&apos;change&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span> (<span class="hljs-params"></span>) </span>{
+  <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;todos collection has changed&apos;</span>);
+});
+
+collectionWatcher(); <span class="pl-c">// stops listening</span>
+</code></pre>
+
+        </div>
+        <div class="footer-nav">
+          <div class="left"><a href="../intro/installation.html"><span class="title">Installation</span></a></div>
+          <div class="right"><a href="../getting-started/types.html"><span class="label">Next: </span><span class="title">Types</span></a></div>
+        </div>
+      </div>
+      <div class="menu toc-menu">
+        <li class="menu-item -level-0 -parent">
+          <ul class="submenu">
+            <li class="menu-item -level-1"><a href="../index.html" class="link title  link-index">tydel</a>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Introduction</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../intro/installation.html" class="link title  link-introinstallation">Installation</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../intro/quickstart.html" class="link title -active link-introquickstart">Quick-start</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-2"><a href="#define-classes" class="hlink link-define-classes">Define classes</a>
+                    </li>
+                    <li class="heading-item -depth-2"><a href="#instantiate-classes" class="hlink link-instantiate-classes">Instantiate classes</a>
+                    </li>
+                    <li class="heading-item -depth-2"><a href="#model-usage" class="hlink link-model-usage">Model usage</a>
+                    </li>
+                    <li class="heading-item -depth-2"><a href="#collection-usage" class="hlink link-collection-usage">Collection usage</a>
+                    </li>
+                    <li class="heading-item -depth-2"><a href="#watchers" class="hlink link-watchers">Watchers</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Getting started</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../getting-started/types.html" class="link title  link-getting-startedtypes">Types</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../getting-started/models.html" class="link title  link-getting-startedmodels">Models</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../getting-started/collections.html" class="link title  link-getting-startedcollections">Collections</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Advanced usage</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../guides/embed.html" class="link title  link-guidesembed">Embedding</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../guides/events.html" class="link title  link-guidesevents">Events</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../guides/watcher.html" class="link title  link-guideswatcher">Watcher</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Integrations</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../integrations/react/index.html" class="link title  link-integrationsreact">React</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><a href="../examples/index.html" class="link title  link-examples">Examples</a>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../examples/counter/index.html" class="link title  link-examplescounter">Basic counter</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../examples/react-counter/index.html" class="link title  link-examplesreact-counter">React counter</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../examples/todomvc/index.html" class="link title  link-examplestodomvc">TodoMVC</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">API Reference</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><span class="title">Types</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Types.html" class="link title  link-apitypes">Types</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/ChainableTypes.html" class="link title  link-apichainabletypes">ChainableTypes</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/chainType.html" class="link title  link-apichaintype">chainType</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Models</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/createModel.html" class="link title  link-apicreatemodel">createModel</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Model.html" class="link title  link-apimodel">Model</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/isModel.html" class="link title  link-apiismodel">isModel</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Collections</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/createCollection.html" class="link title  link-apicreatecollection">createCollection</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Collection.html" class="link title  link-apicollection">Collection</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/isCollection.html" class="link title  link-apiiscollection">isCollection</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Events</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Event.html" class="link title  link-apievent">Event</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/isEvent.html" class="link title  link-apiisevent">isEvent</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Errors</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/TypeError.html" class="link title  link-apitypeerror">TypeError</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/CollectionError.html" class="link title  link-apicollectionerror">CollectionError</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/MethodError.html" class="link title  link-apimethoderror">MethodError</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Project</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../changelog.html" class="link title  link-changelog">Changelog</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </body>
+</html>

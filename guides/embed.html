@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../assets/style.css?t=a44c9e9d">
+    <link rel="stylesheet" href="../assets/styles.css?t=09769bc9">
+    <link rel="stylesheet" href="../assets/custom.css?t=a7b82f7c">
+    <script src="../assets/script.js?t=2bcc4b59"></script>
+    <title>Embedding</title>
+    <meta name="viewport" content="width=device-width">
+    <script>
+      if (false || window.location.hostname.indexOf("tydel.js.org") === window.location.hostname.length - 12) {
+        (function(d,o,c,p,r,e,s){d['GoogleAnalyticsObject']=r;d[r]=d[r]||function(){(d[r].q=d[r].q||[]).push(arguments)},d[r].l=1*new Date();e=o.createElement(c),s=o.getElementsByTagName(c)[0];e.async=1;e.src=p;s.parentNode.insertBefore(e,s)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create',"UA-47493443-5",'auto')
+      }
+    </script>
+  </head>
+  <body class="-menu-visible">
+    <div class="doc-layout">
+      <div class="toggle menu-toggle js-menu-toggle"></div>
+      <div class="body page-guidesembed">
+        <div class="header-nav">
+          <div class="right"><a href="https://github.com/fahad19/tydel" data-title="fahad19/tydel" class="iconlink">
+              <!-- span.title Open in GitHub--><span class="icon -github"></span></a>
+          </div>
+        </div>
+        <div class="markdown-body"><h1 id="embedding-models-and-collections">Embedding Models and Collections</h1>
+<p>Models can embed other Models and Collections, and this can go as many levels deep as the data structure demands.</p>
+<h2 id="models">Models</h2>
+<p>Let&#x2019;s say we have an individual <code>Address</code> model:</p>
+<pre><code class="lang-js"><span class="pl-k">import</span> { Types, createModel } <span class="pl-k">from</span> <span class="pl-s">&apos;tydel&apos;</span>;
+
+<span class="pl-k">const</span> Address = createModel({
+  street: Types.string.isRequired,
+  city: Types.string.isRequired
+}, {
+  setStreet(street) {
+    <span class="pl-k">this</span>.street = street;
+  }
+});
+</code></pre>
+<p>And we also have a <code>Person</code> model:</p>
+<pre><code class="lang-js"><span class="pl-k">const</span> Person = createModel({
+  name: Types.string.isRequired
+});
+</code></pre>
+<p>If we wish to embed <code>Address</code> model in a new schema key <code>address</code> in <code>Person</code> model, we would do:</p>
+<pre><code class="lang-js"><span class="pl-k">const</span> Person = createModel({
+  name: Types.string.isRequired,
+  address: Types.model.of(Address).isRequired
+});
+</code></pre>
+<p>Next, if we instantiate a new <code>Person</code>:</p>
+<pre><code class="lang-js"><span class="pl-k">const</span> person = <span class="pl-k">new</span> Person({
+  name: <span class="pl-s">&apos;Sirius Black&apos;</span>,
+  address: {
+    street: <span class="pl-s">&apos;12 Grimmauld Place&apos;</span>,
+    city: <span class="pl-s">&apos;London&apos;</span>
+  }
+});
+
+<span class="pl-c">// `person` is an instance of Person</span>
+<span class="pl-c">// `person.address` is an instance of Address</span>
+</code></pre>
+<p>To change the street name of the address, we would access the method as:</p>
+<pre><code class="lang-js">person.address.setStreet(<span class="pl-s">&apos;New street name&apos;</span>);
+</code></pre>
+<h2 id="collections">Collections</h2>
+<p>From previous examples, we already have a <code>Person</code> model. Now let&#x2019;s say, a <code>Person</code> has a collection of <code>Books</code>.</p>
+<p>We can define the classes as follows:</p>
+<pre><code class="lang-js"><span class="pl-k">import</span> { Types, createModel, createCollection } <span class="pl-k">from</span> <span class="pl-s">&apos;tydel&apos;</span>;
+
+
+<span class="pl-k">const</span> Book = createModel({
+  title: Types.string.isRequired
+});
+
+<span class="pl-k">const</span> Books = createCollection(Book);
+
+<span class="pl-k">const</span> Person = createModel({
+  name: Types.string.isRequired,
+  books: Types.collection.of(Books)
+});
+</code></pre>
+<p>When instantiating a <code>Person</code>, we can optionally pass books data too:</p>
+<pre><code class="lang-js"><span class="pl-k">const</span> person = <span class="pl-k">new</span> Person({
+  name: <span class="pl-s">&apos;Bathilda Bagshot&apos;</span>,
+  books: [
+    { title: <span class="pl-s">&apos;A History of Magic&apos;</span> }
+  ]
+});
+
+<span class="pl-c">// `person` is an instance of Person</span>
+<span class="pl-c">// `person.books` is an instance of Books</span>
+<span class="pl-c">// `person.books.at(0)` is an instance of Book</span>
+</code></pre>
+<p>You could now add more books to the list as:</p>
+<pre><code class="lang-js">person.books.push(<span class="pl-k">new</span> Book({
+  name: <span class="pl-s">&apos;Hogwarts: A History&apos;</span>
+}));
+</code></pre>
+
+        </div>
+        <div class="footer-nav">
+          <div class="left"><a href="../getting-started/collections.html"><span class="title">Collections</span></a></div>
+          <div class="right"><a href="../guides/events.html"><span class="label">Next: </span><span class="title">Events</span></a></div>
+        </div>
+      </div>
+      <div class="menu toc-menu">
+        <li class="menu-item -level-0 -parent">
+          <ul class="submenu">
+            <li class="menu-item -level-1"><a href="../index.html" class="link title  link-index">tydel</a>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Introduction</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../intro/installation.html" class="link title  link-introinstallation">Installation</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../intro/quickstart.html" class="link title  link-introquickstart">Quick-start</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Getting started</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../getting-started/types.html" class="link title  link-getting-startedtypes">Types</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../getting-started/models.html" class="link title  link-getting-startedmodels">Models</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../getting-started/collections.html" class="link title  link-getting-startedcollections">Collections</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Advanced usage</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../guides/embed.html" class="link title -active link-guidesembed">Embedding</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-2"><a href="#models" class="hlink link-models">Models</a>
+                    </li>
+                    <li class="heading-item -depth-2"><a href="#collections" class="hlink link-collections">Collections</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item -level-2"><a href="../guides/events.html" class="link title  link-guidesevents">Events</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../guides/watcher.html" class="link title  link-guideswatcher">Watcher</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Integrations</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../integrations/react/index.html" class="link title  link-integrationsreact">React</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><a href="../examples/index.html" class="link title  link-examples">Examples</a>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../examples/counter/index.html" class="link title  link-examplescounter">Basic counter</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../examples/react-counter/index.html" class="link title  link-examplesreact-counter">React counter</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../examples/todomvc/index.html" class="link title  link-examplestodomvc">TodoMVC</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">API Reference</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><span class="title">Types</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Types.html" class="link title  link-apitypes">Types</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/ChainableTypes.html" class="link title  link-apichainabletypes">ChainableTypes</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/chainType.html" class="link title  link-apichaintype">chainType</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Models</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/createModel.html" class="link title  link-apicreatemodel">createModel</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Model.html" class="link title  link-apimodel">Model</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/isModel.html" class="link title  link-apiismodel">isModel</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Collections</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/createCollection.html" class="link title  link-apicreatecollection">createCollection</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Collection.html" class="link title  link-apicollection">Collection</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/isCollection.html" class="link title  link-apiiscollection">isCollection</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Events</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/Event.html" class="link title  link-apievent">Event</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/isEvent.html" class="link title  link-apiisevent">isEvent</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Errors</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/TypeError.html" class="link title  link-apitypeerror">TypeError</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/CollectionError.html" class="link title  link-apicollectionerror">CollectionError</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../api/MethodError.html" class="link title  link-apimethoderror">MethodError</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Project</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../changelog.html" class="link title  link-changelog">Changelog</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </body>
+</html>

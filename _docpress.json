@@ -1,0 +1,1320 @@
+{
+  "toc": {
+    "sections": [
+      {
+        "title": "tydel",
+        "source": "README.md",
+        "url": "index.html",
+        "slug": "index",
+        "headings": [
+          {
+            "title": "Overview",
+            "depth": 2,
+            "id": "overview"
+          },
+          {
+            "title": "Terminologies",
+            "depth": 2,
+            "id": "terminologies"
+          },
+          {
+            "title": "Guides",
+            "depth": 2,
+            "id": "guides"
+          },
+          {
+            "title": "Integrations & Resources",
+            "depth": 2,
+            "id": "integrations-and-resources"
+          },
+          {
+            "title": "Thanks",
+            "depth": 2,
+            "id": "thanks"
+          },
+          {
+            "title": "License",
+            "depth": 2,
+            "id": "license"
+          }
+        ]
+      },
+      {
+        "title": "Introduction",
+        "sections": [
+          {
+            "title": "Installation",
+            "source": "docs/intro/installation.md",
+            "url": "intro/installation.html",
+            "slug": "introinstallation",
+            "headings": [
+              {
+                "title": "npm",
+                "depth": 2,
+                "id": "npm"
+              },
+              {
+                "title": "Bower",
+                "depth": 2,
+                "id": "bower"
+              }
+            ]
+          },
+          {
+            "title": "Quick-start",
+            "source": "docs/intro/quickstart.md",
+            "url": "intro/quickstart.html",
+            "slug": "introquickstart",
+            "headings": [
+              {
+                "title": "Define classes",
+                "depth": 2,
+                "id": "define-classes"
+              },
+              {
+                "title": "Instantiate classes",
+                "depth": 2,
+                "id": "instantiate-classes"
+              },
+              {
+                "title": "Model usage",
+                "depth": 2,
+                "id": "model-usage"
+              },
+              {
+                "title": "Collection usage",
+                "depth": 2,
+                "id": "collection-usage"
+              },
+              {
+                "title": "Watchers",
+                "depth": 2,
+                "id": "watchers"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Getting started",
+        "sections": [
+          {
+            "title": "Types",
+            "source": "docs/getting-started/types.md",
+            "url": "getting-started/types.html",
+            "slug": "getting-startedtypes",
+            "headings": [
+              {
+                "title": "Primary types",
+                "depth": 2,
+                "id": "primary-types"
+              },
+              {
+                "title": "Chaining",
+                "depth": 2,
+                "id": "chaining"
+              }
+            ]
+          },
+          {
+            "title": "Models",
+            "source": "docs/getting-started/models.md",
+            "url": "getting-started/models.html",
+            "slug": "getting-startedmodels",
+            "headings": [
+              {
+                "title": "Create a class",
+                "depth": 2,
+                "id": "create-a-class"
+              },
+              {
+                "title": "Create an instance",
+                "depth": 2,
+                "id": "create-an-instance"
+              },
+              {
+                "title": "Accessing properties",
+                "depth": 2,
+                "id": "accessing-properties"
+              },
+              {
+                "title": "Immutable by default",
+                "depth": 2,
+                "id": "immutable-by-default"
+              },
+              {
+                "title": "Methods",
+                "depth": 2,
+                "id": "methods"
+              },
+              {
+                "title": "Initializers",
+                "depth": 2,
+                "id": "initializers"
+              }
+            ]
+          },
+          {
+            "title": "Collections",
+            "source": "docs/getting-started/collections.md",
+            "url": "getting-started/collections.html",
+            "slug": "getting-startedcollections",
+            "headings": [
+              {
+                "title": "Create a class",
+                "depth": 2,
+                "id": "create-a-class"
+              },
+              {
+                "title": "Create an instance",
+                "depth": 2,
+                "id": "create-an-instance"
+              },
+              {
+                "title": "Methods",
+                "depth": 2,
+                "id": "methods"
+              },
+              {
+                "title": "Initializers",
+                "depth": 2,
+                "id": "initializers"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Advanced usage",
+        "sections": [
+          {
+            "title": "Embedding",
+            "source": "docs/guides/embed.md",
+            "url": "guides/embed.html",
+            "slug": "guidesembed",
+            "headings": [
+              {
+                "title": "Models",
+                "depth": 2,
+                "id": "models"
+              },
+              {
+                "title": "Collections",
+                "depth": 2,
+                "id": "collections"
+              }
+            ]
+          },
+          {
+            "title": "Events",
+            "source": "docs/guides/events.md",
+            "url": "guides/events.html",
+            "slug": "guidesevents",
+            "headings": [
+              {
+                "title": "on",
+                "depth": 3,
+                "id": "on"
+              },
+              {
+                "title": "off",
+                "depth": 3,
+                "id": "off"
+              },
+              {
+                "title": "trigger",
+                "depth": 3,
+                "id": "trigger"
+              }
+            ]
+          },
+          {
+            "title": "Watcher",
+            "source": "docs/guides/watcher.md",
+            "url": "guides/watcher.html",
+            "slug": "guideswatcher",
+            "headings": [
+              {
+                "title": "Models",
+                "depth": 2,
+                "id": "models"
+              },
+              {
+                "title": "Collections",
+                "depth": 2,
+                "id": "collections"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Integrations",
+        "sections": [
+          {
+            "title": "React",
+            "source": "docs/integrations/react/README.md",
+            "url": "integrations/react/index.html",
+            "slug": "integrationsreact",
+            "headings": [
+              {
+                "title": "Install",
+                "depth": 2,
+                "id": "install"
+              },
+              {
+                "title": "State model",
+                "depth": 2,
+                "id": "state-model"
+              },
+              {
+                "title": "Root component",
+                "depth": 2,
+                "id": "root-component"
+              },
+              {
+                "title": "Accessing model",
+                "depth": 2,
+                "id": "accessing-model"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Examples",
+        "source": "docs/examples/README.md",
+        "url": "examples/index.html",
+        "slug": "examples",
+        "sections": [
+          {
+            "title": "Basic counter",
+            "source": "docs/examples/counter/README.md",
+            "url": "examples/counter/index.html",
+            "slug": "examplescounter"
+          },
+          {
+            "title": "React counter",
+            "source": "docs/examples/react-counter/README.md",
+            "url": "examples/react-counter/index.html",
+            "slug": "examplesreact-counter"
+          },
+          {
+            "title": "TodoMVC",
+            "source": "docs/examples/todomvc/README.md",
+            "url": "examples/todomvc/index.html",
+            "slug": "examplestodomvc"
+          }
+        ]
+      },
+      {
+        "title": "API Reference",
+        "sections": [
+          {
+            "title": "Types"
+          },
+          {
+            "title": "Types",
+            "source": "docs/api/Types.md",
+            "url": "api/Types.html",
+            "slug": "apitypes",
+            "headings": [
+              {
+                "title": "string",
+                "depth": 3,
+                "id": "string"
+              },
+              {
+                "title": "bool",
+                "depth": 3,
+                "id": "bool"
+              },
+              {
+                "title": "number",
+                "depth": 3,
+                "id": "number"
+              },
+              {
+                "title": "array",
+                "depth": 3,
+                "id": "array"
+              },
+              {
+                "title": "object",
+                "depth": 3,
+                "id": "object"
+              },
+              {
+                "title": "enum",
+                "depth": 3,
+                "id": "enum"
+              },
+              {
+                "title": "uuid",
+                "depth": 3,
+                "id": "uuid"
+              },
+              {
+                "title": "any",
+                "depth": 3,
+                "id": "any"
+              },
+              {
+                "title": "model",
+                "depth": 3,
+                "id": "model"
+              },
+              {
+                "title": "collection",
+                "depth": 3,
+                "id": "collection"
+              }
+            ]
+          },
+          {
+            "title": "ChainableTypes",
+            "source": "docs/api/ChainableTypes.md",
+            "url": "api/ChainableTypes.html",
+            "slug": "apichainabletypes",
+            "headings": [
+              {
+                "title": "isRequired",
+                "depth": 3,
+                "id": "isrequired"
+              },
+              {
+                "title": "defaults",
+                "depth": 3,
+                "id": "defaults"
+              }
+            ]
+          },
+          {
+            "title": "chainType",
+            "source": "docs/api/chainType.md",
+            "url": "api/chainType.html",
+            "slug": "apichaintype"
+          },
+          {
+            "title": "Models"
+          },
+          {
+            "title": "createModel",
+            "source": "docs/api/createModel.md",
+            "url": "api/createModel.html",
+            "slug": "apicreatemodel",
+            "headings": [
+              {
+                "title": "schema",
+                "depth": 2,
+                "id": "schema"
+              },
+              {
+                "title": "methods",
+                "depth": 2,
+                "id": "methods",
+                "headings": [
+                  {
+                    "title": "initializers",
+                    "depth": 3,
+                    "id": "initializers"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Model",
+            "source": "docs/api/Model.md",
+            "url": "api/Model.html",
+            "slug": "apimodel",
+            "headings": [
+              {
+                "title": "destroy",
+                "depth": 3,
+                "id": "destroy"
+              },
+              {
+                "title": "getIn",
+                "depth": 3,
+                "id": "getin"
+              },
+              {
+                "title": "toJS",
+                "depth": 3,
+                "id": "tojs"
+              }
+            ]
+          },
+          {
+            "title": "isModel",
+            "source": "docs/api/isModel.md",
+            "url": "api/isModel.html",
+            "slug": "apiismodel"
+          },
+          {
+            "title": "Collections"
+          },
+          {
+            "title": "createCollection",
+            "source": "docs/api/createCollection.md",
+            "url": "api/createCollection.html",
+            "slug": "apicreatecollection",
+            "headings": [
+              {
+                "title": "Model",
+                "depth": 3,
+                "id": "model"
+              },
+              {
+                "title": "methods",
+                "depth": 3,
+                "id": "methods"
+              },
+              {
+                "title": "initializers",
+                "depth": 3,
+                "id": "initializers"
+              }
+            ]
+          },
+          {
+            "title": "Collection",
+            "source": "docs/api/Collection.md",
+            "url": "api/Collection.html",
+            "slug": "apicollection",
+            "headings": [
+              {
+                "title": "length",
+                "depth": 3,
+                "id": "length"
+              },
+              {
+                "title": "at",
+                "depth": 3,
+                "id": "at"
+              },
+              {
+                "title": "push",
+                "depth": 3,
+                "id": "push"
+              },
+              {
+                "title": "every",
+                "depth": 3,
+                "id": "every"
+              },
+              {
+                "title": "filter",
+                "depth": 3,
+                "id": "filter"
+              },
+              {
+                "title": "find",
+                "depth": 3,
+                "id": "find"
+              },
+              {
+                "title": "forEach",
+                "depth": 3,
+                "id": "foreach"
+              },
+              {
+                "title": "includes",
+                "depth": 3,
+                "id": "includes"
+              },
+              {
+                "title": "indexOf",
+                "depth": 3,
+                "id": "indexof"
+              },
+              {
+                "title": "map",
+                "depth": 3,
+                "id": "map"
+              },
+              {
+                "title": "reduce",
+                "depth": 3,
+                "id": "reduce"
+              },
+              {
+                "title": "some",
+                "depth": 3,
+                "id": "some"
+              },
+              {
+                "title": "pop",
+                "depth": 3,
+                "id": "pop"
+              },
+              {
+                "title": "shift",
+                "depth": 3,
+                "id": "shift"
+              },
+              {
+                "title": "unshift",
+                "depth": 3,
+                "id": "unshift"
+              },
+              {
+                "title": "remove",
+                "depth": 3,
+                "id": "remove"
+              },
+              {
+                "title": "removeFrom",
+                "depth": 3,
+                "id": "removefrom"
+              },
+              {
+                "title": "difference",
+                "depth": 3,
+                "id": "difference"
+              },
+              {
+                "title": "findIndex",
+                "depth": 3,
+                "id": "findindex"
+              },
+              {
+                "title": "first",
+                "depth": 3,
+                "id": "first"
+              },
+              {
+                "title": "last",
+                "depth": 3,
+                "id": "last"
+              },
+              {
+                "title": "nth",
+                "depth": 3,
+                "id": "nth"
+              },
+              {
+                "title": "take",
+                "depth": 3,
+                "id": "take"
+              },
+              {
+                "title": "takeRight",
+                "depth": 3,
+                "id": "takeright"
+              },
+              {
+                "title": "destroy",
+                "depth": 3,
+                "id": "destroy"
+              },
+              {
+                "title": "toJS",
+                "depth": 3,
+                "id": "tojs"
+              }
+            ]
+          },
+          {
+            "title": "isCollection",
+            "source": "docs/api/isCollection.md",
+            "url": "api/isCollection.html",
+            "slug": "apiiscollection"
+          },
+          {
+            "title": "Events"
+          },
+          {
+            "title": "Event",
+            "source": "docs/api/Event.md",
+            "url": "api/Event.html",
+            "slug": "apievent",
+            "headings": [
+              {
+                "title": "path",
+                "depth": 3,
+                "id": "path"
+              }
+            ]
+          },
+          {
+            "title": "isEvent",
+            "source": "docs/api/isEvent.md",
+            "url": "api/isEvent.html",
+            "slug": "apiisevent"
+          },
+          {
+            "title": "Errors"
+          },
+          {
+            "title": "TypeError",
+            "source": "docs/api/TypeError.md",
+            "url": "api/TypeError.html",
+            "slug": "apitypeerror"
+          },
+          {
+            "title": "CollectionError",
+            "source": "docs/api/CollectionError.md",
+            "url": "api/CollectionError.html",
+            "slug": "apicollectionerror"
+          },
+          {
+            "title": "MethodError",
+            "source": "docs/api/MethodError.md",
+            "url": "api/MethodError.html",
+            "slug": "apimethoderror"
+          }
+        ]
+      },
+      {
+        "title": "Project",
+        "sections": [
+          {
+            "title": "Changelog",
+            "source": "docs/changelog.md",
+            "url": "changelog.html",
+            "slug": "changelog"
+          }
+        ]
+      }
+    ]
+  },
+  "index": {
+    "index.html": {
+      "source": "README.md",
+      "title": "tydel",
+      "slug": "index",
+      "headings": [
+        {
+          "title": "Overview",
+          "depth": 2,
+          "id": "overview"
+        },
+        {
+          "title": "Terminologies",
+          "depth": 2,
+          "id": "terminologies"
+        },
+        {
+          "title": "Guides",
+          "depth": 2,
+          "id": "guides"
+        },
+        {
+          "title": "Integrations & Resources",
+          "depth": 2,
+          "id": "integrations-and-resources"
+        },
+        {
+          "title": "Thanks",
+          "depth": 2,
+          "id": "thanks"
+        },
+        {
+          "title": "License",
+          "depth": 2,
+          "id": "license"
+        }
+      ]
+    },
+    "intro/installation.html": {
+      "source": "docs/intro/installation.md",
+      "title": "Installation",
+      "slug": "introinstallation",
+      "headings": [
+        {
+          "title": "npm",
+          "depth": 2,
+          "id": "npm"
+        },
+        {
+          "title": "Bower",
+          "depth": 2,
+          "id": "bower"
+        }
+      ]
+    },
+    "intro/quickstart.html": {
+      "source": "docs/intro/quickstart.md",
+      "title": "Quick-start",
+      "slug": "introquickstart",
+      "headings": [
+        {
+          "title": "Define classes",
+          "depth": 2,
+          "id": "define-classes"
+        },
+        {
+          "title": "Instantiate classes",
+          "depth": 2,
+          "id": "instantiate-classes"
+        },
+        {
+          "title": "Model usage",
+          "depth": 2,
+          "id": "model-usage"
+        },
+        {
+          "title": "Collection usage",
+          "depth": 2,
+          "id": "collection-usage"
+        },
+        {
+          "title": "Watchers",
+          "depth": 2,
+          "id": "watchers"
+        }
+      ]
+    },
+    "getting-started/types.html": {
+      "source": "docs/getting-started/types.md",
+      "title": "Types",
+      "slug": "getting-startedtypes",
+      "headings": [
+        {
+          "title": "Primary types",
+          "depth": 2,
+          "id": "primary-types"
+        },
+        {
+          "title": "Chaining",
+          "depth": 2,
+          "id": "chaining"
+        }
+      ]
+    },
+    "getting-started/models.html": {
+      "source": "docs/getting-started/models.md",
+      "title": "Models",
+      "slug": "getting-startedmodels",
+      "headings": [
+        {
+          "title": "Create a class",
+          "depth": 2,
+          "id": "create-a-class"
+        },
+        {
+          "title": "Create an instance",
+          "depth": 2,
+          "id": "create-an-instance"
+        },
+        {
+          "title": "Accessing properties",
+          "depth": 2,
+          "id": "accessing-properties"
+        },
+        {
+          "title": "Immutable by default",
+          "depth": 2,
+          "id": "immutable-by-default"
+        },
+        {
+          "title": "Methods",
+          "depth": 2,
+          "id": "methods"
+        },
+        {
+          "title": "Initializers",
+          "depth": 2,
+          "id": "initializers"
+        }
+      ]
+    },
+    "getting-started/collections.html": {
+      "source": "docs/getting-started/collections.md",
+      "title": "Collections",
+      "slug": "getting-startedcollections",
+      "headings": [
+        {
+          "title": "Create a class",
+          "depth": 2,
+          "id": "create-a-class"
+        },
+        {
+          "title": "Create an instance",
+          "depth": 2,
+          "id": "create-an-instance"
+        },
+        {
+          "title": "Methods",
+          "depth": 2,
+          "id": "methods"
+        },
+        {
+          "title": "Initializers",
+          "depth": 2,
+          "id": "initializers"
+        }
+      ]
+    },
+    "guides/embed.html": {
+      "source": "docs/guides/embed.md",
+      "title": "Embedding",
+      "slug": "guidesembed",
+      "headings": [
+        {
+          "title": "Models",
+          "depth": 2,
+          "id": "models"
+        },
+        {
+          "title": "Collections",
+          "depth": 2,
+          "id": "collections"
+        }
+      ]
+    },
+    "guides/events.html": {
+      "source": "docs/guides/events.md",
+      "title": "Events",
+      "slug": "guidesevents",
+      "headings": [
+        {
+          "title": "on",
+          "depth": 3,
+          "id": "on"
+        },
+        {
+          "title": "off",
+          "depth": 3,
+          "id": "off"
+        },
+        {
+          "title": "trigger",
+          "depth": 3,
+          "id": "trigger"
+        }
+      ]
+    },
+    "guides/watcher.html": {
+      "source": "docs/guides/watcher.md",
+      "title": "Watcher",
+      "slug": "guideswatcher",
+      "headings": [
+        {
+          "title": "Models",
+          "depth": 2,
+          "id": "models"
+        },
+        {
+          "title": "Collections",
+          "depth": 2,
+          "id": "collections"
+        }
+      ]
+    },
+    "integrations/react/index.html": {
+      "source": "docs/integrations/react/README.md",
+      "title": "React",
+      "slug": "integrationsreact",
+      "headings": [
+        {
+          "title": "Install",
+          "depth": 2,
+          "id": "install"
+        },
+        {
+          "title": "State model",
+          "depth": 2,
+          "id": "state-model"
+        },
+        {
+          "title": "Root component",
+          "depth": 2,
+          "id": "root-component"
+        },
+        {
+          "title": "Accessing model",
+          "depth": 2,
+          "id": "accessing-model"
+        }
+      ]
+    },
+    "examples/index.html": {
+      "source": "docs/examples/README.md",
+      "title": "Examples",
+      "slug": "examples"
+    },
+    "examples/counter/index.html": {
+      "source": "docs/examples/counter/README.md",
+      "title": "Basic counter",
+      "slug": "examplescounter"
+    },
+    "examples/react-counter/index.html": {
+      "source": "docs/examples/react-counter/README.md",
+      "title": "React counter",
+      "slug": "examplesreact-counter"
+    },
+    "examples/todomvc/index.html": {
+      "source": "docs/examples/todomvc/README.md",
+      "title": "TodoMVC",
+      "slug": "examplestodomvc"
+    },
+    "api/Types.html": {
+      "source": "docs/api/Types.md",
+      "title": "Types",
+      "slug": "apitypes",
+      "headings": [
+        {
+          "title": "string",
+          "depth": 3,
+          "id": "string"
+        },
+        {
+          "title": "bool",
+          "depth": 3,
+          "id": "bool"
+        },
+        {
+          "title": "number",
+          "depth": 3,
+          "id": "number"
+        },
+        {
+          "title": "array",
+          "depth": 3,
+          "id": "array"
+        },
+        {
+          "title": "object",
+          "depth": 3,
+          "id": "object"
+        },
+        {
+          "title": "enum",
+          "depth": 3,
+          "id": "enum"
+        },
+        {
+          "title": "uuid",
+          "depth": 3,
+          "id": "uuid"
+        },
+        {
+          "title": "any",
+          "depth": 3,
+          "id": "any"
+        },
+        {
+          "title": "model",
+          "depth": 3,
+          "id": "model"
+        },
+        {
+          "title": "collection",
+          "depth": 3,
+          "id": "collection"
+        }
+      ]
+    },
+    "api/ChainableTypes.html": {
+      "source": "docs/api/ChainableTypes.md",
+      "title": "ChainableTypes",
+      "slug": "apichainabletypes",
+      "headings": [
+        {
+          "title": "isRequired",
+          "depth": 3,
+          "id": "isrequired"
+        },
+        {
+          "title": "defaults",
+          "depth": 3,
+          "id": "defaults"
+        }
+      ]
+    },
+    "api/chainType.html": {
+      "source": "docs/api/chainType.md",
+      "title": "chainType",
+      "slug": "apichaintype"
+    },
+    "api/createModel.html": {
+      "source": "docs/api/createModel.md",
+      "title": "createModel",
+      "slug": "apicreatemodel",
+      "headings": [
+        {
+          "title": "schema",
+          "depth": 2,
+          "id": "schema"
+        },
+        {
+          "title": "methods",
+          "depth": 2,
+          "id": "methods",
+          "headings": [
+            {
+              "title": "initializers",
+              "depth": 3,
+              "id": "initializers"
+            }
+          ]
+        }
+      ]
+    },
+    "api/Model.html": {
+      "source": "docs/api/Model.md",
+      "title": "Model",
+      "slug": "apimodel",
+      "headings": [
+        {
+          "title": "destroy",
+          "depth": 3,
+          "id": "destroy"
+        },
+        {
+          "title": "getIn",
+          "depth": 3,
+          "id": "getin"
+        },
+        {
+          "title": "toJS",
+          "depth": 3,
+          "id": "tojs"
+        }
+      ]
+    },
+    "api/isModel.html": {
+      "source": "docs/api/isModel.md",
+      "title": "isModel",
+      "slug": "apiismodel"
+    },
+    "api/createCollection.html": {
+      "source": "docs/api/createCollection.md",
+      "title": "createCollection",
+      "slug": "apicreatecollection",
+      "headings": [
+        {
+          "title": "Model",
+          "depth": 3,
+          "id": "model"
+        },
+        {
+          "title": "methods",
+          "depth": 3,
+          "id": "methods"
+        },
+        {
+          "title": "initializers",
+          "depth": 3,
+          "id": "initializers"
+        }
+      ]
+    },
+    "api/Collection.html": {
+      "source": "docs/api/Collection.md",
+      "title": "Collection",
+      "slug": "apicollection",
+      "headings": [
+        {
+          "title": "length",
+          "depth": 3,
+          "id": "length"
+        },
+        {
+          "title": "at",
+          "depth": 3,
+          "id": "at"
+        },
+        {
+          "title": "push",
+          "depth": 3,
+          "id": "push"
+        },
+        {
+          "title": "every",
+          "depth": 3,
+          "id": "every"
+        },
+        {
+          "title": "filter",
+          "depth": 3,
+          "id": "filter"
+        },
+        {
+          "title": "find",
+          "depth": 3,
+          "id": "find"
+        },
+        {
+          "title": "forEach",
+          "depth": 3,
+          "id": "foreach"
+        },
+        {
+          "title": "includes",
+          "depth": 3,
+          "id": "includes"
+        },
+        {
+          "title": "indexOf",
+          "depth": 3,
+          "id": "indexof"
+        },
+        {
+          "title": "map",
+          "depth": 3,
+          "id": "map"
+        },
+        {
+          "title": "reduce",
+          "depth": 3,
+          "id": "reduce"
+        },
+        {
+          "title": "some",
+          "depth": 3,
+          "id": "some"
+        },
+        {
+          "title": "pop",
+          "depth": 3,
+          "id": "pop"
+        },
+        {
+          "title": "shift",
+          "depth": 3,
+          "id": "shift"
+        },
+        {
+          "title": "unshift",
+          "depth": 3,
+          "id": "unshift"
+        },
+        {
+          "title": "remove",
+          "depth": 3,
+          "id": "remove"
+        },
+        {
+          "title": "removeFrom",
+          "depth": 3,
+          "id": "removefrom"
+        },
+        {
+          "title": "difference",
+          "depth": 3,
+          "id": "difference"
+        },
+        {
+          "title": "findIndex",
+          "depth": 3,
+          "id": "findindex"
+        },
+        {
+          "title": "first",
+          "depth": 3,
+          "id": "first"
+        },
+        {
+          "title": "last",
+          "depth": 3,
+          "id": "last"
+        },
+        {
+          "title": "nth",
+          "depth": 3,
+          "id": "nth"
+        },
+        {
+          "title": "take",
+          "depth": 3,
+          "id": "take"
+        },
+        {
+          "title": "takeRight",
+          "depth": 3,
+          "id": "takeright"
+        },
+        {
+          "title": "destroy",
+          "depth": 3,
+          "id": "destroy"
+        },
+        {
+          "title": "toJS",
+          "depth": 3,
+          "id": "tojs"
+        }
+      ]
+    },
+    "api/isCollection.html": {
+      "source": "docs/api/isCollection.md",
+      "title": "isCollection",
+      "slug": "apiiscollection"
+    },
+    "api/Event.html": {
+      "source": "docs/api/Event.md",
+      "title": "Event",
+      "slug": "apievent",
+      "headings": [
+        {
+          "title": "path",
+          "depth": 3,
+          "id": "path"
+        }
+      ]
+    },
+    "api/isEvent.html": {
+      "source": "docs/api/isEvent.md",
+      "title": "isEvent",
+      "slug": "apiisevent"
+    },
+    "api/TypeError.html": {
+      "source": "docs/api/TypeError.md",
+      "title": "TypeError",
+      "slug": "apitypeerror"
+    },
+    "api/CollectionError.html": {
+      "source": "docs/api/CollectionError.md",
+      "title": "CollectionError",
+      "slug": "apicollectionerror"
+    },
+    "api/MethodError.html": {
+      "source": "docs/api/MethodError.md",
+      "title": "MethodError",
+      "slug": "apimethoderror"
+    },
+    "changelog.html": {
+      "source": "docs/changelog.md",
+      "title": "Changelog",
+      "slug": "changelog"
+    }
+  },
+  "sources": {
+    "README.md": "index.html",
+    "docs/intro/installation.md": "intro/installation.html",
+    "docs/intro/quickstart.md": "intro/quickstart.html",
+    "docs/getting-started/types.md": "getting-started/types.html",
+    "docs/getting-started/models.md": "getting-started/models.html",
+    "docs/getting-started/collections.md": "getting-started/collections.html",
+    "docs/guides/embed.md": "guides/embed.html",
+    "docs/guides/events.md": "guides/events.html",
+    "docs/guides/watcher.md": "guides/watcher.html",
+    "docs/integrations/react/README.md": "integrations/react/index.html",
+    "docs/examples/README.md": "examples/index.html",
+    "docs/examples/counter/README.md": "examples/counter/index.html",
+    "docs/examples/react-counter/README.md": "examples/react-counter/index.html",
+    "docs/examples/todomvc/README.md": "examples/todomvc/index.html",
+    "docs/api/Types.md": "api/Types.html",
+    "docs/api/ChainableTypes.md": "api/ChainableTypes.html",
+    "docs/api/chainType.md": "api/chainType.html",
+    "docs/api/createModel.md": "api/createModel.html",
+    "docs/api/Model.md": "api/Model.html",
+    "docs/api/isModel.md": "api/isModel.html",
+    "docs/api/createCollection.md": "api/createCollection.html",
+    "docs/api/Collection.md": "api/Collection.html",
+    "docs/api/isCollection.md": "api/isCollection.html",
+    "docs/api/Event.md": "api/Event.html",
+    "docs/api/isEvent.md": "api/isEvent.html",
+    "docs/api/TypeError.md": "api/TypeError.html",
+    "docs/api/CollectionError.md": "api/CollectionError.html",
+    "docs/api/MethodError.md": "api/MethodError.html",
+    "docs/changelog.md": "changelog.html",
+    "docs/docpress.json": "docpress.json",
+    "docs/assets/custom.css": "assets/custom.css",
+    "docs/assets/styles.css": "assets/styles.css"
+  }
+}

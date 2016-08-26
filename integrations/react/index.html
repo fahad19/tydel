@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../assets/style.css?t=a44c9e9d">
+    <link rel="stylesheet" href="../../assets/styles.css?t=09769bc9">
+    <link rel="stylesheet" href="../../assets/custom.css?t=a7b82f7c">
+    <script src="../../assets/script.js?t=2bcc4b59"></script>
+    <title>React</title>
+    <meta name="viewport" content="width=device-width">
+    <script>
+      if (false || window.location.hostname.indexOf("tydel.js.org") === window.location.hostname.length - 12) {
+        (function(d,o,c,p,r,e,s){d['GoogleAnalyticsObject']=r;d[r]=d[r]||function(){(d[r].q=d[r].q||[]).push(arguments)},d[r].l=1*new Date();e=o.createElement(c),s=o.getElementsByTagName(c)[0];e.async=1;e.src=p;s.parentNode.insertBefore(e,s)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create',"UA-47493443-5",'auto')
+      }
+    </script>
+  </head>
+  <body class="-menu-visible">
+    <div class="doc-layout">
+      <div class="toggle menu-toggle js-menu-toggle"></div>
+      <div class="body page-integrationsreact">
+        <div class="header-nav">
+          <div class="right"><a href="https://github.com/fahad19/tydel" data-title="fahad19/tydel" class="iconlink">
+              <!-- span.title Open in GitHub--><span class="icon -github"></span></a>
+          </div>
+        </div>
+        <div class="markdown-body"><h1 id="react">React</h1>
+<p>Tydel can already work with <a href="https://facebook.github.io/react">React.js</a> applications with ease.</p>
+<p>See <a href="https://github.com/fahad19/tydel-react">tydel-react</a> for more info.</p>
+<h2 id="install">Install</h2>
+<p>First we need to install <code>tydel-react</code>:</p>
+<pre><code class="lang-sh">$ npm install --save tydel-react
+</code></pre>
+<h2 id="state-model">State model</h2>
+<p>Let&#x2019;s assume we have our App&#x2019;s state in a root model called <code>AppState</code>, and it may look like this:</p>
+<pre><code class="lang-js"><span class="pl-c">// ./models/AppState.js</span>
+
+<span class="pl-k">import</span> { Types, createModel } <span class="pl-k">from</span> <span class="pl-s">&apos;tydel&apos;</span>;
+
+<span class="pl-k">import</span> Todos <span class="pl-k">from</span> <span class="pl-s">&apos;../collections/Todos&apos;</span>;
+
+<span class="pl-k">export</span> createModel({
+  name: Types.string.isRequired,
+  todos: Types.collection.of(Todos)
+});
+</code></pre>
+<h2 id="root-component">Root component</h2>
+<p>Now we need to make sure that we pass the instace of our <code>AppState</code> model, to the root React component of our application.</p>
+<p>We can do this via the <code>&lt;Provider&gt;</code> component exposed by <code>tydel-react</code>:</p>
+<pre><code class="lang-js"><span class="pl-c">// ./index.js</span>
+
+<span class="pl-k">import</span> { render } <span class="pl-k">from</span> <span class="pl-s">&apos;react-dom&apos;</span>;
+<span class="pl-k">import</span> { Provider } <span class="pl-k">from</span> <span class="pl-s">&apos;tydel-react&apos;</span>;
+
+<span class="pl-k">import</span> App <span class="pl-k">from</span> <span class="pl-s">&apos;./containers/App.js&apos;</span>; <span class="pl-c">// Root component</span>
+<span class="pl-k">import</span> AppState <span class="pl-k">from</span> <span class="pl-s">&apos;./models/AppState&apos;</span>; <span class="pl-c">// Root model</span>
+
+<span class="pl-k">const</span> appState = <span class="pl-k">new</span> AppState({
+  name: <span class="pl-s">&apos;My App Name&apos;</span>,
+  todos: []
+});
+
+render(
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Provider</span> <span class="hljs-attr">model</span>=<span class="pl-s">{appState}</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">Provider</span>&gt;</span>,
+  document.getElementById(&apos;root&apos;)
+);
+</span></code></pre>
+<h2 id="accessing-model">Accessing model</h2>
+<p>To access the state model from the rest of your application, you can use <code>connect()</code> provided by <code>tydel-react</code>.</p>
+<pre><code class="lang-js"><span class="pl-c">// ./containers/App.js</span>
+
+<span class="pl-k">import</span> { Component } <span class="pl-k">from</span> <span class="pl-s">&apos;react&apos;</span>;
+
+<span class="hljs-class"><span class="pl-k">class</span> <span class="pl-ent">App</span> <span class="pl-k">extends</span> <span class="pl-ent">Component</span> </span>{
+  render() {
+    <span class="pl-k">const</span> { name } = <span class="pl-k">this</span>.props;
+
+    <span class="pl-k">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+        My app name is: {name}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    )</span>;
+  }
+}
+
+<span class="pl-k">export</span> <span class="pl-k">default</span> connect(<span class="hljs-function"><span class="pl-k">function</span> (<span class="hljs-params">appState</span>) </span>{
+  <span class="pl-k">return</span> {
+    name: appState.name
+  };
+})(App);
+</code></pre>
+<p><code>connect()</code> basically accepts a function, which receives the <code>appState</code>, and then returns an object which is then mapped as props inside your Component.</p>
+<p>If you mutate the root model, the bindings will make sure your Components are re-rendered automatically.</p>
+
+        </div>
+        <div class="footer-nav">
+          <div class="left"><a href="../../guides/watcher.html"><span class="title">Watcher</span></a></div>
+          <div class="right"><a href="../../examples/index.html"><span class="label">Next: </span><span class="title">Examples</span></a></div>
+        </div>
+      </div>
+      <div class="menu toc-menu">
+        <li class="menu-item -level-0 -parent">
+          <ul class="submenu">
+            <li class="menu-item -level-1"><a href="../../index.html" class="link title  link-index">tydel</a>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Introduction</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../../intro/installation.html" class="link title  link-introinstallation">Installation</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../intro/quickstart.html" class="link title  link-introquickstart">Quick-start</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Getting started</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../../getting-started/types.html" class="link title  link-getting-startedtypes">Types</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../getting-started/models.html" class="link title  link-getting-startedmodels">Models</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../getting-started/collections.html" class="link title  link-getting-startedcollections">Collections</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Advanced usage</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../../guides/embed.html" class="link title  link-guidesembed">Embedding</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../guides/events.html" class="link title  link-guidesevents">Events</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../guides/watcher.html" class="link title  link-guideswatcher">Watcher</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Integrations</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../../integrations/react/index.html" class="link title -active link-integrationsreact">React</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-2"><a href="#install" class="hlink link-install">Install</a>
+                    </li>
+                    <li class="heading-item -depth-2"><a href="#state-model" class="hlink link-state-model">State model</a>
+                    </li>
+                    <li class="heading-item -depth-2"><a href="#root-component" class="hlink link-root-component">Root component</a>
+                    </li>
+                    <li class="heading-item -depth-2"><a href="#accessing-model" class="hlink link-accessing-model">Accessing model</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><a href="../../examples/index.html" class="link title  link-examples">Examples</a>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../../examples/counter/index.html" class="link title  link-examplescounter">Basic counter</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../examples/react-counter/index.html" class="link title  link-examplesreact-counter">React counter</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../examples/todomvc/index.html" class="link title  link-examplestodomvc">TodoMVC</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">API Reference</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><span class="title">Types</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/Types.html" class="link title  link-apitypes">Types</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/ChainableTypes.html" class="link title  link-apichainabletypes">ChainableTypes</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/chainType.html" class="link title  link-apichaintype">chainType</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Models</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/createModel.html" class="link title  link-apicreatemodel">createModel</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/Model.html" class="link title  link-apimodel">Model</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/isModel.html" class="link title  link-apiismodel">isModel</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Collections</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/createCollection.html" class="link title  link-apicreatecollection">createCollection</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/Collection.html" class="link title  link-apicollection">Collection</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/isCollection.html" class="link title  link-apiiscollection">isCollection</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Events</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/Event.html" class="link title  link-apievent">Event</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/isEvent.html" class="link title  link-apiisevent">isEvent</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Errors</span>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/TypeError.html" class="link title  link-apitypeerror">TypeError</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/CollectionError.html" class="link title  link-apicollectionerror">CollectionError</a>
+                </li>
+                <li class="menu-item -level-2"><a href="../../api/MethodError.html" class="link title  link-apimethoderror">MethodError</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Project</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="../../changelog.html" class="link title  link-changelog">Changelog</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </body>
+</html>

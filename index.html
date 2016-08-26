@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
+    <link rel="stylesheet" href="assets/styles.css?t=09769bc9">
+    <link rel="stylesheet" href="assets/custom.css?t=a7b82f7c">
+    <script src="assets/script.js?t=2bcc4b59"></script>
+    <title>tydel</title>
+    <meta name="viewport" content="width=device-width">
+    <script>
+      if (false || window.location.hostname.indexOf("tydel.js.org") === window.location.hostname.length - 12) {
+        (function(d,o,c,p,r,e,s){d['GoogleAnalyticsObject']=r;d[r]=d[r]||function(){(d[r].q=d[r].q||[]).push(arguments)},d[r].l=1*new Date();e=o.createElement(c),s=o.getElementsByTagName(c)[0];e.async=1;e.src=p;s.parentNode.insertBefore(e,s)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create',"UA-47493443-5",'auto')
+      }
+    </script>
+  </head>
+  <body class="-menu-visible">
+    <div class="doc-layout">
+      <div class="toggle menu-toggle js-menu-toggle"></div>
+      <div class="body page-index">
+        <div class="header-nav">
+          <div class="right"><a href="https://github.com/fahad19/tydel" data-title="fahad19/tydel" class="iconlink">
+              <!-- span.title Open in GitHub--><span class="icon -github"></span></a>
+          </div>
+        </div>
+        <div class="markdown-body"><h1 class="massive-header -with-tagline" id="tydel">tydel</h1>
+<blockquote>
+<p>Typed models and collections</p>
+</blockquote>
+<p><a href="http://travis-ci.org/fahad19/tydel"><img src="https://img.shields.io/travis/fahad19/tydel/master.svg" alt="Build Status"></a> <a href="https://www.npmjs.com/package/tydel"><img src="https://img.shields.io/npm/v/tydel.svg" alt="npm"></a> <a href="https://github.com/fahad19/tydel"><img src="https://img.shields.io/github/stars/fahad19/tydel.svg?style=social&amp;label=Star" alt="star"></a></p>
+<p>For documentation, visit <a href="http://tydel.js.org">http://tydel.js.org</a>.</p>
+<h2 id="overview">Overview</h2>
+<p>Tydel is a small library aimed at giving you a solid and strict <strong>foundation</strong> for your <strong>data structure</strong> needs in JavaScript.</p>
+<p>Install it via <a href="https://npmjs.com">npm</a>:</p>
+<pre><code class="lang-sh">$ npm install --save tydel
+</code></pre>
+<p>Basic usage example:</p>
+<pre><code class="lang-js"><span class="pl-k">import</span> { Types, createModel } <span class="pl-k">from</span> <span class="pl-s">&apos;tydel&apos;</span>;
+
+<span class="pl-k">const</span> Todo = createModel({
+  title: Types.string.isRequired,
+  description: Types.string
+});
+
+<span class="pl-k">const</span> todo = <span class="pl-k">new</span> Todo({
+  title: <span class="pl-s">&apos;My first ToDo&apos;</span>,
+  description: <span class="pl-s">&apos;notes here...&apos;</span>
+});
+
+<span class="pl-c1">console</span>.log(todo.title); <span class="pl-c">// `My first ToDo`</span>
+</code></pre>
+<p>Or load it via <a href="https://npmcdn.com">npmcdn</a>:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="pl-s">&quot;https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="pl-s">&quot;https://npmcdn.com/tydel@latest/dist/tydel.min.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="actionscript">
+  <span class="pl-c">// window.Tydel</span>
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>Try it out:</p>
+<p><a class="jsbin-embed" href="http://jsbin.com/fudonovogi/embed?js,output">JSBin</a></p>
+<script src="http://static.jsbin.com/js/embed.min.js?3.39.11"></script>
+<h2 id="terminologies">Terminologies</h2>
+<p>The three main <strong>terminologies</strong> you would come across are:</p>
+<ul>
+<li><a href="getting-started/types.html">Types</a>: Strict type <strong>expressions</strong> for Model&#x2019;s values,</li>
+<li><a href="getting-started/models.html">Models</a>: for <strong>representing</strong> your data, and</li>
+<li><a href="getting-started/collections.html">Collections</a>: for containing Models like an <strong>array</strong>.</li>
+</ul>
+<h2 id="guides">Guides</h2>
+<p>There is a <a href="intro/quickstart.html">quickstart</a> guide which would get you up an running in no time. To understand the concepts well, read the <a href="getting-started/types.html">getting started</a> guides.</p>
+<p><a href="intro/installation.html">Install</a> it, and enjoy!</p>
+<h2 id="integrations-and-resources">Integrations &amp; Resources</h2>
+<ul>
+<li><a href="https://github.com/fahad19/tydel-react">tydel-react</a>: React.js bindings</li>
+<li><a href="https://github.com/fahad19/tydel-logger">tydel-logger</a>: Prints state changes to console</li>
+</ul>
+<h2 id="thanks">Thanks</h2>
+<p>These beautifully made open source projects have directly or indirectly played an influential role for Tydel, and a huge amount of thanks go to their authors and contributors:</p>
+<ul>
+<li><a href="http://backbonejs.org/">Backbone.js</a></li>
+<li><a href="https://redux.js.org/">Redux</a></li>
+<li><a href="https://mobxjs.github.io/mobx/">MobX</a></li>
+</ul>
+<h2 id="license">License</h2>
+<p>MIT &#xA9; <a href="http://fahad19.com">Fahad Ibnay Heylaal</a></p>
+
+        </div>
+        <div class="footer-nav">
+          <div class="right"><a href="intro/installation.html"><span class="label">Next: </span><span class="title">Installation</span></a></div>
+        </div>
+      </div>
+      <div class="menu toc-menu">
+        <li class="menu-item -level-0 -parent">
+          <ul class="submenu">
+            <li class="menu-item -level-1"><a href="index.html" class="link title -active link-index">tydel</a>
+              <ul class="headings heading-list">
+                <li class="heading-item -depth-2"><a href="#overview" class="hlink link-overview">Overview</a>
+                </li>
+                <li class="heading-item -depth-2"><a href="#terminologies" class="hlink link-terminologies">Terminologies</a>
+                </li>
+                <li class="heading-item -depth-2"><a href="#guides" class="hlink link-guides">Guides</a>
+                </li>
+                <li class="heading-item -depth-2"><a href="#integrations-and-resources" class="hlink link-integrations-and-resources">Integrations &amp; Resources</a>
+                </li>
+                <li class="heading-item -depth-2"><a href="#thanks" class="hlink link-thanks">Thanks</a>
+                </li>
+                <li class="heading-item -depth-2"><a href="#license" class="hlink link-license">License</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Introduction</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="intro/installation.html" class="link title  link-introinstallation">Installation</a>
+                </li>
+                <li class="menu-item -level-2"><a href="intro/quickstart.html" class="link title  link-introquickstart">Quick-start</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Getting started</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="getting-started/types.html" class="link title  link-getting-startedtypes">Types</a>
+                </li>
+                <li class="menu-item -level-2"><a href="getting-started/models.html" class="link title  link-getting-startedmodels">Models</a>
+                </li>
+                <li class="menu-item -level-2"><a href="getting-started/collections.html" class="link title  link-getting-startedcollections">Collections</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Advanced usage</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="guides/embed.html" class="link title  link-guidesembed">Embedding</a>
+                </li>
+                <li class="menu-item -level-2"><a href="guides/events.html" class="link title  link-guidesevents">Events</a>
+                </li>
+                <li class="menu-item -level-2"><a href="guides/watcher.html" class="link title  link-guideswatcher">Watcher</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Integrations</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="integrations/react/index.html" class="link title  link-integrationsreact">React</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><a href="examples/index.html" class="link title  link-examples">Examples</a>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="examples/counter/index.html" class="link title  link-examplescounter">Basic counter</a>
+                </li>
+                <li class="menu-item -level-2"><a href="examples/react-counter/index.html" class="link title  link-examplesreact-counter">React counter</a>
+                </li>
+                <li class="menu-item -level-2"><a href="examples/todomvc/index.html" class="link title  link-examplestodomvc">TodoMVC</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">API Reference</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><span class="title">Types</span>
+                </li>
+                <li class="menu-item -level-2"><a href="api/Types.html" class="link title  link-apitypes">Types</a>
+                </li>
+                <li class="menu-item -level-2"><a href="api/ChainableTypes.html" class="link title  link-apichainabletypes">ChainableTypes</a>
+                </li>
+                <li class="menu-item -level-2"><a href="api/chainType.html" class="link title  link-apichaintype">chainType</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Models</span>
+                </li>
+                <li class="menu-item -level-2"><a href="api/createModel.html" class="link title  link-apicreatemodel">createModel</a>
+                </li>
+                <li class="menu-item -level-2"><a href="api/Model.html" class="link title  link-apimodel">Model</a>
+                </li>
+                <li class="menu-item -level-2"><a href="api/isModel.html" class="link title  link-apiismodel">isModel</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Collections</span>
+                </li>
+                <li class="menu-item -level-2"><a href="api/createCollection.html" class="link title  link-apicreatecollection">createCollection</a>
+                </li>
+                <li class="menu-item -level-2"><a href="api/Collection.html" class="link title  link-apicollection">Collection</a>
+                </li>
+                <li class="menu-item -level-2"><a href="api/isCollection.html" class="link title  link-apiiscollection">isCollection</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Events</span>
+                </li>
+                <li class="menu-item -level-2"><a href="api/Event.html" class="link title  link-apievent">Event</a>
+                </li>
+                <li class="menu-item -level-2"><a href="api/isEvent.html" class="link title  link-apiisevent">isEvent</a>
+                </li>
+                <li class="menu-item -level-2"><span class="title">Errors</span>
+                </li>
+                <li class="menu-item -level-2"><a href="api/TypeError.html" class="link title  link-apitypeerror">TypeError</a>
+                </li>
+                <li class="menu-item -level-2"><a href="api/CollectionError.html" class="link title  link-apicollectionerror">CollectionError</a>
+                </li>
+                <li class="menu-item -level-2"><a href="api/MethodError.html" class="link title  link-apimethoderror">MethodError</a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item -level-1 -parent"><span class="title">Project</span>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="changelog.html" class="link title  link-changelog">Changelog</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,9 +1,12 @@
+set -e
 VERSION := patch
 
 release:
 	echo "Releasing version: $(VERSION)"
 	git checkout master
 	git pull origin master
+	npm run lint
+	npm test
 	npm run transpile
 	npm run dist
 	git add dist/

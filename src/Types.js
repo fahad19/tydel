@@ -120,6 +120,24 @@ Types.enum.of = function (enumTypes = []) {
   });
 };
 
+Types.uuid = chain(function (value) {
+  if (typeof value === 'undefined') {
+    return value;
+  }
+
+  if (typeof value !== 'string') {
+    throw new TypeError('value is not a valid UUID');
+  }
+
+  const check = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+  if (check.test(value)) {
+    return value;
+  }
+
+  throw new TypeError('value is not a valid UUID');
+});
+
 Types.any = chain(function (value) {
   return value;
 });

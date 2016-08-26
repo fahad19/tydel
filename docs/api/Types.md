@@ -98,6 +98,20 @@ const Book = createModel({
 });
 ```
 
+### uuid
+
+If the value is expected to be an UUID:
+
+```js
+import { Types, createModel } from 'tydel';
+
+const Book = createModel({
+  id: Types.uuid
+});
+```
+
+Example UUID value: `27961a0e-f4e8-4eb3-bf95-c5203e1d87b9`.
+
 ### any
 
 If the value can be of any type. You are advised not to use this:

@@ -1,7 +1,7 @@
-set -e
 VERSION := patch
 
 release:
+	set -e
 	echo "Releasing version: $(VERSION)"
 	git checkout master
 	git pull origin master

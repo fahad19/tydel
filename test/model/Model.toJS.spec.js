@@ -43,4 +43,24 @@ describe('Model :: toJS()', function () {
       }
     });
   });
+
+  it('returns plain object based strictly on schema', function () {
+    const Todo = createModel({
+      id: Types.number.isRequired,
+      title: Types.string.isRequired
+    });
+
+    const todo = new Todo({
+      id: 1,
+      title: 'My first todo',
+      x: 'x'
+    });
+
+    todo.y = 'y';
+
+    expect(todo.toJS()).to.eql({
+      id: 1,
+      title: 'My first todo'
+    });
+  });
 });

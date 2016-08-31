@@ -35,11 +35,11 @@ const todo = new Todo({
 console.log(todo.title); // `My first ToDo`
 ```
 
-Or load it via [npmcdn](https://npmcdn.com):
+Or load it via [unpkg](https://unpkg.com):
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
-<script src="https://npmcdn.com/tydel@latest/dist/tydel.min.js"></script>
+<script src="https://unpkg.com/tydel@latest/dist/tydel.min.js"></script>
 
 <script>
   // window.Tydel

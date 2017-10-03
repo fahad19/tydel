@@ -7,6 +7,8 @@
 
 For documentation, visit [http://tydel.js.org](http://tydel.js.org).
 
+If you are looking for a reactive version of Tydel with RxJS, consider using [frint-data](https://frint.js.org/docs/packages/frint-data).
+
 ## Overview
 
 Tydel is a small library aimed at giving you a solid and strict **foundation** for your **data structure** needs in JavaScript.

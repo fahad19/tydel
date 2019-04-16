@@ -267,4 +267,13 @@ Types.collection.of = function (Collection) {
   });
 };
 
+Types.date = chain(function (value) {
+  if (!_.isDate(value)) {
+    throw new TypeError('value is not a date');
+  }
+
+  return value;
+});
+
+
 export default Types;

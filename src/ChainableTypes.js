@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import TypeError from './errors/Type';
 
 export const isRequired = {
@@ -17,6 +19,10 @@ export const defaults = {
       return value;
     }
 
+    if (_.isFunction(defaultValue)) {
+      return defaultValue();
+    }
+        
     return defaultValue;
   }
 };

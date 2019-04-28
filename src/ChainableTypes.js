@@ -1,9 +1,11 @@
-import TypeError from './errors/Type';
+import isFunction from 'lodash/isFunction';
+
+import TypesError from './errors/Type';
 
 export const isRequired = {
   func: function isRequired(value) {
     if (typeof value === 'undefined') {
-      throw new TypeError('value is not defined');
+      throw new TypesError('value is not defined');
     }
 
     return value;
@@ -15,6 +17,10 @@ export const defaults = {
   func: function defaults(value, defaultValue) {
     if (value) {
       return value;
+    }
+
+    if (isFunction(value)) {
+      return defaultValue();
     }
 
     return defaultValue;

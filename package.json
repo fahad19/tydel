@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/**/*.js test/**/*.js",
-    "test": "mocha",
+    "test": "mocha -w -R spec --ui bdd",
     "cover": "nyc --require babel-register mocha",
     "transpile": "babel src --out-dir lib",
     "dist:lib": "webpack --config ./dist/webpack.config.js",

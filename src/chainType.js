@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import TypeError from './errors/Type';
 import * as chainables from './ChainableTypes';
 
 export default function chain(fn, omitChainables = []) {

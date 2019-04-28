@@ -71,6 +71,16 @@ const Person = createModel({
 });
 ```
 
+### date
+
+```js
+import { Types, createModel } from 'tydel';
+
+const Person = createModel({
+  birthday: Types.date
+});
+```
+
 ### enum
 
 If you want the value to be one of the pre-defined list of values:

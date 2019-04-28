@@ -1,11 +1,5 @@
+import get from 'lodash/get';
+
 export default function isPromise(promise) {
-  if (typeof promise !== 'object') {
-    return false;
-  }
-
-  if (typeof promise.then !== 'function') {
-    return false;
-  }
-
-  return true;
+  return get(promise, ['constructor', 'name']) === 'Promise';
 }

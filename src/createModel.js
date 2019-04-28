@@ -6,7 +6,6 @@ import isCollection from './isCollection';
 import MethodError from './errors/Method';
 import BaseModel from './base/Model';
 import Event from './base/Event';
-import isEvent from './isEvent';
 import applyEventsMixin from './mixins/events';
 import bubbleUpEvent from './utils/bubbleUpEvent';
 import wrapCustomMethod from './utils/wrapCustomMethod';
